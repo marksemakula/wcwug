@@ -47,18 +47,18 @@ const About = () => {
   const team = [
     {
       name: 'Dr. Sarah Nakamya',
-      role: 'Clinical Director',
+      role: 'Founder & Director',
       image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face',
       bio: 'Licensed clinical psychologist with 15+ years of experience in trauma therapy and community mental health.'
     },
     {
-      name: 'James Okello',
-      role: 'Community Outreach Manager',
+      name: 'Richard Okello',
+      role: 'Partner & Director',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face',
       bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement and program development.'
     },
     {
-      name: 'Dr. Mary Atim',
+      name: 'Emily Atujuna',
       role: 'Corporate Wellness Director',
       image: 'https://images.unsplash.com/photo-1594824797496-fbb70f5b8e35?w=300&h=300&fit=crop&crop=face',
       bio: 'Organizational psychologist specializing in workplace mental health and employee assistance programs.'
@@ -77,7 +77,7 @@ const About = () => {
             className="text-center"
           >
             <h1 className="font-urbanist font-bold text-5xl md:text-6xl text-text mb-6">
-              About <span className="text-primary">Rise & Win</span>
+              About <span className="text-primary">Win & Rise</span>
             </h1>
             <p className="font-open-sans text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Dedicated to empowering minds and transforming lives through professional mental health and wellness services across Uganda.
