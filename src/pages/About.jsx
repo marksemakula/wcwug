@@ -45,25 +45,25 @@ const About = () => {
   ];
 
   const team = [
-    {
-      name: 'Kyosaba Winfred Biribonwa',
-      role: 'Founding Partner & Director',
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face',
-      bio: 'Licensed psychologist with 15+ years of experience in trauma therapy and community mental health.'
-    },
-    {
-      name: 'Richard Asiimwe Kacururu',
-      role: 'Partner & Director',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face',
-      bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and  support program development.'
-    },
-    {
-      name: 'Emily Atujuna',
-      role: 'Corporate Wellness Director',
-      image: 'https://images.unsplash.com/photo-1594824797496-fbb70f5b8e35?w=300&h=300&fit=crop&crop=face',
-      bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
-    }
-  ];
+  {
+    name: 'Kyosaba Winfred Biribonwa',
+    role: 'Founding Partner & Director',
+    image: './images/kyosaba.jpg', // or .png, .webp, etc.
+    bio: 'Licensed psychologist with 15+ years of experience in trauma therapy and community mental health.'
+  },
+  {
+    name: 'Richard Asiimwe Kacururu',
+    role: 'Partner & Director',
+    image: './images/richard.jpg',
+    bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
+  },
+  {
+    name: 'Emily Atujuna',
+    role: 'Corporate Wellness Director',
+    image: './images/emily.jpg',
+    bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
+  }
+];
 
   return (
     <div className="min-h-screen bg-white">
