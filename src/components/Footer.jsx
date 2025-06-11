@@ -93,7 +93,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <FaEnvelope className="text-primary" size={16} />
-                <span className="text-gray-300 font-urbanist text-sm">info@winrise.ug</span>
+                <span className="text-gray-300 font-urbanist text-sm">info@winrise.org</span>
               </div>
               <div className="flex items-start space-x-3">
                 <FaMapMarkerAlt className="text-primary mt-1" size={16} />
@@ -141,7 +141,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 font-urbanist text-sm">
-            © 2024 Winrise Counselling and Wellness Solutions Ltd. All rights reserved.
+            © 2025 Winrise Counselling and Wellness Solutions Ltd. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
