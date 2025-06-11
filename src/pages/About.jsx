@@ -54,7 +54,7 @@ const About = () => {
   {
     name: 'Richard Asiimwe Kacururu',
     role: 'Partner & Director',
-    image: './images/richard.jpg',
+    image: './images/richard.tiff',
     bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
   },
   {

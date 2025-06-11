@@ -15,8 +15,7 @@ export default {
         'primary-dark': '#1A6B1A',
       },
       fontFamily: {
-        'urbanist': ['Urbanist', 'sans-serif'],
-        'sans': ['Urbanist', 'ui-sans-serif', 'system-ui'],
+        sans: ['Urbanist', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

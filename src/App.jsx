@@ -8,12 +8,14 @@ import Services from './pages/Services';
 import About from './pages/About';
 import Resources from './pages/Resources';
 import Contact from './pages/Contact';
+import ScrollToTop from './components/ScrollToTop';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
+        <ScrollToTop />
         <Header />
         <motion.main
           initial={{ opacity: 0 }}
