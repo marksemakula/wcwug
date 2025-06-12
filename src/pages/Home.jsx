@@ -57,7 +57,7 @@ const Home = () => {
       date: '2025-12-10',
       time: '10:00 AM',
       location: 'Kampala Community Center',
-      description: 'Join us for interactive sessions on understanding / harmonizing and managing parenting approcahes.',
+      description: 'Join us for interactive sessions on understanding / harmonizing and managing parenting approaches.',
       audience: 'General Public',
       price: 'Free'
     },
@@ -77,7 +77,7 @@ const Home = () => {
       date: '2025-10-11',
       time: '9:00 AM',
       location: 'Makerere University',
-      description: 'Recovering your orginal self to live a life of Peace, Purpose, relaibility and Consistence.',
+      description: 'Recovering your original self to live a life of Peace, Purpose, reliability and Consistency.',
       audience: 'Youth',
       price: 'UGX 50,000'
     }
@@ -89,6 +89,12 @@ const Home = () => {
       role: 'Founding Partner & Director',
       content: 'Winrise aims to transform your institutional culture; Handle change, live happier, focused and be more productive.',
       image: './images/kyosaba.jpg'
+    },
+    {
+      name: 'Joan Claire Kabikuru',
+      role: 'Head of Finance & Administration, Director',
+      content: 'Ensuring operational excellence and financial sustainability to support our mission of transforming mental health services.',
+      image: './images/joan.jpg'
     },
     {
       name: 'Richard Asiimwe Kacururu',
@@ -298,7 +304,7 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
