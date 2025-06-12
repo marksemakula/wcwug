@@ -141,7 +141,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 font-urbanist text-sm">
-            © 2025 Winrise Counselling and Wellness Solutions Ltd. All rights reserved. Powered by Inzozi
+            © 2025 Winrise Counselling and Wellness LLC. All rights reserved. Powered by Inzozi
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
