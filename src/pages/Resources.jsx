@@ -23,7 +23,7 @@ const Resources = () => {
       description: 'Practical strategies for dealing with workplace anxiety and stress management techniques.',
       readTime: '8 min read',
       views: '2.5k',
-      image: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=400&h=250&fit=crop',
+      image: './images/workplacestress.png',
       featured: true
     },
     {
@@ -34,7 +34,7 @@ const Resources = () => {
       description: 'Comprehensive guide on how to provide initial support to someone experiencing mental health problems.',
       readTime: '25 min read',
       views: '4.1k',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=250&fit=crop',
+      image: './images/firstaid.jpg',
       downloadable: true,
       featured: true
     },
@@ -66,7 +66,7 @@ const Resources = () => {
       description: 'How parents and teachers can help children develop emotional resilience and coping skills.',
       readTime: '12 min read',
       views: '1.8k',
-      image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=250&fit=crop'
+      image: './images/resilienceinchildren.jpg'
     },
     {
       id: 6,
@@ -76,7 +76,7 @@ const Resources = () => {
       description: 'Ready-to-use template for creating comprehensive workplace mental health policies.',
       readTime: '10 min read',
       views: '5.7k',
-      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop',
+      image: './images/workspace.jpeg',
       downloadable: true
     },
     {
@@ -87,7 +87,7 @@ const Resources = () => {
       description: 'Multi-part video series on understanding and processing grief in healthy ways.',
       readTime: '45 min watch',
       views: '6.9k',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=250&fit=crop'
+      image: './images/grief.jpeg'
     },
     {
       id: 8,

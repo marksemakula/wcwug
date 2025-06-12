@@ -49,17 +49,17 @@ const About = () => {
     name: 'Kyosaba Winfred Biribonwa',
     role: 'Founding Partner & Director',
     image: './images/kyosaba.jpg', // or .png, .webp, etc.
-    bio: 'Licensed psychologist with 15+ years of experience in trauma therapy and community mental health.'
+    bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
   },
   {
     name: 'Richard Asiimwe Kacururu',
-    role: 'Partner & Director',
-    image: './images/richard.tiff',
+    role: 'Tours & Travel Advisor, Partner, Director',
+    image: './images/richard.png',
     bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
   },
   {
     name: 'Emily Atujuna',
-    role: 'Corporate Wellness Director',
+    role: 'Corporate Wellness Lead, Director',
     image: './images/emily.jpg',
     bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
   }
@@ -117,7 +117,7 @@ const About = () => {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop"
+                src="./images/ntinda.jpg"
                 alt="Mental health counseling session"
                 className="rounded-2xl shadow-lg w-full h-[400px] object-cover"
               />

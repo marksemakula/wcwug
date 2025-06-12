@@ -53,33 +53,33 @@ const Home = () => {
   const events = [
     {
       id: 1,
-      title: 'Mental Health Awareness Workshop',
-      date: '2024-02-15',
+      title: 'Concious Parenting Pathway',
+      date: '2025-12-10',
       time: '10:00 AM',
       location: 'Kampala Community Center',
-      description: 'Join us for an interactive workshop on understanding and managing mental health.',
+      description: 'Join us for interactive sessions on understanding / harmonizing and managing parenting approcahes.',
       audience: 'General Public',
       price: 'Free'
     },
     {
       id: 2,
-      title: 'Corporate Wellness Seminar',
-      date: '2024-02-22',
+      title: 'The Cultural Whisperer Program',
+      date: '2026-04-22',
       time: '2:00 PM',
       location: 'Serena Hotel, Kampala',
-      description: 'Learn how to create mentally healthy workplaces and support your employees.',
+      description: 'Cultivating Harmonious Productive and Culturally Intelligent Workspaces.',
       audience: 'Corporate',
-      price: 'UGX 50,000'
+      price: 'UGX 100,000'
     },
     {
       id: 3,
-      title: 'Youth Mental Health Summit',
-      date: '2024-03-01',
+      title: 'The Authentic Living Journey',
+      date: '2025-10-11',
       time: '9:00 AM',
       location: 'Makerere University',
-      description: 'Empowering young people with mental health knowledge and coping strategies.',
+      description: 'Recovering your orginal self to live a life of Peace, Purpose, relaibility and Consistence.',
       audience: 'Youth',
-      price: 'UGX 20,000'
+      price: 'UGX 50,000'
     }
   ];
 
@@ -87,7 +87,7 @@ const Home = () => {
     {
       name: 'Kyosaba Winfred Biribonwa',
       role: 'Founding Partner & Director',
-      content: 'Winrise aims to transform your institutional culture. Handle change, live happier, focused and more productive.',
+      content: 'Winrise aims to transform your institutional culture; Handle change, live happier, focused and be more productive.',
       image: './images/kyosaba.jpg'
     },
     {
@@ -98,7 +98,7 @@ const Home = () => {
     },
     {
       name: 'Emily Karine Atujuna',
-      role: 'Corporate Wellness Director',
+      role: 'Corporate Wellness Lead & Director',
       content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
       image: './images/emily.jpg'
     }
@@ -212,7 +212,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Events Section */}
+      {/* Product Listing Section */}
       <section className="py-20 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -223,10 +223,10 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
-              Upcoming <span className="text-primary">Events</span>
+              Our <span className="text-primary">Product Listing</span>
             </h2>
             <p className="font-urbanist text-xl text-gray-600 max-w-3xl mx-auto">
-              Join our workshops, seminars, and community events designed to promote mental health awareness and well-being.
+              Explore our range of products designed to promote mental health awareness and well-being.
             </p>
           </motion.div>
 
@@ -280,7 +280,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Team Commitment Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -291,10 +291,10 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
-              What Our <span className="text-primary">Clients Say</span>
+              Our <span className="text-primary">Team Commitment</span>
             </h2>
             <p className="font-urbanist text-xl text-gray-600 max-w-3xl mx-auto">
-              Real stories from individuals and organizations who have experienced transformation through our services.
+              Meet our dedicated team and their commitment to transforming lives through mental health and wellness.
             </p>
           </motion.div>
 
