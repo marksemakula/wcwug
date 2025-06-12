@@ -85,9 +85,9 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: 'Sarah M.',
+      name: 'Kyosaba Winfred Biribonwa',
       role: 'Corporate Client',
-      content: 'Winrise transformed our workplace culture. Our employees are happier and more productive.',
+      content: 'Winrise transform your workplace culture. Our employees are happier and more productive.',
       image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
     },
     {
