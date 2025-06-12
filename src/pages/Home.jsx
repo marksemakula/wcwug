@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaArrowRight, FaCalendarAlt, FaMapMarkerAlt, FaQuoteLeft } from 'react-icons/fa';
 import EventModal from '../components/EventModal';
+import bg1 from '@/images/iwaria-inc-M7ALc3UuX_g-unsplash.jpg';
+import bg2 from '@/images/ryan-jussel-688IIZUKnuU-unsplash.jpg';
+import bg3 from '@/images/fre-sonneveld-u_mdmleqBB8-unsplash.jpg';
+import bg4 from '@/images/laela-ERMMIXcjUFQ-unsplash.jpg';
 
 const Home = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+
+  const backgroundImages = [bg1, bg2, bg3, bg4];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgIndex((prevIndex) => 
+        prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [backgroundImages.length]);
 
   const services = [
     {
@@ -90,17 +106,34 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-primary/20 to-primary/10">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&h=1080&fit=crop)',
-            backgroundBlendMode: 'overlay'
-          }}
-        />
+      {/* Hero Section with Image Carousel */}
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-primary/20 to-primary/10 overflow-hidden">
+        {/* Background Images */}
+        {backgroundImages.map((bg, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${index === currentBgIndex ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              backgroundImage: `url(${bg})`,
+              backgroundBlendMode: 'overlay'
+            }}
+          />
+        ))}
         <div className="absolute inset-0 bg-black/30" />
         
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-2 z-10">
+          {backgroundImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentBgIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all ${index === currentBgIndex ? 'bg-primary w-6' : 'bg-white/50'}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Hero Content */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
