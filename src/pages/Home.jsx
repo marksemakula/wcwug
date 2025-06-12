@@ -315,7 +315,7 @@ const Home = () => {
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
               >
                 <FaQuoteLeft className="text-primary mb-4" size={24} />
-                <p className="font-urbanist text-gray-600 mb-6 leading-relaxed italic">
+                <p className="italic text-gray-600 mb-6 leading-relaxed" style={{ fontFamily: '"Times New Roman", Times, serif' }}>
                   "{testimonial.content}"
                 </p>
                 <div className="flex items-center space-x-4">
