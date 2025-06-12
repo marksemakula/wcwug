@@ -39,13 +39,13 @@ const Contact = () => {
     {
       icon: FaPhone,
       title: 'Phone',
-      details: ['+256 123 456 789', '+256 987 654 321'],
+      details: ['+256 783 179 626', '+256 774 240 266'],
       description: 'Call us during business hours'
     },
     {
       icon: FaEnvelope,
       title: 'Email',
-      details: ['info@riseandwin.ug', 'support@riseandwin.ug'],
+      details: ['info@winrise.org', 'support@winrise.org'],
       description: 'We respond within 24 hours'
     },
     {
@@ -373,7 +373,7 @@ const Contact = () => {
                   Plot 12, Kampala Road, Kampala, Uganda
                 </p>
                 <p className="font-open-sans text-sm text-gray-500 mt-2">
-                  Map integration would be implemented here
+                  Map direction to the K-safaris co-shared office in Kisasi will be shown here
                 </p>
               </div>
             </div>

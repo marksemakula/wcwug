@@ -97,7 +97,7 @@ const Home = () => {
       image: './images/richard.png'
     },
     {
-      name: 'Emily Karine Atujuna',
+      name: 'Emily Karine Ajuna',
       role: 'Corporate Wellness Lead & Director',
       content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
       image: './images/emily.jpg'
