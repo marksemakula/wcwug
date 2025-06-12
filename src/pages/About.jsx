@@ -45,25 +45,31 @@ const About = () => {
   ];
 
   const team = [
-  {
-    name: 'Kyosaba Winfred Biribonwa',
-    role: 'Founding Partner & Director',
-    image: './images/kyosaba.jpg', // or .png, .webp, etc.
-    bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
-  },
-  {
-    name: 'Richard Asiimwe Kacururu',
-    role: 'Tours & Travel Advisor, Partner, Director',
-    image: './images/richard.png',
-    bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
-  },
-  {
-    name: 'Emily Ajuna',
-    role: 'Corporate Wellness Lead, Director',
-    image: './images/emily.jpg',
-    bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
-  }
-];
+    {
+      name: 'Kyosaba Winfred Biribonwa',
+      role: 'Founding Partner & Director',
+      image: './images/kyosaba.jpg',
+      bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
+    },
+    {
+      name: 'Joan Claire Kabikuru',
+      role: 'Head of Finance & Administration, Director',
+      image: './images/joan.jpg',
+      bio: 'Financial expert ensuring operational excellence and sustainable growth for our mental health initiatives.'
+    },
+    {
+      name: 'Richard Asiimwe Kacururu',
+      role: 'Tours & Travel Advisor, Partner, Director',
+      image: './images/richard.png',
+      bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
+    },
+    {
+      name: 'Emily Ajuna',
+      role: 'Corporate Wellness Lead, Director',
+      image: './images/emily.jpg',
+      bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -269,8 +275,9 @@ const About = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member, index) => (
+          {/* First row with 3 team members */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {team.slice(0, 3).map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
@@ -295,6 +302,32 @@ const About = () => {
                 </p>
               </motion.div>
             ))}
+          </div>
+
+          {/* Fourth team member centered below */}
+          <div className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center max-w-md"
+            >
+              <img
+                src={team[3].image}
+                alt={team[3].name}
+                className="w-32 h-32 rounded-full object-cover mx-auto mb-6"
+              />
+              <h3 className="font-urbanist font-semibold text-xl text-text mb-2">
+                {team[3].name}
+              </h3>
+              <p className="font-open-sans font-medium text-primary mb-4">
+                {team[3].role}
+              </p>
+              <p className="font-open-sans text-gray-600 leading-relaxed">
+                {team[3].bio}
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
