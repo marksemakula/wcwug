@@ -86,21 +86,21 @@ const Home = () => {
   const testimonials = [
     {
       name: 'Kyosaba Winfred Biribonwa',
-      role: 'Corporate Client',
-      content: 'Winrise transform your workplace culture. Our employees are happier and more productive.',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+      role: 'Founding Partner & Director',
+      content: 'Winrise aims to transform your institutional culture. Handle change, live happier, focused and more productive.',
+      image: './images/kyosaba.jpg'
     },
     {
-      name: 'James K.',
-      role: 'Individual Client',
-      content: 'The counselling sessions helped me overcome my anxiety. I feel more confident and at peace.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
+      name: 'Richard Asiimwe Kacururu',
+      role: 'Partner, Director & Travel Specialist',
+      content: 'Wholesome Travel, Retreat & Mentorship programs are tailored to deliver healing, more confident and at peace steady minds.',
+      image: './images/richard.png'
     },
     {
-      name: 'Dr. Mary L.',
-      role: 'School Administrator',
-      content: 'Their educational programs have significantly improved our students\' emotional well-being.',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face'
+      name: 'Emily Karine Atujuna',
+      role: 'Corporate Wellness Director',
+      content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
+      image: './images/emily.jpg'
     }
   ];
 
