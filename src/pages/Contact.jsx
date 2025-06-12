@@ -39,13 +39,13 @@ const Contact = () => {
     {
       icon: FaPhone,
       title: 'Phone',
-      details: ['+256 783 179 626', '+256 774 240 266'],
+      details: ['+256 772 360 111', '+256 701 360 111'],
       description: 'Call us during business hours'
     },
     {
       icon: FaEnvelope,
       title: 'Email',
-      details: ['info@winrise.org', 'support@winrise.org'],
+      details: ['support@winrise.org', 'winriseug@gmail.com'],
       description: 'We respond within 24 hours'
     },
     {
@@ -427,7 +427,7 @@ const Contact = () => {
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href="tel:+256123456789"
+                href="tel:+256701360111"
                 className="bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-full font-open-sans font-semibold text-lg transition-colors duration-300 inline-flex items-center justify-center space-x-2"
               >
                 <FaPhone />
@@ -436,7 +436,7 @@ const Contact = () => {
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href="sms:+256123456789"
+                href="sms:+256772360111"
                 className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-8 py-4 rounded-full font-open-sans font-semibold text-lg transition-colors duration-300 border border-white/30"
               >
                 Crisis Text Line
