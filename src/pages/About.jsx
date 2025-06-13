@@ -106,7 +106,7 @@ const About = () => {
                 Our <span className="text-primary">Story</span>
               </h2>
               <p className="font-open-sans text-gray-600 leading-relaxed mb-6">
-                Win and Rise Counselling and Wellness Solutions Ltd is a Uganda-based mental health and wellness company that provides holistic services aimed at helping individuals, families, and organisations achieve emotional, psychological, and social well-being.
+                Winrise Counselling and Wellness Solutions Ltd is a Uganda-based mental health and wellness company that provides holistic services aimed at helping individuals, families, and organisations achieve emotional, psychological, and social well-being.
               </p>
               <p className="font-open-sans text-gray-600 leading-relaxed mb-6">
                 With a strong foundation in professional counselling and a passion for community transformation, we are positioned to bridge the gap in mental health access across Uganda through innovative, affordable, and culturally relevant solutions.
