@@ -98,7 +98,8 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <FaMapMarkerAlt className="text-primary mt-1" size={16} />
                 <span className="text-gray-300 font-urbanist text-sm">
-                  Plot 12, Kampala Road<br />
+                  Plot 215, Kisaasi - Bukoto Road<br />
+                  P.O. Box 189152
                   Kampala, Uganda
                 </span>
               </div>
