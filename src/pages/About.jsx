@@ -64,7 +64,7 @@ const About = () => {
       bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
     },
     {
-      name: 'Emily Ajuna',
+      name: 'Emilly Ajuna',
       role: 'Corporate Wellness Lead, Director',
       image: './images/emily.jpg',
       bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
