@@ -83,7 +83,7 @@ const About = () => {
             className="text-center"
           >
             <h1 className="font-urbanist font-bold text-5xl md:text-6xl text-text mb-6">
-              About <span className="text-primary">Win & Rise</span>
+              About <span className="text-primary">Winrise</span>
             </h1>
             <p className="font-open-sans text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Dedicated to empowering minds and transforming lives through professional mental health and wellness services across Uganda.
