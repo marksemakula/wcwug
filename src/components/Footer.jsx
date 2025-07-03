@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt, FaApple, FaGooglePlay } from 'react-icons/fa';
+import logo from '../logo.png';
 
 const Footer = () => {
   return (
@@ -142,15 +143,23 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 font-urbanist text-sm">
-            © 2025 Winrise Counselling and Wellness LLC. All rights reserved. Powered by Inzozi
+            © 2025 Winrise Counselling and Wellness LLC. All rights reserved.
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="flex items-center space-x-6 mt-4 md:mt-0">
             <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
               Privacy Policy
             </Link>
             <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
               Terms of Service
             </Link>
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-300 font-urbanist text-sm">Powered by</span>
+              <img 
+                src={logo} 
+                alt="Inzozi Logo" 
+                className="h-10 w-auto brightness-0 invert" 
+              />
+            </div>
           </div>
         </div>
       </div>
