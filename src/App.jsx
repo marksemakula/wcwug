@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Breadcrumb from './components/Breadcrumb';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
@@ -17,10 +18,13 @@ function App() {
       <div className="min-h-screen bg-white">
         <ScrollToTop />
         <Header />
+        <Breadcrumb />
         <motion.main
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
+          role="main"
+          id="main-content"
         >
           <Routes>
             <Route path="/" element={<Home />} />

@@ -6,7 +6,7 @@ import logo from '../logo.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary text-white">
+    <footer className="bg-secondary text-white" role="contentinfo" aria-label="Site Footer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -25,34 +25,42 @@ const Footer = () => {
             <p className="text-gray-300 font-urbanist text-sm leading-relaxed">
               Empowering minds and transforming lives through professional counselling and wellness services across Uganda.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4" role="navigation" aria-label="Social media links">
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                aria-label="Follow Winrise on Facebook"
+                title="Follow us on Facebook"
                 className="text-gray-300 hover:text-primary transition-colors duration-300"
               >
-                <FaFacebook size={20} />
+                <FaFacebook size={20} aria-hidden="true" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                aria-label="Follow Winrise on Twitter"
+                title="Follow us on Twitter"
                 className="text-gray-300 hover:text-primary transition-colors duration-300"
               >
-                <FaTwitter size={20} />
+                <FaTwitter size={20} aria-hidden="true" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                aria-label="Follow Winrise on Instagram"
+                title="Follow us on Instagram"
                 className="text-gray-300 hover:text-primary transition-colors duration-300"
               >
-                <FaInstagram size={20} />
+                <FaInstagram size={20} aria-hidden="true" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                aria-label="Connect with Winrise on LinkedIn"
+                title="Connect with us on LinkedIn"
                 className="text-gray-300 hover:text-primary transition-colors duration-300"
               >
-                <FaLinkedin size={20} />
+                <FaLinkedin size={20} aria-hidden="true" />
               </motion.a>
             </div>
           </div>
@@ -60,24 +68,44 @@ const Footer = () => {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="font-urbanist font-semibold text-lg">Quick Links</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2" role="navigation" aria-label="Footer Navigation">
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+                <Link 
+                  to="/services" 
+                  title="Our Professional Counselling and Wellness Services"
+                  aria-label="Explore our counselling and wellness services"
+                  className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+                >
                   Our Services
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+                <Link 
+                  to="/about" 
+                  title="About Winrise Counselling & Wellness"
+                  aria-label="Learn about our mission, values, and team"
+                  className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/resources" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+                <Link 
+                  to="/resources" 
+                  title="Mental Health Resources and Articles"
+                  aria-label="Browse mental health resources and educational content"
+                  className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+                >
                   Resources
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+                <Link 
+                  to="/contact" 
+                  title="Contact Us to Book a Session"
+                  aria-label="Get in touch or book a counselling session"
+                  className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+                >
                   Contact
                 </Link>
               </li>
@@ -146,10 +174,20 @@ const Footer = () => {
             © 2025 Winrise Counselling and Wellness LLC. All rights reserved.
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
-            <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+            <Link 
+              to="#" 
+              title="Winrise Privacy Policy"
+              aria-label="Read our privacy policy"
+              className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+            >
               Privacy Policy
             </Link>
-            <Link to="#" className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm">
+            <Link 
+              to="#" 
+              title="Winrise Terms of Service"
+              aria-label="Read our terms of service"
+              className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+            >
               Terms of Service
             </Link>
             <div className="flex items-center space-x-2">
