@@ -299,7 +299,7 @@ const Home = () => {
             <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
               Our <span className="text-primary">Team Commitment</span>
             </h2>
-            <p className="font-urbanist text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="font-ubuntu text-xl text-gray-600 max-w-3xl mx-auto">
               Meet our dedicated team and their commitment to transforming lives through mental health and wellness.
             </p>
           </motion.div>
@@ -325,10 +325,10 @@ const Home = () => {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div>
-                    <h4 className="font-urbanist font-semibold text-text">
+                    <h4 className="font-ubuntu font-semibold text-text">
                       {testimonial.name}
                     </h4>
-                    <p className="font-urbanist text-sm text-gray-500">
+                    <p className="font-ubuntu text-sm text-gray-500">
                       {testimonial.role}
                     </p>
                   </div>

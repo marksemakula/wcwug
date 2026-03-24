@@ -16,6 +16,7 @@ export default {
       },
       fontFamily: {
         sans: ['Urbanist', 'sans-serif'],
+        ubuntu: ['Ubuntu', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
