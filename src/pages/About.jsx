@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaHeart, FaHandsHelping, FaShieldAlt, FaUserCheck, FaBullseye, FaUsers } from 'react-icons/fa';
+import SEO from '../components/SEO';
 
 const About = () => {
   const values = [
@@ -73,6 +74,12 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="About WINRISE Counselling & Wellness"
+        description="Learn about WINRISE's mission, team, and values in delivering accessible mental health and wellness services across Uganda."
+        path="/about"
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

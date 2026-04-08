@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaArrowRight, FaCalendarAlt, FaMapMarkerAlt, FaQuoteLeft } from 'react-icons/fa';
 import EventModal from '../components/EventModal';
+import SEO from '../components/SEO';
 import bg1 from '@/images/iwaria-inc-M7ALc3UuX_g-unsplash.jpg';
 import bg2 from '@/images/ryan-jussel-688IIZUKnuU-unsplash.jpg';
 import bg3 from '@/images/fre-sonneveld-u_mdmleqBB8-unsplash.jpg';
@@ -112,6 +113,12 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="WINRISE - Empowering Minds, Transforming Lives"
+        description="Professional mental health and wellness services in Uganda. Counselling, therapy, corporate wellness programs, and community support."
+        path="/"
+      />
+
       {/* Hero Section with Image Carousel */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-primary/20 to-primary/10 overflow-hidden">
         {/* Background Images */}

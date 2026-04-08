@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaDownload, FaBookOpen, FaVideo, FaPodcast, FaSearch, FaFilter, FaClock, FaEye } from 'react-icons/fa';
+import SEO from '../components/SEO';
 
 const Resources = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -112,6 +113,12 @@ const Resources = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Mental Health Resources, Guides and Articles | WINRISE"
+        description="Browse WINRISE mental health resources including articles, downloadable guides, videos, and podcasts for personal and workplace wellness."
+        path="/resources"
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

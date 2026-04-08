@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -75,6 +76,12 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Contact WINRISE | Book a Counselling Session"
+        description="Contact WINRISE Counselling & Wellness to book a therapy session, ask questions, or request corporate and community mental health support."
+        path="/contact"
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

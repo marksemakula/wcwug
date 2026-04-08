@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaHandsHelping, FaLeaf, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import SEO from '../components/SEO';
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState('individuals');
@@ -195,6 +196,12 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Mental Health Services in Uganda | WINRISE"
+        description="Explore WINRISE counselling services: individual therapy, family counselling, corporate wellness, educational programs, and community support across Uganda."
+        path="/services"
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
