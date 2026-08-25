@@ -2,21 +2,57 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaTimes, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUsers, FaTag } from 'react-icons/fa';
 
-const EventModal = ({ event, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    organization: '',
-    dietaryRequirements: ''
-  });
+const EMPTY_FORM = {
+  name: '',
+  email: '',
+  phone: '',
+  organization: '',
+  dietaryRequirements: '',
+  // Honeypot — hidden from people, filled in by bots, dropped by the server.
+  company_website: ''
+};
 
-  const handleSubmit = (e) => {
+const EventModal = ({ event, onClose }) => {
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [status, setStatus] = useState('idle'); // idle | submitting | success
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Event registration:', { event: event.id, ...formData });
-    alert('Registration submitted successfully! We will contact you soon.');
-    onClose();
+    setErrorMsg('');
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('/api/event-registration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          // Send the event details, not just its id — the notification email
+          // has to be actionable without looking anything up.
+          eventTitle: event.title,
+          eventDate: event.date,
+          eventTime: event.time,
+          eventLocation: event.location,
+          eventPrice: event.price
+        })
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Registration failed');
+      }
+
+      setStatus('success');
+      setFormData(EMPTY_FORM);
+    } catch (error) {
+      setStatus('idle');
+      setErrorMsg(
+        error.message === 'Failed to fetch'
+          ? 'We could not reach the server. Please check your connection and try again.'
+          : `${error.message} You can also email info@winrise.org to register.`
+      );
+    }
   };
 
   const handleChange = (e) => {
@@ -171,19 +207,63 @@ const EventModal = ({ event, onClose }) => {
               />
             </div>
 
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                overflow: 'hidden',
+                clip: 'rect(0 0 0 0)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <label htmlFor="event_company_website">Do not fill this in</label>
+              <input
+                id="event_company_website"
+                type="text"
+                name="company_website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={formData.company_website}
+                onChange={handleChange}
+              />
+            </div>
+
+            {status === 'success' && (
+              <div
+                role="status"
+                className="rounded-lg border border-primary/30 bg-primary/5 px-5 py-4"
+              >
+                <p className="font-urbanist font-semibold text-primary-dark mb-1">
+                  You&apos;re registered
+                </p>
+                <p className="font-open-sans text-sm text-gray-700">
+                  We&apos;ve sent your details to the WINRISE team and will confirm by email.
+                </p>
+              </div>
+            )}
+
+            {errorMsg && (
+              <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-5 py-4">
+                <p className="font-open-sans text-sm text-red-800">{errorMsg}</p>
+              </div>
+            )}
+
             <div className="flex space-x-4 pt-4">
               <button
                 type="button"
                 onClick={onClose}
                 className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-urbanist font-medium transition-colors duration-300"
               >
-                Cancel
+                {status === 'success' ? 'Close' : 'Cancel'}
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-urbanist font-medium transition-colors duration-300"
+                disabled={status === 'submitting' || status === 'success'}
+                className="flex-1 bg-primary hover:bg-primary-dark disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-urbanist font-medium transition-colors duration-300"
               >
-                Register Now
+                {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Registered' : 'Register Now'}
               </button>
             </div>
           </form>

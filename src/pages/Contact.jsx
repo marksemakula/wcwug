@@ -3,16 +3,23 @@ import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import SEO from '../components/SEO';
 
+const EMPTY_FORM = {
+  name: '',
+  email: '',
+  phone: '',
+  subject: '',
+  serviceType: '',
+  message: '',
+  preferredContact: 'email',
+  // Honeypot. Hidden from people, irresistible to bots — the server silently
+  // discards any submission that fills it in.
+  company_website: ''
+};
+
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    serviceType: '',
-    message: '',
-    preferredContact: 'email'
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [status, setStatus] = useState('idle'); // idle | submitting | success
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -21,19 +28,33 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you within 24 hours.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      serviceType: '',
-      message: '',
-      preferredContact: 'email'
-    });
+    setErrorMsg('');
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Submission failed');
+      }
+
+      setStatus('success');
+      setFormData(EMPTY_FORM);
+    } catch (error) {
+      setStatus('idle');
+      setErrorMsg(
+        error.message === 'Failed to fetch'
+          ? 'We could not reach the server. Please check your connection and try again.'
+          : `${error.message} You can also email us directly at info@winrise.org or call +256 772 360 111.`
+      );
+    }
   };
 
   const contactInfo = [
@@ -241,13 +262,62 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-open-sans font-semibold text-lg transition-colors duration-300"
+                {/* Honeypot — visually hidden, not display:none, so bots that
+                    skip hidden fields still fill it. Never shown to people. */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    width: '1px',
+                    height: '1px',
+                    overflow: 'hidden',
+                    clip: 'rect(0 0 0 0)',
+                    whiteSpace: 'nowrap'
+                  }}
                 >
-                  Send Message
+                  <label htmlFor="company_website">Do not fill this in</label>
+                  <input
+                    id="company_website"
+                    type="text"
+                    name="company_website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.company_website}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {status === 'success' && (
+                  <div
+                    role="status"
+                    className="rounded-lg border border-primary/30 bg-primary/5 px-5 py-4"
+                  >
+                    <p className="font-open-sans font-semibold text-primary-dark mb-1">
+                      Message sent
+                    </p>
+                    <p className="font-open-sans text-sm text-gray-700">
+                      Thank you for getting in touch. Our team will respond within 24 hours.
+                    </p>
+                  </div>
+                )}
+
+                {errorMsg && (
+                  <div
+                    role="alert"
+                    className="rounded-lg border border-red-200 bg-red-50 px-5 py-4"
+                  >
+                    <p className="font-open-sans text-sm text-red-800">{errorMsg}</p>
+                  </div>
+                )}
+
+                <motion.button
+                  whileHover={status === 'submitting' ? undefined : { scale: 1.02 }}
+                  whileTap={status === 'submitting' ? undefined : { scale: 0.98 }}
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="w-full bg-primary hover:bg-primary-dark disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-open-sans font-semibold text-lg transition-colors duration-300"
+                >
+                  {status === 'submitting' ? 'Sending…' : 'Send Message'}
                 </motion.button>
               </form>
             </motion.div>
