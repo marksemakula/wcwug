@@ -37,6 +37,7 @@ const Resources = () => {
       views: '4.1k',
       image: '/images/firstaid.webp',
       downloadable: true,
+      downloadUrl: '/Mental Health First Aid Guide (Uganda Context)_ The ALGEE 5-Step Protocol Explained - Dr. Kyosaba Winfred Biribonwa - PhD.pdf',
       featured: true
     },
     {
@@ -238,10 +239,14 @@ const Resources = () => {
                         </div>
                       </div>
                       {resource.downloadable && (
-                        <button className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300">
+                        <a
+                          href={resource.downloadUrl}
+                          download
+                          className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300"
+                        >
                           <FaDownload size={14} />
                           <span className="font-open-sans font-medium text-sm">Download</span>
-                        </button>
+                        </a>
                       )}
                     </div>
                   </div>
@@ -311,10 +316,14 @@ const Resources = () => {
                       </div>
                     </div>
                     {resource.downloadable ? (
-                      <button className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300">
+                      <a
+                        href={resource.downloadUrl}
+                        download
+                        className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300"
+                      >
                         <FaDownload size={14} />
                         <span className="font-open-sans font-medium text-sm">Download</span>
-                      </button>
+                      </a>
                     ) : (
                       <button className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300">
                         <FaBookOpen size={14} />
