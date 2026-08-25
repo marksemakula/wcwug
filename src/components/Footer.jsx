@@ -192,14 +192,20 @@ const Footer = () => {
             >
               Terms of Service
             </Link>
-            <div className="flex items-center space-x-2">
+            <a
+              href="https://www.inzozi.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Powered by Inzozi"
+              className="flex items-center space-x-2 opacity-80 hover:opacity-100 transition-opacity duration-300"
+            >
               <span className="text-gray-300 font-urbanist text-sm">Powered by</span>
-              <img 
-                src={logo} 
-                alt="Inzozi Logo" 
-                className="h-10 w-auto brightness-0 invert" 
+              <img
+                src={logo}
+                alt="Inzozi Logo"
+                className="h-10 w-auto brightness-0 invert"
               />
-            </div>
+            </a>
           </div>
         </div>
       </div>
