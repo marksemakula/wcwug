@@ -89,25 +89,25 @@ const Home = () => {
       name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
       role: 'Founding Partner & Executive Director',
       content: 'Winrise aims to transform your institutional culture; Handle change, live happier, focused and be more productive.',
-      image: './images/kyosaba.jpg'
+      image: './images/Dr. Kyosaba Winfred Biribonwa - PhD.png'
     },
     {
       name: 'Joan Claire Kabikuru',
       role: 'Head of Finance & Administration, Director',
       content: 'Ensuring operational excellence and financial sustainability to support our mission of transforming mental health services.',
-      image: './images/joan.jpg'
+      image: './images/Joan Claire Kabikuru.png'
     },
     {
       name: 'Richard Asiimwe Kacururu',
       role: 'Travel Specialist, Partner & Director',
       content: 'Wholesome Travel, Retreat & Mentorship programs are tailored to deliver healing, more confident and at peace steady minds.',
-      image: './images/richard.png'
+      image: './images/Richard Asiimwe Kacururu.png'
     },
     {
       name: 'Emilly Karine Ajuna',
       role: 'Corporate Wellness Lead & Director',
       content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
-      image: './images/emily.jpg'
+      image: './images/Emilly Karine Ajuna.png'
     }
   ];
 
@@ -311,7 +311,7 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
@@ -319,23 +319,29 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex"
+                style={{ minHeight: '220px' }}
               >
-                <FaQuoteLeft className="text-primary mb-4" size={24} />
-                <p className="italic text-gray-600 mb-6 leading-relaxed" style={{ fontFamily: '"Times New Roman", Times, serif' }}>
-                  "{testimonial.content}"
-                </p>
-                <div className="flex items-center space-x-4">
+                {/* Image slice — left side */}
+                <div className="w-2/5 flex-shrink-0 relative">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                   />
+                </div>
+
+                {/* Text — right side */}
+                <div className="flex-1 p-6 flex flex-col justify-center">
+                  <FaQuoteLeft className="text-primary mb-3" size={20} />
+                  <p className="italic text-gray-600 mb-5 leading-relaxed text-sm" style={{ fontFamily: '"Times New Roman", Times, serif' }}>
+                    "{testimonial.content}"
+                  </p>
                   <div>
-                    <h4 className="font-ubuntu font-semibold text-text">
+                    <h4 className="font-ubuntu font-semibold text-text text-sm">
                       {testimonial.name}
                     </h4>
-                    <p className="font-ubuntu text-sm text-gray-500">
+                    <p className="font-ubuntu text-xs text-primary mt-1">
                       {testimonial.role}
                     </p>
                   </div>

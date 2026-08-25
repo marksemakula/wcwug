@@ -49,25 +49,25 @@ const About = () => {
     {
       name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
       role: 'Founding Partner & Executive Director',
-      image: './images/kyosaba.jpg',
+      image: './images/Dr. Kyosaba Winfred Biribonwa - PhD.png',
       bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
     },
     {
       name: 'Joan Claire Kabikuru',
       role: 'Head of Finance & Administration, Director',
-      image: './images/joan.jpg',
+      image: './images/Joan Claire Kabikuru.png',
       bio: 'Financial expert ensuring operational excellence and sustainable growth for our mental health initiatives.'
     },
     {
       name: 'Richard Asiimwe Kacururu',
       role: 'Travel Specialist, Partner & Director',
-      image: './images/richard.png',
+      image: './images/Richard Asiimwe Kacururu.png',
       bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
     },
     {
       name: 'Emilly Ajuna',
       role: 'Corporate Wellness Lead, Director',
-      image: './images/emily.jpg',
+      image: './images/Emilly Karine Ajuna.png',
       bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
     },
   ];
