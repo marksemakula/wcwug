@@ -282,59 +282,40 @@ const About = () => {
             </p>
           </motion.div>
 
-          {/* First row with 3 team members */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {team.slice(0, 3).map((member, index) => (
+          {/* All team members — top-photo / bottom-text cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {team.map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
               >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-32 h-32 rounded-full object-cover mx-auto mb-6"
-                />
-                <h3 className="font-urbanist font-semibold text-xl text-text mb-2">
-                  {member.name}
-                </h3>
-                <p className="font-open-sans font-medium text-primary mb-4">
-                  {member.role}
-                </p>
-                <p className="font-open-sans text-gray-600 leading-relaxed">
-                  {member.bio}
-                </p>
+                {/* Top half — photo */}
+                <div className="relative w-full" style={{ paddingTop: '70%' }}>
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                </div>
+
+                {/* Bottom half — text */}
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="font-urbanist font-semibold text-base text-text mb-1 leading-snug">
+                    {member.name}
+                  </h3>
+                  <p className="font-open-sans font-medium text-primary text-sm mb-3">
+                    {member.role}
+                  </p>
+                  <p className="font-open-sans text-gray-600 text-sm leading-relaxed">
+                    {member.bio}
+                  </p>
+                </div>
               </motion.div>
             ))}
-          </div>
-
-          {/* Fourth team member centered below */}
-          <div className="flex justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center max-w-md"
-            >
-              <img
-                src={team[3].image}
-                alt={team[3].name}
-                className="w-32 h-32 rounded-full object-cover mx-auto mb-6"
-              />
-              <h3 className="font-urbanist font-semibold text-xl text-text mb-2">
-                {team[3].name}
-              </h3>
-              <p className="font-open-sans font-medium text-primary mb-4">
-                {team[3].role}
-              </p>
-              <p className="font-open-sans text-gray-600 leading-relaxed">
-                {team[3].bio}
-              </p>
-            </motion.div>
           </div>
         </div>
       </section>
