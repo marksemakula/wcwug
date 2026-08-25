@@ -26,7 +26,7 @@ const Team = () => (
             Our <span className="text-primary">Team</span>
           </h1>
           <p className="font-open-sans text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            The directors and specialists behind {ORG_NAME} — experienced professionals
+            The directors and specialists behind {ORG_NAME} - experienced professionals
             delivering mental health and wellness services across Uganda.
           </p>
         </motion.div>

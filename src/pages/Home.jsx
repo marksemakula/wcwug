@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBgIndex((prevIndex) => 
+      setCurrentBgIndex((prevIndex) =>
         prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
@@ -135,7 +135,7 @@ const Home = () => {
           />
         ))}
         <div className="absolute inset-0 bg-black/30" />
-        
+
         {/* Carousel Indicators */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-2 z-10">
           {backgroundImages.map((_, index) => (
@@ -258,11 +258,11 @@ const Home = () => {
                 <div className="flex items-center space-x-2 text-primary mb-4">
                   <FaCalendarAlt size={16} />
                   <span className="font-urbanist font-medium text-sm">
-                    {new Date(event.date).toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
+                    {new Date(event.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
                     })}
                   </span>
                 </div>

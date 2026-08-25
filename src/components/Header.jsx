@@ -9,20 +9,20 @@ const Header = () => {
 
   // Navigation items with descriptive titles and anchor text for better SEO
   const navItems = [
-    { 
-      path: '/', 
+    {
+      path: '/',
       label: 'Home',
       title: 'Winrise Counselling & Wellness Homepage',
       ariaLabel: 'Go to Home page'
     },
-    { 
-      path: '/services', 
+    {
+      path: '/services',
       label: 'Services',
       title: 'Our Professional Counselling and Wellness Services',
       ariaLabel: 'View our counselling and wellness services'
     },
-    { 
-      path: '/about', 
+    {
+      path: '/about',
       label: 'About Us',
       title: 'About Winrise Counselling & Wellness',
       ariaLabel: 'Learn about our mission and team'
@@ -33,14 +33,14 @@ const Header = () => {
       title: 'Meet the Winrise Counselling & Wellness Team',
       ariaLabel: 'Go to Our Team page'
     },
-    { 
-      path: '/resources', 
+    {
+      path: '/resources',
       label: 'Resources',
       title: 'Mental Health Resources and Articles',
       ariaLabel: 'Browse mental health resources and articles'
     },
-    { 
-      path: '/contact', 
+    {
+      path: '/contact',
       label: 'Contact',
       title: 'Contact Us to Book a Session',
       ariaLabel: 'Contact us or book a consultation'
@@ -60,8 +60,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center space-x-3"
             title="Winrise Counselling & Wellness - Home"
             aria-label="Winrise Counselling & Wellness - Return to homepage"
@@ -80,8 +80,8 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav 
-            className="hidden md:flex space-x-8" 
+          <nav
+            className="hidden md:flex space-x-8"
             aria-label="Main Navigation"
             role="navigation"
           >
@@ -92,9 +92,8 @@ const Header = () => {
                 title={item.title}
                 aria-label={item.ariaLabel}
                 aria-current={isActive(item.path) ? 'page' : undefined}
-                className={`font-urbanist font-medium transition-colors duration-300 hover:text-primary ${
-                  isActive(item.path) ? 'text-primary border-b-2 border-primary' : 'text-text'
-                }`}
+                className={`font-urbanist font-medium transition-colors duration-300 hover:text-primary ${isActive(item.path) ? 'text-primary border-b-2 border-primary' : 'text-text'
+                  }`}
               >
                 {item.label}
               </Link>
@@ -138,7 +137,7 @@ const Header = () => {
             className="md:hidden bg-white border-t border-gray-200 py-4"
             id="mobile-navigation"
           >
-            <nav 
+            <nav
               className="flex flex-col space-y-4"
               aria-label="Mobile Navigation"
               role="navigation"
@@ -151,9 +150,8 @@ const Header = () => {
                   title={item.title}
                   aria-label={item.ariaLabel}
                   aria-current={isActive(item.path) ? 'page' : undefined}
-                  className={`font-urbanist font-medium transition-colors duration-300 hover:text-primary ${
-                    isActive(item.path) ? 'text-primary' : 'text-text'
-                  }`}
+                  className={`font-urbanist font-medium transition-colors duration-300 hover:text-primary ${isActive(item.path) ? 'text-primary' : 'text-text'
+                    }`}
                 >
                   {item.label}
                 </Link>
