@@ -81,9 +81,9 @@ const personMeta = {
       'Richard Asiimwe Kacururu is a Partner, Director and travel specialist at WINRISE Counselling & Wellness, Kampala — leading community engagement across Uganda.',
   },
   'emilly-karine-ajuna': {
-    title: 'Emilly Karine Ajuna — Corporate Wellness Lead',
+    title: 'Emilly Karine Ajuna — Head of Programs, WINRISE',
     description:
-      'Emilly Karine Ajuna is Corporate Wellness Lead and a Director at WINRISE Counselling & Wellness, Kampala — banker, career coach and workplace safeguarding advocate.',
+      'Emilly Karine Ajuna is Head of Programs and a Director at WINRISE Counselling & Wellness, Kampala — banker, career coach and workplace safeguarding advocate.',
   },
 };
 

@@ -104,13 +104,13 @@ export const team = [
     displayName: 'Emilly Karine Ajuna',
     honorificPrefix: '',
     honorificSuffix: '',
-    jobTitle: 'Corporate Wellness Lead, Director',
+    jobTitle: 'Head of Programs & Director',
     image: '/images/emilly-karine-ajuna.webp',
     bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.',
     longBio: [
-      'Emilly Karine Ajuna is the Corporate Wellness Lead and a Director at Winrise Counselling and Wellness Solutions Ltd in Kampala, Uganda.',
+      'Emilly Karine Ajuna is the Head of Programs and a Director at Winrise Counselling and Wellness Solutions Ltd in Kampala, Uganda.',
       'A banker and career coach, she is an advocate for workplace safeguarding — mental health provision, employee assistance programmes, and the practical structures that make a workplace safe to speak up in. She brings a corporate-sector perspective to counselling, which shapes how Winrise designs wellness programmes for Ugandan employers.',
-      'She leads Winrise’s corporate wellness offering, working with companies on employee assistance programmes, workplace stress, and staff mental health training.',
+      'She leads Winrise\'s programs offering, working with companies on employee assistance programmes, workplace stress, and staff mental health training.',
     ],
     knowsAbout: [
       'Corporate Wellness',

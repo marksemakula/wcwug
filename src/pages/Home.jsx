@@ -111,7 +111,7 @@ const Home = () => {
     {
       slug: 'emilly-karine-ajuna',
       name: 'Emilly Karine Ajuna',
-      role: 'Corporate Wellness Lead & Director',
+      role: 'Head of Programs & Director',
       content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
       image: '/images/emilly-karine-ajuna.webp'
     }
