@@ -1,8 +1,311 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaDownload, FaBookOpen, FaVideo, FaPodcast, FaSearch, FaFilter, FaClock, FaEye } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  FaDownload, FaBookOpen, FaSearch, FaFilter, FaClock, FaEye,
+  FaShare, FaTimes, FaWhatsapp, FaTwitter, FaFacebook, FaEnvelope, FaLink, FaCheck, FaExpand
+} from 'react-icons/fa';
 import SEO from '../components/SEO';
 
+/* ─────────────────────────────────────────────
+   Share Menu (per-tile dropdown)
+───────────────────────────────────────────── */
+const ShareMenu = ({ resource }) => {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const menuRef = useRef(null);
+
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const text = `Check out this mental health resource: ${resource.title}`;
+
+  const shareLinks = [
+    {
+      label: 'WhatsApp',
+      icon: <FaWhatsapp size={15} />,
+      color: '#25D366',
+      href: `https://wa.me/?text=${encodeURIComponent(text + ' ' + pageUrl)}`,
+    },
+    {
+      label: 'Twitter / X',
+      icon: <FaTwitter size={15} />,
+      color: '#1DA1F2',
+      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`,
+    },
+    {
+      label: 'Facebook',
+      icon: <FaFacebook size={15} />,
+      color: '#1877F2',
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=${encodeURIComponent(text)}`,
+    },
+    {
+      label: 'Email',
+      icon: <FaEnvelope size={15} />,
+      color: '#EA4335',
+      href: `mailto:?subject=${encodeURIComponent(resource.title)}&body=${encodeURIComponent(text + '\n\n' + pageUrl)}`,
+    },
+  ];
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(pageUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}
+        title="Share"
+        className="flex items-center space-x-1 text-gray-400 hover:text-primary transition-colors duration-200"
+      >
+        <FaShare size={14} />
+        <span className="font-open-sans font-medium text-sm">Share</span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: -6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute bottom-full mb-2 right-0 bg-white rounded-xl shadow-2xl border border-gray-100 p-3 z-50 w-44"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="font-open-sans text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-1">Share via</p>
+            {shareLinks.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-150 group"
+              >
+                <span style={{ color: s.color }}>{s.icon}</span>
+                <span className="font-open-sans text-sm text-gray-700 group-hover:text-gray-900">{s.label}</span>
+              </a>
+            ))}
+            <button
+              onClick={copyLink}
+              className="w-full flex items-center space-x-2 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-150 group"
+            >
+              {copied ? <FaCheck size={15} className="text-green-500" /> : <FaLink size={15} className="text-gray-500" />}
+              <span className="font-open-sans text-sm text-gray-700 group-hover:text-gray-900">
+                {copied ? 'Copied!' : 'Copy link'}
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   Preview Modal
+───────────────────────────────────────────── */
+const PreviewModal = ({ resource, onClose }) => {
+  // Trap scroll
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const isPdf = resource.downloadable && resource.downloadUrl?.endsWith('.pdf');
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {/* Backdrop */}
+        <motion.div
+          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={onClose}
+        />
+
+        {/* Panel */}
+        <motion.div
+          className="relative bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10"
+          style={{ width: '90vw', maxWidth: 960, height: '88vh' }}
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
+            <div className="flex-1 min-w-0 pr-4">
+              <span className="inline-block bg-primary/10 text-primary text-xs font-open-sans font-semibold px-2 py-0.5 rounded-full mb-1">
+                {resource.type}
+              </span>
+              <h2 className="font-urbanist font-bold text-xl text-text truncate">{resource.title}</h2>
+              <p className="font-open-sans text-sm text-gray-500 mt-0.5">{resource.description}</p>
+            </div>
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              {resource.downloadable && resource.downloadUrl && (
+                <a
+                  href={resource.downloadUrl}
+                  download
+                  className="flex items-center space-x-1.5 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-open-sans font-medium text-sm transition-colors duration-200"
+                >
+                  <FaDownload size={13} />
+                  <span>Download</span>
+                </a>
+              )}
+              <button
+                onClick={onClose}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 text-gray-500 hover:text-gray-800"
+                aria-label="Close preview"
+              >
+                <FaTimes size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="flex-1 overflow-hidden bg-gray-50">
+            {isPdf ? (
+              <iframe
+                src={resource.downloadUrl}
+                title={resource.title}
+                className="w-full h-full border-0"
+              />
+            ) : (
+              /* Non-PDF: rich info card */
+              <div className="h-full flex flex-col items-center justify-center p-8">
+                <div className="max-w-lg w-full text-center">
+                  <img
+                    src={resource.image}
+                    alt={resource.title}
+                    className="w-full h-56 object-cover rounded-xl mb-6 shadow-lg"
+                  />
+                  <div className="flex justify-center space-x-6 text-sm text-gray-500 mb-4">
+                    <span className="flex items-center space-x-1"><FaClock size={13} /><span>{resource.readTime}</span></span>
+                    <span className="flex items-center space-x-1"><FaEye size={13} /><span>{resource.views} views</span></span>
+                  </div>
+                  <p className="font-open-sans text-gray-600 leading-relaxed">{resource.description}</p>
+                  <p className="mt-6 font-open-sans text-sm text-gray-400 italic">
+                    Full content coming soon. Check back or subscribe to our newsletter.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   Resource Card (shared between Featured & All)
+───────────────────────────────────────────── */
+const ResourceCard = ({ resource, index, featured = false }) => {
+  const [preview, setPreview] = useState(false);
+
+  return (
+    <>
+      <motion.div
+        key={resource.id}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: index * 0.1 }}
+        viewport={{ once: true }}
+        className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+        onClick={() => setPreview(true)}
+      >
+        {/* Image */}
+        <div className="relative overflow-hidden">
+          <img
+            src={resource.image}
+            alt={resource.title}
+            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          {/* Hover overlay hint */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1.5 rounded-full text-sm font-open-sans font-medium flex items-center space-x-1.5">
+              <FaExpand size={12} />
+              <span>Preview</span>
+            </span>
+          </div>
+          {featured && (
+            <div className="absolute top-4 left-4">
+              <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-open-sans font-medium">
+                Featured
+              </span>
+            </div>
+          )}
+          <div className="absolute top-4 right-4">
+            <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-sm font-open-sans font-medium">
+              {resource.type}
+            </span>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="p-6">
+          <h3 className="font-urbanist font-semibold text-xl text-text mb-2 group-hover:text-primary transition-colors duration-200">
+            {resource.title}
+          </h3>
+          <p className="font-open-sans text-gray-600 mb-4 leading-relaxed text-sm">
+            {resource.description}
+          </p>
+
+          {/* Footer row */}
+          <div className="flex items-center justify-between">
+            {/* Meta */}
+            <div className="flex items-center space-x-3 text-xs text-gray-400">
+              <span className="flex items-center space-x-1"><FaClock size={12} /><span>{resource.readTime}</span></span>
+              <span className="flex items-center space-x-1"><FaEye size={12} /><span>{resource.views}</span></span>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center space-x-3" onClick={(e) => e.stopPropagation()}>
+              <ShareMenu resource={resource} />
+              {resource.downloadable && resource.downloadUrl ? (
+                <a
+                  href={resource.downloadUrl}
+                  download
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center space-x-1 text-primary hover:text-primary/80 transition-colors duration-200"
+                >
+                  <FaDownload size={13} />
+                  <span className="font-open-sans font-medium text-sm">Download</span>
+                </a>
+              ) : (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setPreview(true); }}
+                  className="flex items-center space-x-1 text-primary hover:text-primary/80 transition-colors duration-200"
+                >
+                  <FaBookOpen size={13} />
+                  <span className="font-open-sans font-medium text-sm">Read More</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {preview && <PreviewModal resource={resource} onClose={() => setPreview(false)} />}
+    </>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   Main Page
+───────────────────────────────────────────── */
 const Resources = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -195,62 +498,7 @@ const Resources = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {featuredResources.map((resource, index) => (
-                <motion.div
-                  key={resource.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="relative">
-                    <img
-                      src={resource.image}
-                      alt={resource.title}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-open-sans font-medium">
-                        Featured
-                      </span>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-sm font-open-sans font-medium">
-                        {resource.type}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-urbanist font-semibold text-xl text-text mb-3">
-                      {resource.title}
-                    </h3>
-                    <p className="font-open-sans text-gray-600 mb-4 leading-relaxed">
-                      {resource.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <div className="flex items-center space-x-1">
-                          <FaClock size={14} />
-                          <span>{resource.readTime}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <FaEye size={14} />
-                          <span>{resource.views}</span>
-                        </div>
-                      </div>
-                      {resource.downloadable && (
-                        <a
-                          href={resource.downloadUrl}
-                          download
-                          className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300"
-                        >
-                          <FaDownload size={14} />
-                          <span className="font-open-sans font-medium text-sm">Download</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
+                <ResourceCard key={resource.id} resource={resource} index={index} featured />
               ))}
             </div>
           </div>
@@ -277,62 +525,7 @@ const Resources = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredResources.map((resource, index) => (
-              <motion.div
-                key={resource.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative">
-                  <img
-                    src={resource.image}
-                    alt={resource.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-sm font-open-sans font-medium">
-                      {resource.type}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-urbanist font-semibold text-xl text-text mb-3">
-                    {resource.title}
-                  </h3>
-                  <p className="font-open-sans text-gray-600 mb-4 leading-relaxed">
-                    {resource.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <FaClock size={14} />
-                        <span>{resource.readTime}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <FaEye size={14} />
-                        <span>{resource.views}</span>
-                      </div>
-                    </div>
-                    {resource.downloadable ? (
-                      <a
-                        href={resource.downloadUrl}
-                        download
-                        className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300"
-                      >
-                        <FaDownload size={14} />
-                        <span className="font-open-sans font-medium text-sm">Download</span>
-                      </a>
-                    ) : (
-                      <button className="flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors duration-300">
-                        <FaBookOpen size={14} />
-                        <span className="font-open-sans font-medium text-sm">Read More</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+              <ResourceCard key={resource.id} resource={resource} index={index} />
             ))}
           </div>
         </div>
