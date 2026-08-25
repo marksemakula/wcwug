@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { FaHeart, FaHandsHelping, FaShieldAlt, FaUserCheck, FaBullseye, FaUsers } from 'react-icons/fa';
 import SEO from '../components/SEO';

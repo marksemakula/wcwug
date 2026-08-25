@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaArrowRight, FaLinkedin, FaGlobe } from 'react-icons/fa';
 import SEO from '../components/SEO';

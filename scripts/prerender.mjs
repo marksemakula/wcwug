@@ -11,6 +11,28 @@
  *
  * A failure on one route logs a warning and moves on — the SPA fallback still
  * serves that route client-side, so a single bad page never fails the deploy.
+ *
+ * ─── A note on react-router, if this ever breaks again ───────────────────────
+ * The app imports routing from `react-router`, not `react-router-dom`, and that
+ * is load-bearing for this script.
+ *
+ * react-router-dom@7 declares its exports like this:
+ *
+ *     "node": { "module-sync": "./dist/index.mjs", "default": "./dist/index.js" }
+ *
+ * There is no plain "module" key inside the "node" condition, so an SSR
+ * resolver lands on dist/index.js — which is CommonJS, and is only a re-export
+ * shim (`export * from "react-router"`). Neither option then works: leaving it
+ * external makes Node fail static named-export analysis ("Named export
+ * 'MemoryRouter' not found"), and inlining it makes Vite evaluate CommonJS as
+ * ESM ("module is not defined").
+ *
+ * `react-router` has neither problem — its "node" condition does include
+ * "module", and even its CommonJS build has statically analysable named
+ * exports. Since react-router-dom@7 is just a re-export of react-router plus
+ * two DOM helpers this app does not use, importing from `react-router`
+ * directly is both the v7-recommended style and the thing that makes SSR work.
+ * ────────────────────────────────────────────────────────────────────────────
  */
 
 import fs from 'node:fs';
@@ -49,26 +71,6 @@ async function main() {
     optimizeDeps: { noDiscovery: true },
     appType: 'custom',
     logLevel: 'warn',
-    ssr: {
-      // By default Vite leaves dependencies external during SSR and lets Node
-      // import them directly. Node then does static named-export analysis, which
-      // fails on a package that resolves to CommonJS:
-      //
-      //   Named export 'MemoryRouter' not found. The requested module
-      //   'react-router-dom' is a CommonJS module...
-      //
-      // Listing a package here makes Vite run it through its own transform
-      // pipeline instead, where CJS↔ESM interop is handled properly and
-      // `import { MemoryRouter } from 'react-router-dom'` works.
-      //
-      // This has to cover every package the component tree imports by name, not
-      // just the ones this file imports — App.jsx and all the page components
-      // pull named exports from these four.
-      //
-      // react and react-dom stay external on purpose: they must remain
-      // singletons, and inlining them risks a second copy of React.
-      noExternal: ['react-router-dom', 'react-router', 'react-icons', 'framer-motion'],
-    },
   });
 
   let written = 0;
