@@ -55,7 +55,9 @@ const Footer = () => {
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
-                href="#"
+                href="https://linkedin.com/company/winrise"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Connect with Winrise on LinkedIn"
                 title="Connect with us on LinkedIn"
                 className="text-gray-300 hover:text-primary transition-colors duration-300"
