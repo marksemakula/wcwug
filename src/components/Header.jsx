@@ -68,12 +68,10 @@ const Header = () => {
           >
             <img
               src="/images/winrise.png"
-              width="160"
-              height="108"
               alt="Winrise Counselling & Wellness Logo"
+              width="256"
+              height="173"
               className="h-12 w-auto"
-              width="48"
-              height="48"
             />
             <div className="flex flex-col">
               <span className="font-urbanist font-bold text-xl text-text">Winrise</span>
