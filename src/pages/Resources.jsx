@@ -118,7 +118,8 @@ const PreviewModal = ({ resource, onClose }) => {
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  const isPdf = resource.downloadable && resource.downloadUrl?.endsWith('.pdf');
+  const isPdf = resource.downloadable && resource.downloadUrl?.toLowerCase().endsWith('.pdf');
+  const encodedPdfUrl = isPdf ? encodeURI(resource.downloadUrl) : null;
 
   return (
     <AnimatePresence>
@@ -177,11 +178,31 @@ const PreviewModal = ({ resource, onClose }) => {
           {/* Body */}
           <div className="flex-1 overflow-hidden bg-gray-50">
             {isPdf ? (
-              <iframe
-                src={resource.downloadUrl}
-                title={resource.title}
+              <object
+                data={encodedPdfUrl}
+                type="application/pdf"
                 className="w-full h-full border-0"
-              />
+                aria-label={resource.title}
+              >
+                <embed
+                  src={encodedPdfUrl}
+                  type="application/pdf"
+                  className="w-full h-full border-0"
+                />
+                {/* Fallback for browsers that block inline PDFs */}
+                <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                  <p className="font-open-sans text-gray-600 mb-4">Your browser cannot display this PDF inline.</p>
+                  <a
+                    href={encodedPdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-open-sans font-medium transition-colors duration-200"
+                  >
+                    <FaDownload size={14} />
+                    <span>Open PDF in new tab</span>
+                  </a>
+                </div>
+              </object>
             ) : (
               /* Non-PDF: rich info card */
               <div className="h-full flex flex-col items-center justify-center p-8">
