@@ -49,16 +49,56 @@ async function main() {
     optimizeDeps: { noDiscovery: true },
     appType: 'custom',
     logLevel: 'warn',
+    ssr: {
+      // By default Vite leaves dependencies external during SSR and lets Node
+      // import them directly. Node then does static named-export analysis, which
+      // fails on a package that resolves to CommonJS:
+      //
+      //   Named export 'MemoryRouter' not found. The requested module
+      //   'react-router-dom' is a CommonJS module...
+      //
+      // Listing a package here makes Vite run it through its own transform
+      // pipeline instead, where CJS↔ESM interop is handled properly and
+      // `import { MemoryRouter } from 'react-router-dom'` works.
+      //
+      // This has to cover every package the component tree imports by name, not
+      // just the ones this file imports — App.jsx and all the page components
+      // pull named exports from these four.
+      //
+      // react and react-dom stay external on purpose: they must remain
+      // singletons, and inlining them risks a second copy of React.
+      noExternal: ['react-router-dom', 'react-router', 'react-icons', 'framer-motion'],
+    },
   });
 
   let written = 0;
   let skipped = 0;
 
   try {
-    const { prerenderRoutes } = await vite.ssrLoadModule('/src/prerender/routes.jsx');
-    const { renderRoute, injectIntoTemplate } = await vite.ssrLoadModule(
-      '/src/prerender/render.jsx'
-    );
+    let prerenderRoutes;
+    let renderRoute;
+    let injectIntoTemplate;
+
+    try {
+      ({ prerenderRoutes } = await vite.ssrLoadModule('/src/prerender/routes.jsx'));
+      ({ renderRoute, injectIntoTemplate } = await vite.ssrLoadModule(
+        '/src/prerender/render.jsx'
+      ));
+    } catch (error) {
+      // Distinguish "the whole renderer could not load" from "one page failed",
+      // because the fix is completely different.
+      console.error('\n✖ prerender could not load the render modules.\n');
+      if (/is a CommonJS module|Named export .* not found/.test(error.message ?? '')) {
+        const pkg = error.message.match(/module '([^']+)'/)?.[1] ?? 'that package';
+        console.error(
+          `  A dependency (${pkg}) resolved to CommonJS during SSR, so Node could\n` +
+            `  not read its named exports.\n\n` +
+            `  Fix: add '${pkg}' to the ssr.noExternal array in this file, so Vite\n` +
+            `  transforms it instead of handing it to Node directly.\n`
+        );
+      }
+      throw error;
+    }
 
     for (const route of prerenderRoutes) {
       try {
