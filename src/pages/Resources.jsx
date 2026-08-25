@@ -361,7 +361,7 @@ const Resources = () => {
       views: '4.1k',
       image: '/images/firstaid.webp',
       downloadable: true,
-      downloadUrl: '/Mental Health First Aid Guide (Uganda Context)_ The ALGEE 5-Step Protocol Explained - Dr. Kyosaba Winfred Biribonwa - PhD.pdf',
+      downloadUrl: '/Mental-Health_First-Aid_Guide(Uganda_Context)_The_ALGEE_5-Step_Protocol_Explained-Dr.Kyosaba_Winfred_Biribonwa-PhD.pdf',
       featured: true
     },
     {
