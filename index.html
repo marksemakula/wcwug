@@ -2,107 +2,80 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/winrise.ico" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WINRISE - Empowering Minds, Transforming Lives</title>
-    <meta name="description" content="Professional mental health and wellness services in Uganda. Counselling, therapy, corporate wellness programs, and community support." />
-    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" type="image/x-icon" href="/images/winrise.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/images/winrise.png" />
+    <meta name="theme-color" content="#228C22" />
+
+    <!--
+      The tags below are DEFAULTS for the SPA fallback only.
+
+      scripts/prerender.mjs strips them out of each prerendered page and injects
+      that route's real title, description, canonical, social tags and JSON-LD,
+      generated from src/seo/pageMeta.js. Editing SEO copy here has no effect on
+      the built pages — edit src/seo/pageMeta.js instead.
+    -->
+    <title>WINRISE — Mental Health &amp; Counselling in Uganda</title>
+    <meta
+      name="description"
+      content="Professional mental health and wellness services in Uganda. Individual therapy, family counselling, corporate wellness programmes and community support from WINRISE."
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
     <link rel="canonical" href="https://www.winrise.org/" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Urbanist:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Organization Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Winrise Counselling & Wellness",
-      "alternateName": "WINRISE",
-      "url": "https://winrise.org",
-      "logo": "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1749648547185-winrise.png",
-      "description": "Professional mental health and wellness services in Uganda. Counselling, therapy, corporate wellness programs, and community support.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "UG"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+256-772-360-111",
-        "contactType": "customer service",
-        "areaServed": "UG",
-        "availableLanguage": "English"
-      },
-      "sameAs": []
-    }
-    </script>
 
-    <!-- WebSite Schema with SitelinksSearchBox -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Winrise Counselling & Wellness",
-      "alternateName": "WINRISE",
-      "url": "https://winrise.org",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://winrise.org/search?q={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
+    <meta property="og:title" content="WINRISE — Mental Health &amp; Counselling in Uganda" />
+    <meta
+      property="og:description"
+      content="Professional mental health and wellness services in Uganda. Individual therapy, family counselling, corporate wellness programmes and community support from WINRISE."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.winrise.org/" />
+    <meta property="og:image" content="https://www.winrise.org/images/winrise-og.png" />
+    <meta property="og:site_name" content="Winrise Counselling &amp; Wellness" />
+    <meta property="og:locale" content="en_UG" />
 
-    <!-- SiteNavigationElement Schema for Sitelinks -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Home",
-          "url": "https://winrise.org/"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Services",
-          "description": "Professional counselling and wellness services including individual therapy, couples counselling, and corporate wellness programs",
-          "url": "https://winrise.org/services"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "About Us",
-          "description": "Learn about Winrise Counselling & Wellness, our mission, values, and team of professional counsellors",
-          "url": "https://winrise.org/about"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Resources",
-          "description": "Mental health resources, articles, and educational content for wellness and personal growth",
-          "url": "https://winrise.org/resources"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Contact",
-          "description": "Get in touch with Winrise Counselling & Wellness to book a session or ask questions",
-          "url": "https://winrise.org/contact"
-        }
-      ]
-    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="WINRISE — Mental Health &amp; Counselling in Uganda" />
+    <meta
+      name="twitter:description"
+      content="Professional mental health and wellness services in Uganda. Individual therapy, family counselling, corporate wellness programmes and community support from WINRISE."
+    />
+    <meta name="twitter:image" content="https://www.winrise.org/images/winrise-og.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Urbanist:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Google Analytics 4 — uncomment and replace G-XXXXXXXXXX with the real
+      Measurement ID from the GA4 property. The Content-Security-Policy in
+      vercel.json already allows the googletagmanager and google-analytics hosts.
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
     </script>
+    -->
   </head>
   <body>
-    <!-- Fallback Navigation for Search Engine Crawlers -->
+    <!-- Fallback navigation for crawlers that execute no JavaScript. -->
     <noscript>
       <header>
         <nav aria-label="Main Navigation">
-          <a href="/" title="Winrise Counselling & Wellness Home">Home</a>
+          <a href="/" title="Winrise Counselling &amp; Wellness Home">Home</a>
           <a href="/services" title="Our Professional Counselling and Wellness Services">Services</a>
-          <a href="/about" title="About Winrise Counselling & Wellness">About Us</a>
+          <a href="/about" title="About Winrise Counselling &amp; Wellness">About Us</a>
+          <a href="/team" title="The Winrise Counselling &amp; Wellness Team">Our Team</a>
           <a href="/resources" title="Mental Health Resources and Articles">Resources</a>
           <a href="/contact" title="Contact Us to Book a Session">Contact</a>
         </nav>

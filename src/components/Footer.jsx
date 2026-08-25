@@ -13,7 +13,9 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <img
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1749648547185-winrise.png"
+                src="/images/winrise.png"
+              width="160"
+              height="108"
                 alt="Winrise Logo"
                 className="h-10 w-auto brightness-0 invert"
               />
@@ -89,6 +91,16 @@ const Footer = () => {
                   className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
                 >
                   About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/team"
+                  title="Meet the Winrise Counselling & Wellness Team"
+                  aria-label="Meet the Winrise leadership team"
+                  className="text-gray-300 hover:text-primary transition-colors duration-300 font-urbanist text-sm"
+                >
+                  Our Team
                 </Link>
               </li>
               <li>

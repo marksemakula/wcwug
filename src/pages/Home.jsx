@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaArrowRight, FaCalendarAlt, FaMapMarkerAlt, FaQuoteLeft } from 'react-icons/fa';
 import EventModal from '../components/EventModal';
 import SEO from '../components/SEO';
-import bg1 from '@/images/iwaria-inc-M7ALc3UuX_g-unsplash.jpg';
-import bg2 from '@/images/ryan-jussel-688IIZUKnuU-unsplash.jpg';
-import bg3 from '@/images/fre-sonneveld-u_mdmleqBB8-unsplash.jpg';
-import bg4 from '@/images/laela-ERMMIXcjUFQ-unsplash.jpg';
+import bg1 from '@/images/hero-community.webp';
+import bg2 from '@/images/hero-landscape.webp';
+import bg3 from '@/images/hero-calm.webp';
+import bg4 from '@/images/hero-support.webp';
 
 const Home = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -84,40 +84,42 @@ const Home = () => {
     }
   ];
 
+  // Each quote is attributed to a director; `slug` links the card to that
+  // person's profile page so the homepage passes crawl equity to all four.
   const testimonials = [
     {
+      slug: 'dr-kyosaba-winfred-biribonwa',
       name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
       role: 'Founding Partner & Executive Director',
       content: 'Winrise aims to transform your institutional culture; Handle change, live happier, focused and be more productive.',
-      image: './images/Dr. Kyosaba Winfred Biribonwa - PhD.png'
+      image: '/images/dr-kyosaba-winfred-biribonwa.webp'
     },
     {
+      slug: 'joan-claire-kabikuru',
       name: 'Joan Claire Kabikuru',
       role: 'Head of Finance & Administration, Director',
       content: 'Ensuring operational excellence and financial sustainability to support our mission of transforming mental health services.',
-      image: './images/Joan Claire Kabikuru.png'
+      image: '/images/joan-claire-kabikuru.webp'
     },
     {
+      slug: 'richard-asiimwe-kacururu',
       name: 'Richard Asiimwe Kacururu',
       role: 'Travel Specialist, Partner & Director',
       content: 'Wholesome Travel, Retreat & Mentorship programs are tailored to deliver healing, more confident and at peace steady minds.',
-      image: './images/Richard Asiimwe Kacururu.png'
+      image: '/images/richard-asiimwe-kacururu.webp'
     },
     {
+      slug: 'emilly-karine-ajuna',
       name: 'Emilly Karine Ajuna',
       role: 'Corporate Wellness Lead & Director',
       content: 'Our workplace physical & mental health balanced programs significantly improve employee\' emotional well-being.',
-      image: './images/Emilly Karine Ajuna.png'
+      image: '/images/emilly-karine-ajuna.webp'
     }
   ];
 
   return (
     <div className="min-h-screen">
-      <SEO
-        title="WINRISE - Empowering Minds, Transforming Lives"
-        description="Professional mental health and wellness services in Uganda. Counselling, therapy, corporate wellness programs, and community support."
-        path="/"
-      />
+      <SEO path="/" />
 
       {/* Hero Section with Image Carousel */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-primary/20 to-primary/10 overflow-hidden">
@@ -326,7 +328,8 @@ const Home = () => {
                 <div className="w-2/5 flex-shrink-0 relative">
                   <img
                     src={testimonial.image}
-                    alt={testimonial.name}
+                    alt={`${testimonial.name}, ${testimonial.role} at WINRISE Counselling & Wellness`}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                 </div>
@@ -339,7 +342,12 @@ const Home = () => {
                   </p>
                   <div>
                     <h4 className="font-ubuntu font-semibold text-text text-sm">
-                      {testimonial.name}
+                      <Link
+                        to={`/team/${testimonial.slug}`}
+                        className="hover:text-primary transition-colors"
+                      >
+                        {testimonial.name}
+                      </Link>
                     </h4>
                     <p className="font-ubuntu text-xs text-primary mt-1">
                       {testimonial.role}

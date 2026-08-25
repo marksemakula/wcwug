@@ -24,7 +24,7 @@ const Resources = () => {
       description: 'Practical strategies for dealing with workplace anxiety and stress management techniques.',
       readTime: '8 min read',
       views: '2.5k',
-      image: './images/workplacestress.png',
+      image: '/images/workplacestress.webp',
       featured: true
     },
     {
@@ -35,7 +35,7 @@ const Resources = () => {
       description: 'Comprehensive guide on how to provide initial support to someone experiencing mental health problems.',
       readTime: '25 min read',
       views: '4.1k',
-      image: './images/firstaid.jpg',
+      image: '/images/firstaid.webp',
       downloadable: true,
       featured: true
     },
@@ -67,7 +67,7 @@ const Resources = () => {
       description: 'How parents and teachers can help children develop emotional resilience and coping skills.',
       readTime: '12 min read',
       views: '1.8k',
-      image: './images/resilienceinchildren.jpg'
+      image: '/images/resilienceinchildren.webp'
     },
     {
       id: 6,
@@ -77,7 +77,7 @@ const Resources = () => {
       description: 'Ready-to-use template for creating comprehensive workplace mental health policies.',
       readTime: '10 min read',
       views: '5.7k',
-      image: './images/workspace.jpeg',
+      image: '/images/workspace.webp',
       downloadable: true
     },
     {
@@ -88,7 +88,7 @@ const Resources = () => {
       description: 'Multi-part video series on understanding and processing grief in healthy ways.',
       readTime: '45 min watch',
       views: '6.9k',
-      image: './images/grief.jpeg'
+      image: '/images/grief.webp'
     },
     {
       id: 8,
@@ -113,11 +113,7 @@ const Resources = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <SEO
-        title="Mental Health Resources, Guides and Articles | WINRISE"
-        description="Browse WINRISE mental health resources including articles, downloadable guides, videos, and podcasts for personal and workplace wellness."
-        path="/resources"
-      />
+      <SEO path="/resources" />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">

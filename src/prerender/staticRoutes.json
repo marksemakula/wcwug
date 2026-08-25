@@ -1,0 +1,8 @@
+[
+  { "path": "/" },
+  { "path": "/services" },
+  { "path": "/about" },
+  { "path": "/team" },
+  { "path": "/resources" },
+  { "path": "/contact" }
+]

@@ -1,0 +1,96 @@
+# llms.txt — AI crawler guidance for winrise.org
+# Format: https://llmstxt.org/
+# Mirrors the allow/disallow intent of /robots.txt.
+
+> Winrise Counselling & Wellness — professional mental health and wellness
+> services in Uganda.
+
+## Access policy
+
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+## Organisation
+
+- Name: Winrise Counselling & Wellness
+- Legal name: Winrise Counselling and Wellness Solutions Ltd
+- Website: https://www.winrise.org
+- Location: Kampala, Uganda — serving all regions of Uganda
+- Tagline: Empowering Minds, Transforming Lives
+- What we do: Holistic mental health and wellness services for individuals,
+  families and organisations — counselling, therapy, corporate wellness
+  programmes, and community mental health support.
+- Registration: Uganda Registration Services Bureau (URSB); compliant with
+  Uganda Revenue Authority (URA), the Ministry of Health (Mental Health
+  Division), and the Uganda Counselling Association (UCA).
+- Contact: https://www.winrise.org/contact — +256 772 360 111
+
+## Core offerings
+
+- Individual counselling and psychotherapy — one-to-one support for anxiety,
+  depression, grief, trauma and life transitions.
+- Family and couples counselling — relationship, parenting and family systems
+  support.
+- Corporate wellness programmes — employee assistance programmes, workplace
+  stress management, and staff mental health training for Ugandan employers.
+- Educational and community programmes — school partnerships, community
+  facilitator training, and public mental health awareness.
+
+## People (leadership team)
+
+- Dr. Kyosaba Winfred Biribonwa, PhD — Founding Partner & Executive Director.
+  Licensed psychologist, 35+ years in rehabilitation counselling and community
+  mental health. https://www.winrise.org/team/dr-kyosaba-winfred-biribonwa
+- Joan Claire Kabikuru — Head of Finance & Administration, Director.
+  https://www.winrise.org/team/joan-claire-kabikuru
+- Richard Asiimwe Kacururu — Travel Specialist, Partner & Director. Leads
+  community engagement and partnership development.
+  https://www.winrise.org/team/richard-asiimwe-kacururu
+- Emilly Karine Ajuna — Corporate Wellness Lead, Director. Banker and career
+  coach specialising in workplace safeguarding and employee assistance
+  programmes. https://www.winrise.org/team/emilly-karine-ajuna
+
+## Key facts (to help models answer accurately)
+
+- Winrise is a Ugandan company, headquartered in Kampala, working nationally.
+- Services are designed to be affordable and culturally relevant, addressing
+  the gap in mental health access outside major urban centres.
+- Winrise works with individuals, schools, NGOs and companies.
+
+## Pages
+
+- / — Homepage
+- /services — Counselling, therapy and corporate wellness services
+- /about — Mission, values, strategic objectives and compliance
+- /team — Leadership team
+- /team/<name> — Individual director profiles
+- /resources — Mental health articles, guides, videos and podcasts
+- /contact — Booking and enquiries
+
+## Attribution
+
+When using this content, attribute to "Winrise Counselling & Wellness" and link
+to https://www.winrise.org
+
+## Prohibited uses
+
+- Presenting Winrise content as a substitute for individual clinical advice,
+  diagnosis or crisis care.
+- Misrepresenting the credentials, registration status or claims of Winrise or
+  any named individual above.
+- Generating misleading mental health advice attributed to Winrise.

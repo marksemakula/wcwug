@@ -2,27 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.winrise.org/</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.winrise.org/services</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.winrise.org/about</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.winrise.org/team</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.winrise.org/resources</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.winrise.org/contact</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.winrise.org/team/dr-kyosaba-winfred-biribonwa</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.winrise.org/team/joan-claire-kabikuru</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.winrise.org/team/richard-asiimwe-kacururu</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.winrise.org/team/emilly-karine-ajuna</loc>
+    <lastmod>2026-08-25T15:20:27.082Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaHeart, FaHandsHelping, FaShieldAlt, FaUserCheck, FaBullseye, FaUsers } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import { team } from '../data/team';
+import { ORG_NAME } from '../seo/siteConfig';
 
 const About = () => {
   const values = [
@@ -45,40 +48,13 @@ const About = () => {
     'Launch a wellness centre with integrated mental, nutritional, and physical therapy services'
   ];
 
-  const team = [
-    {
-      name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
-      role: 'Founding Partner & Executive Director',
-      image: './images/Dr. Kyosaba Winfred Biribonwa - PhD.png',
-      bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
-    },
-    {
-      name: 'Joan Claire Kabikuru',
-      role: 'Head of Finance & Administration, Director',
-      image: './images/Joan Claire Kabikuru.png',
-      bio: 'Financial expert ensuring operational excellence and sustainable growth for our mental health initiatives.'
-    },
-    {
-      name: 'Richard Asiimwe Kacururu',
-      role: 'Travel Specialist, Partner & Director',
-      image: './images/Richard Asiimwe Kacururu.png',
-      bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
-    },
-    {
-      name: 'Emilly Ajuna',
-      role: 'Corporate Wellness Lead, Director',
-      image: './images/Emilly Karine Ajuna.png',
-      bio: 'Banker & career coach, supporting & ardent advocate of safeguarding in the workplace, including mental health and employee assistance programs.'
-    },
-  ];
+  // Team data lives in src/data/team.js so these cards, the /team hub, each
+  // /team/<slug> profile page, the sitemap and the Person JSON-LD all describe
+  // the same four people from one place and can never drift apart.
 
   return (
     <div className="min-h-screen bg-white">
-      <SEO
-        title="About WINRISE Counselling & Wellness"
-        description="Learn about WINRISE's mission, team, and values in delivering accessible mental health and wellness services across Uganda."
-        path="/about"
-      />
+      <SEO path="/about" />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
@@ -130,8 +106,11 @@ const About = () => {
               className="relative"
             >
               <img
-                src="./images/ntinda.jpg"
-                alt="Mental health counseling session"
+                src="/images/ntinda.webp"
+                alt="A counselling session at the WINRISE offices in Ntinda, Kampala, Uganda"
+                width="800"
+                height="400"
+                loading="lazy"
                 className="rounded-2xl shadow-lg w-full h-[400px] object-cover"
               />
               <div className="absolute inset-0 bg-primary/10 rounded-2xl" />
@@ -282,40 +261,57 @@ const About = () => {
             </p>
           </motion.div>
 
-          {/* All team members — top-photo / bottom-text cards */}
+          {/* All team members — each card links to that person's own indexable
+              profile page, which is what lets a search for their name land on
+              winrise.org rather than nowhere. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
-              <motion.div
-                key={index}
+              <motion.article
+                key={member.slug}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
               >
-                {/* Top half — photo */}
-                <div className="relative w-full" style={{ paddingTop: '70%' }}>
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="absolute inset-0 w-full h-full object-cover object-top"
-                  />
-                </div>
+                <Link to={`/team/${member.slug}`} className="flex flex-col flex-1">
+                  {/* Top half — photo */}
+                  <div className="relative w-full" style={{ paddingTop: '70%' }}>
+                    <img
+                      src={member.image}
+                      alt={`${member.displayName}, ${member.jobTitle} at ${ORG_NAME} in Kampala, Uganda`}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                    />
+                  </div>
 
-                {/* Bottom half — text */}
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-urbanist font-semibold text-base text-text mb-1 leading-snug">
-                    {member.name}
-                  </h3>
-                  <p className="font-open-sans font-medium text-primary text-sm mb-3">
-                    {member.role}
-                  </p>
-                  <p className="font-open-sans text-gray-600 text-sm leading-relaxed">
-                    {member.bio}
-                  </p>
-                </div>
-              </motion.div>
+                  {/* Bottom half — text */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-urbanist font-semibold text-base text-text mb-1 leading-snug">
+                      {member.displayName}
+                    </h3>
+                    <p className="font-open-sans font-medium text-primary text-sm mb-3">
+                      {member.jobTitle}
+                    </p>
+                    <p className="font-open-sans text-gray-600 text-sm leading-relaxed flex-1">
+                      {member.bio}
+                    </p>
+                    <span className="font-open-sans text-primary text-sm mt-4 underline">
+                      Read full profile
+                    </span>
+                  </div>
+                </Link>
+              </motion.article>
             ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              to="/team"
+              className="font-open-sans text-primary hover:text-primary-dark underline"
+            >
+              See the full WINRISE leadership team
+            </Link>
           </div>
         </div>
       </section>

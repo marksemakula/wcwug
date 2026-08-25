@@ -27,6 +27,12 @@ const Header = () => {
       title: 'About Winrise Counselling & Wellness',
       ariaLabel: 'Learn about our mission and team'
     },
+    {
+      path: '/team',
+      label: 'Our Team',
+      title: 'Meet the Winrise Counselling & Wellness Team',
+      ariaLabel: 'Go to Our Team page'
+    },
     { 
       path: '/resources', 
       label: 'Resources',
@@ -61,7 +67,9 @@ const Header = () => {
             aria-label="Winrise Counselling & Wellness - Return to homepage"
           >
             <img
-              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1749648547185-winrise.png"
+              src="/images/winrise.png"
+              width="160"
+              height="108"
               alt="Winrise Counselling & Wellness Logo"
               className="h-12 w-auto"
               width="48"

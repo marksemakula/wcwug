@@ -4,7 +4,10 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  // MUST be '/' , not './'. With relative asset paths, a prerendered page at
+  // /team/joan-claire-kabikuru/index.html would resolve ./assets/app.js to
+  // /team/joan-claire-kabikuru/assets/app.js and 404.
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')

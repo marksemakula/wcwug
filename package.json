@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && vite build",
+    "build": "npm run lint && node scripts/generate-sitemap.js && vite build && node scripts/prerender.mjs && node scripts/copy-robots.js",
+    "build:fast": "node scripts/generate-sitemap.js && vite build && node scripts/prerender.mjs && node scripts/copy-robots.js",
+    "prerender": "node scripts/prerender.mjs",
+    "sitemap": "node scripts/generate-sitemap.js",
     "lint": "eslint .",
     "lint:error": "eslint . --quiet",
     "preview": "vite preview"

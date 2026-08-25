@@ -76,11 +76,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <SEO
-        title="Contact WINRISE | Book a Counselling Session"
-        description="Contact WINRISE Counselling & Wellness to book a therapy session, ask questions, or request corporate and community mental health support."
-        path="/contact"
-      />
+      <SEO path="/contact" />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">

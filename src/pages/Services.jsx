@@ -196,11 +196,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <SEO
-        title="Mental Health Services in Uganda | WINRISE"
-        description="Explore WINRISE counselling services: individual therapy, family counselling, corporate wellness, educational programs, and community support across Uganda."
-        path="/services"
-      />
+      <SEO path="/services" />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-20">
