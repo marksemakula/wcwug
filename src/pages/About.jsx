@@ -47,8 +47,8 @@ const About = () => {
 
   const team = [
     {
-      name: 'Kyosaba Winfred Biribonwa',
-      role: 'Founding Partner & Director',
+      name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
+      role: 'Founding Partner & Executive Director',
       image: './images/kyosaba.jpg',
       bio: 'Licensed psychologist with 35+ years of experience in rehabilitation counselling and community mental health.'
     },
@@ -60,7 +60,7 @@ const About = () => {
     },
     {
       name: 'Richard Asiimwe Kacururu',
-      role: 'Tours & Travel Advisor, Partner, Director',
+      role: 'Travel Specialist, Partner & Director',
       image: './images/richard.png',
       bio: 'Passionate advocate for mental health awareness with extensive experience in community engagement, travel and support program development.'
     },

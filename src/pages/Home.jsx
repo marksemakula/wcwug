@@ -86,8 +86,8 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: 'Kyosaba Winfred Biribonwa',
-      role: 'Founding Partner & Director',
+      name: 'Dr. Kyosaba Winfred Biribonwa - PhD',
+      role: 'Founding Partner & Executive Director',
       content: 'Winrise aims to transform your institutional culture; Handle change, live happier, focused and be more productive.',
       image: './images/kyosaba.jpg'
     },
@@ -99,7 +99,7 @@ const Home = () => {
     },
     {
       name: 'Richard Asiimwe Kacururu',
-      role: 'Partner, Director & Travel Specialist',
+      role: 'Travel Specialist, Partner & Director',
       content: 'Wholesome Travel, Retreat & Mentorship programs are tailored to deliver healing, more confident and at peace steady minds.',
       image: './images/richard.png'
     },
