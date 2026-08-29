@@ -5,6 +5,7 @@ import {
   FaShare, FaTimes, FaWhatsapp, FaTwitter, FaFacebook, FaEnvelope, FaLink, FaCheck, FaExpand
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import PreferredSourceBadge from '../components/PreferredSourceBadge';
 
 /* ─────────────────────────────────────────────
    Share Menu (per-tile dropdown)
@@ -456,6 +457,13 @@ const Resources = () => {
               Access our comprehensive library of mental health resources, including articles, guides, videos, and podcasts to support your wellness journey.
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Preferred source on Google */}
+      <section className="pt-10 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PreferredSourceBadge />
         </div>
       </section>
 
