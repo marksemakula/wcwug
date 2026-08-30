@@ -138,11 +138,16 @@ const Header = () => {
       )}
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        {/* items-stretch, and the vertical padding moves onto the children.
+            That is what lets the Donate slab fill the bar top to bottom while
+            the lock-up and the links keep their breathing room — and it works
+            in both states, since the bar's height is still set by the tallest
+            child (81px logo + 32px padding transparent, 48 + 32 solid). */}
+        <div className="flex justify-between items-stretch">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-3"
+            className="flex items-center space-x-3 py-4"
             title="Winrise Counselling & Wellness - Home"
             aria-label="Winrise Counselling & Wellness - Return to homepage"
           >
@@ -180,7 +185,7 @@ const Header = () => {
               1024px this is the hamburger's job. Spacing tightens one step at
               lg so 1024px itself still has room to spare. */}
           <nav
-            className="hidden lg:flex space-x-6 xl:space-x-8"
+            className="hidden lg:flex items-center space-x-6 xl:space-x-8 py-4"
             aria-label="Main Navigation"
             role="navigation"
           >
@@ -198,29 +203,40 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hidden lg:block"
+          {/*
+            Donate — a full-height slab, not a pill.
+
+            It fills the bar top to bottom in both states, which is what the
+            row's items-stretch is for. The old whileHover scale is gone:
+            scaling a shape flush to the bar's edges pulls it away from them,
+            which is the one thing this shape exists to do. Colour carries the
+            hover instead.
+
+            It stays flush to the TOP and comes off the bottom instead, which
+            is how the sketch had it — a slab hanging from the bar rather than
+            one floating in it. The margin is what sets the height: a stretched
+            flex item stretches to the row height minus its own margins, so
+            mb-6 leaves 89px of the transparent bar's 113 and 56px of the
+            scrolled bar's 80.
+          */}
+          <a
+            href={DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Donate to Winrise Counselling & Wellness"
+            aria-label="Donate to Winrise - opens in a new tab"
+            className="hidden lg:flex items-center justify-center gap-2 px-6 mb-6 whitespace-nowrap
+                       bg-primary hover:bg-primary-dark text-white
+                       font-urbanist font-bold transition-colors duration-300"
           >
-            <a
-              href={DONATE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Donate to Winrise Counselling & Wellness"
-              aria-label="Donate to Winrise - opens in a new tab"
-              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-full font-urbanist font-medium hover:bg-primary-dark transition-colors duration-300"
-            >
-              <FaHeart size={14} aria-hidden="true" />
-              Donate
-            </a>
-          </motion.div>
+            <FaHeart size={14} aria-hidden="true" />
+            Donate
+          </a>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden transition-colors duration-300 motion-reduce:transition-none ${
+            className={`lg:hidden py-4 transition-colors duration-300 motion-reduce:transition-none ${
               solid ? 'text-text hover:text-primary' : 'text-white hover:text-white/80'
             }`}
             aria-expanded={isMenuOpen}
