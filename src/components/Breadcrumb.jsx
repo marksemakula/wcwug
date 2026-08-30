@@ -20,6 +20,7 @@ const PAGE_NAMES = {
   '/contact': 'Contact',
   '/team': 'Our Team',
   '/resources/mental-health-organizations-uganda': 'Mental Health Organizations in Uganda',
+  '/mark-semakula': 'Mark Semakula',
 };
 
 const Breadcrumb = () => {

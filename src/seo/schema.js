@@ -254,3 +254,54 @@ export function organizationDirectorySchema(path) {
     })),
   };
 }
+
+/**
+ * An independent consultant's profile page.
+ *
+ * Deliberately NOT built on personSchema(). That helper hard-codes
+ * `worksFor` and `affiliation` to the Winrise Organization and derives the
+ * URL from /team/<slug> — both false here. This person's profile is hosted on
+ * this domain; he is not a member of the Winrise team. Structured data saying
+ * otherwise is a false claim about both a real person and a real company, and
+ * entity resolution punishes exactly that once other sources contradict it.
+ *
+ * `affiliation` therefore carries only the organizations named in the profile
+ * copy itself, and `sameAs` starts empty — the same rule as src/data/team.js:
+ * a wrong sameAs is worse than none, because it merges two people.
+ */
+export function consultantProfileSchema({ path, person }) {
+  const pageUrl = absoluteUrl(path);
+  const id = `${pageUrl}#person`;
+
+  return [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${pageUrl}#profilepage`,
+      url: pageUrl,
+      name: `${person.name} — ${person.jobTitle}`,
+      isPartOf: { '@id': WEBSITE_ID },
+      mainEntity: { '@id': id },
+    },
+    {
+      '@type': 'Person',
+      '@id': id,
+      name: person.name,
+      jobTitle: person.jobTitle,
+      description: person.description,
+      image: absoluteUrl(person.image),
+      url: pageUrl,
+      nationality: { '@type': 'Country', name: 'Uganda' },
+      workLocation: {
+        '@type': 'Place',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: CONTACT.addressLocality,
+          addressCountry: CONTACT.addressCountry,
+        },
+      },
+      knowsAbout: person.knowsAbout,
+      affiliation: person.affiliation.map((name) => ({ '@type': 'Organization', name })),
+      sameAs: person.sameAs ?? [],
+    },
+  ];
+}

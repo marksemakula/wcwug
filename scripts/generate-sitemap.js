@@ -30,6 +30,7 @@ const PRIORITY = {
   '/resources': { priority: '0.9', changefreq: 'weekly' },
   '/resources/mental-health-organizations-uganda': { priority: '0.9', changefreq: 'monthly' },
   '/about': { priority: '0.8', changefreq: 'monthly' },
+  '/mark-semakula': { priority: '0.7', changefreq: 'monthly' },
   '/team': { priority: '0.8', changefreq: 'monthly' },
   '/contact': { priority: '0.8', changefreq: 'monthly' },
 };

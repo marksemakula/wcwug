@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import Team from './pages/Team';
 import OrganizationsUganda from './pages/OrganizationsUganda';
 import TeamMember from './pages/TeamMember';
+import MarkSemakula from './pages/MarkSemakula';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 import './App.css';
@@ -44,6 +45,9 @@ export function AppShell() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/team" element={<Team />} />
           <Route path="/team/:slug" element={<TeamMember />} />
+          {/* Unlinked by design — reachable by URL and through the sitemap,
+              but not from any menu. See src/pages/MarkSemakula.jsx. */}
+          <Route path="/mark-semakula" element={<MarkSemakula />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.main>

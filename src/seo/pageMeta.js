@@ -20,6 +20,7 @@ import {
   teamListSchema,
   webPageSchema,
   organizationDirectorySchema,
+  consultantProfileSchema,
 } from './schema.js';
 
 const staticPages = {
@@ -62,6 +63,12 @@ const staticPages = {
       { name: 'Resources', path: '/resources' },
       { name: 'Mental Health Organizations in Uganda' },
     ],
+  },
+  '/mark-semakula': {
+    title: 'Mark Semakula — Digital Health Strategy Consultant',
+    description:
+      'Mark Semakula is a Digital Health Strategy Consultant in Uganda, working across health informatics, ICT policy and the digital transformation of health systems.',
+    crumbs: [{ name: 'Home', path: '/' }, { name: 'Mark Semakula' }],
   },
   '/team': {
     title: 'Our Team | WINRISE Counselling & Wellness',
@@ -170,9 +177,14 @@ export function getPageMeta(path = '/') {
     };
   }
 
+  // ProfilePage is the more specific page type, so the consultant profile gets
+  // that instead of a WebPage rather than carrying both nodes for one URL.
+  const isProfile = clean === '/mark-semakula';
   const structuredData = [
     ...globalSchemas(),
-    webPageSchema({ path: clean, title: page.title, description: page.description }),
+    ...(isProfile
+      ? []
+      : [webPageSchema({ path: clean, title: page.title, description: page.description })]),
   ];
 
   // The homepage has no breadcrumb trail; every inner page does.
@@ -191,6 +203,33 @@ export function getPageMeta(path = '/') {
   }
   if (clean === '/resources/mental-health-organizations-uganda') {
     structuredData.push(organizationDirectorySchema(clean));
+  }
+  if (clean === '/mark-semakula') {
+    structuredData.push(
+      ...consultantProfileSchema({
+        path: clean,
+        person: {
+          name: 'Mark Semakula',
+          jobTitle: 'Digital Health Strategy Consultant',
+          description:
+            'Digital Health Strategy Consultant working at the intersection of health informatics, ICT policy and digital transformation in low- and middle-income countries.',
+          image: '/images/marc1705.png',
+          knowsAbout: [
+            'Digital Health Strategy',
+            'Health Informatics',
+            'ICT Policy',
+            'Health Systems Strengthening',
+            'eHealth Implementation',
+            'Public Health Data',
+          ],
+          // Only the two organizations the profile copy names as affiliations.
+          // "Published author" and "member of research networks" are true of a
+          // person but are not affiliations, so they stay page copy.
+          affiliation: ['Makerere University', 'Ministry of Health, Uganda'],
+          sameAs: [],
+        },
+      })
+    );
   }
 
   return {
@@ -215,6 +254,7 @@ export const indexableRoutes = [
     changefreq: 'monthly',
     priority: '0.7',
   })),
+  { path: '/mark-semakula', changefreq: 'monthly', priority: '0.7' },
   { path: '/resources', changefreq: 'weekly', priority: '0.9' },
   { path: '/resources/mental-health-organizations-uganda', changefreq: 'monthly', priority: '0.9' },
   { path: '/contact', changefreq: 'monthly', priority: '0.8' },
