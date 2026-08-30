@@ -67,19 +67,6 @@ const partnerMarks = [
 ];
 
 /**
- * The featured poster's field: a photograph, veiled by the green gradient.
- *
- * The veil is 86% opaque, which is what makes the picture read as texture
- * rather than as a picture. Both numbers were set by measuring, not by eye —
- * against the brightest patch of image that lands behind each text block, white
- * comes out at 6.5:1 and the lime headline at 4.9:1. Lighten the veil much
- * further and the lime headline drops through 3:1.
- */
-const POSTER_VEIL =
-  'radial-gradient(120% 90% at 85% 10%, #1A6B1A 0%, #14561A 45%, #0B330B 100%)';
-const POSTER_INK = '#0B330B';
-
-/**
  * The first event, set as a poster rather than a card.
  *
  * Same anatomy as a printed promo: brand lockup top-left, an oversized
@@ -87,13 +74,14 @@ const POSTER_INK = '#0B330B';
  * call to action and its status capsule along the foot of the field, and a
  * full-bleed accent strip carrying the practical details — date, place, price.
  *
- * The accent (#AEF359) is deliberately kept off small text. On the lighter end
- * of the field gradient it measures 3.1:1, which passes for a 34px headline but
- * not for an 11px kicker — so the kicker is white (5.4:1) and the lime is spent
- * on the headline, the disc and the strip, where it is either large or sitting
- * on the dark end of the gradient at 9:1.
+ * The look comes from `event.poster.theme` and lives in index.css under
+ * .event-poster--*, so adding a third treatment is a block of CSS and a word in
+ * the data rather than a branch in here. What stays fixed either way: the
+ * kicker is white, never the accent — on the lighter end of the green veil the
+ * lime measures 3.1:1, which carries a 34px headline but not an 11px label.
  */
-function EventPoster({ event, onRegister }) {
+function EventPoster({ event, onRegister, delay = 0 }) {
+  const { image, theme } = event.poster;
   const timing = eventTiming(event);
   const words = event.title.trim().split(/\s+/);
   const lead = words.slice(0, -1).join(' ');
@@ -103,27 +91,22 @@ function EventPoster({ event, onRegister }) {
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.6, delay }}
       viewport={{ once: true }}
-      className="relative flex flex-col overflow-hidden rounded-2xl text-white shadow-lg
-                 min-h-[400px] transition-shadow duration-300 hover:shadow-xl"
-      style={{ backgroundColor: POSTER_INK }}
+      className={`event-poster event-poster--${theme} relative flex flex-col overflow-hidden
+                  rounded-2xl shadow-lg min-h-[400px] transition-shadow duration-300 hover:shadow-xl`}
     >
       {/* Decorative, so no alt text — the poster says nothing that depends on
-          seeing it. The solid POSTER_INK behind means a failed image load looks
-          deliberate rather than broken. */}
+          seeing it. Each theme paints a solid background-color underneath, so a
+          failed image load looks deliberate rather than broken. */}
       <img
-        src="/images/resilienceinchildren.webp"
+        src={image}
         alt=""
         aria-hidden="true"
         loading="lazy"
         className="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-[1] opacity-[0.86]"
-        style={{ background: POSTER_VEIL }}
-      />
+      <div aria-hidden="true" className="event-poster__veil" />
 
       <div className="relative z-20 flex flex-1 flex-col px-7 pt-7 pb-6">
         <div className="flex items-center gap-3 mb-6">
@@ -148,21 +131,20 @@ function EventPoster({ event, onRegister }) {
           </span>
         </div>
 
-        <h3 className="font-urbanist text-[34px] font-bold leading-[0.95] tracking-tight mb-3.5">
+        <h3 className="event-poster__title font-urbanist text-[34px] font-bold
+                       leading-[0.95] tracking-tight mb-3.5">
           {lead}
-          <span className="block" style={{ color: EST_COLOR }}>
-            {last}
-          </span>
+          <span className="event-poster__hi block">{last}</span>
         </h3>
 
-        <p className="font-urbanist text-sm leading-relaxed text-white/90">
+        <p className="event-poster__desc font-urbanist text-sm leading-relaxed">
           {event.description}
         </p>
 
         <div className="min-h-[22px] flex-1" />
 
         <div className="relative z-30">
-          <p className="font-urbanist text-[13px] font-bold mb-2.5" style={{ color: EST_COLOR }}>
+          <p className="event-poster__lead font-urbanist text-[13px] font-bold mb-2.5">
             Secure your seat
           </p>
           <div className="flex items-center justify-between gap-3">
@@ -170,26 +152,26 @@ function EventPoster({ event, onRegister }) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onRegister}
-              className="rounded-full bg-white px-7 py-2.5 font-urbanist text-sm font-bold"
-              style={{ color: POSTER_INK }}
+              className="event-poster__btn rounded-full px-7 py-2.5 font-urbanist text-sm
+                         font-bold transition-colors duration-300"
             >
               Register
             </motion.button>
-            <span
-              className="whitespace-nowrap rounded-full px-4 py-2 font-urbanist text-xs
-                         font-bold tracking-wide shadow-lg"
-              style={{ background: EST_COLOR, color: POSTER_INK }}
-            >
-              Rolling Basis
-            </span>
+            {timing.rolling && (
+              <span
+                className="event-poster__pill whitespace-nowrap rounded-full px-4 py-2
+                           font-urbanist text-xs font-bold tracking-wide shadow-lg"
+              >
+                Rolling Basis
+              </span>
+            )}
           </div>
         </div>
       </div>
 
       <div
-        className="relative z-20 flex flex-wrap items-center justify-center gap-x-2 gap-y-1
-                   px-5 py-2.5 font-urbanist text-xs font-semibold text-center"
-        style={{ background: EST_COLOR, color: POSTER_INK }}
+        className="event-poster__strip relative z-20 flex flex-wrap items-center justify-center
+                   gap-x-2 gap-y-1 px-5 py-2.5 font-urbanist text-xs font-semibold text-center"
       >
         {/* The strip answers "when" now that the date disc is gone. For a
             rolling programme that answer is a cadence, not a date, so there is
@@ -266,6 +248,9 @@ const Home = () => {
       // and an hour. See src/lib/dates.js — eventTiming().
       schedule: 'Monthly',
       location: 'Ntinda Complex',
+      // Carrying `poster` is what promotes an event out of the plain card and
+      // picks its look; the themes live in index.css under .event-poster--*.
+      poster: { image: '/images/resilienceinchildren.webp', theme: 'field' },
       description: 'Join us for interactive sessions on understanding / harmonizing and managing parenting approaches.',
       audience: 'General Public',
       price: 'Free'
@@ -273,9 +258,10 @@ const Home = () => {
     {
       id: 2,
       title: 'The Cultural Whisperer Program',
-      date: '2026-04-22',
+      date: '2026-11-10',
       time: '2:00 PM',
       location: 'Serena Hotel, Kampala',
+      poster: { image: '/images/Office.jpg', theme: 'night' },
       description: 'Cultivating Harmonious Productive and Culturally Intelligent Workspaces.',
       audience: 'Corporate',
       price: 'UGX 100,000'
@@ -646,10 +632,11 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event, index) =>
-              index === 0 ? (
+              event.poster ? (
                 <EventPoster
                   key={event.id}
                   event={event}
+                  delay={index * 0.1}
                   onRegister={() => setSelectedEvent(event)}
                 />
               ) : (

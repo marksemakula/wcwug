@@ -191,3 +191,111 @@ body {
   background: #228c22;
   clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant) - var(--rim)) 100%, 0 100%);
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Featured event posters.
+
+   Two looks over the same anatomy, so an event's data picks a theme rather
+   than the markup carrying two sets of colours:
+
+     --field  a photograph under a green veil. The veil is 86% opaque, which
+              is what makes the picture read as texture rather than as a
+              picture competing with the headline.
+
+     --night  a photograph under a black vignette, lightest at the centre and
+              deepest in the corners. No veil opacity here: the gradient's own
+              alpha does the work, so the photograph stays legible and the
+              only colour on the whole tile is the green button.
+
+   Both were set by measuring, not by eye. With the text hidden, the brightest
+   patch of image landing behind each block was sampled and the composited
+   contrast computed. On --night that first cost the description 3.4:1 against
+   a busy boardroom photo, which is why the vignette runs from 0.62 rather than
+   0.50 at its centre; it now measures 7.4:1 there and 5.5:1 behind the muted
+   half of the headline. Lighten either gradient and re-measure — do not eyeball
+   it, photographs vary far more than flat colour.
+   ─────────────────────────────────────────────────────────────────────────── */
+.event-poster__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ── field: green veil over the photograph ──────────────────────────────── */
+.event-poster--field {
+  background-color: #0b330b;
+  color: #fff;
+}
+
+.event-poster--field .event-poster__veil {
+  opacity: 0.86;
+  background: radial-gradient(120% 90% at 85% 10%, #1a6b1a 0%, #14561a 45%, #0b330b 100%);
+}
+
+.event-poster--field .event-poster__title { color: #fff; }
+.event-poster--field .event-poster__hi { color: #aef359; }
+.event-poster--field .event-poster__desc { color: rgba(255, 255, 255, 0.9); }
+.event-poster--field .event-poster__lead { color: #aef359; }
+
+.event-poster--field .event-poster__btn {
+  background: #fff;
+  color: #0b330b;
+}
+
+.event-poster--field .event-poster__btn:hover {
+  background: #eef8e2;
+}
+
+.event-poster--field .event-poster__pill {
+  background: #aef359;
+  color: #0b330b;
+}
+
+.event-poster--field .event-poster__strip {
+  background: #aef359;
+  color: #0b330b;
+}
+
+/* ── night: black vignette over the photograph ──────────────────────────── */
+.event-poster--night {
+  background-color: #0a0a0b;
+  color: #fff;
+}
+
+.event-poster--night .event-poster__veil {
+  background: radial-gradient(
+    115% 95% at 50% 42%,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.83) 52%,
+    rgba(0, 0, 0, 0.96) 100%
+  );
+}
+
+/* The muted half of the headline, not a second colour — the tile is
+   deliberately monochrome apart from the button. */
+.event-poster--night .event-poster__title { color: rgba(255, 255, 255, 0.8); }
+.event-poster--night .event-poster__hi { color: #fff; }
+.event-poster--night .event-poster__desc { color: #fff; }
+.event-poster--night .event-poster__lead { color: rgba(255, 255, 255, 0.85); }
+
+/* primary-dark, not primary. White on #228C22 is 4.34:1, which misses the 4.5
+   a 14px label needs; on #1A6B1A it is 6.7:1. The hover lifts to primary. */
+.event-poster--night .event-poster__btn {
+  background: #1a6b1a;
+  color: #fff;
+}
+
+.event-poster--night .event-poster__btn:hover {
+  background: #228c22;
+}
+
+.event-poster--night .event-poster__pill {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.event-poster--night .event-poster__strip {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
