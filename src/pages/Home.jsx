@@ -65,6 +65,163 @@ const partnerMarks = [
   },
 ];
 
+/**
+ * Parse a 'YYYY-MM-DD' event date as a LOCAL date.
+ *
+ * `new Date('2025-12-10')` is parsed as UTC midnight, so anywhere west of
+ * Greenwich it renders as the 9th. Kampala is UTC+3 so this never showed up
+ * locally, but it was wrong for every visitor in the Americas.
+ */
+function eventDate(iso) {
+  const [year, month, day] = iso.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+/**
+ * The featured poster's field: a photograph, veiled by the green gradient.
+ *
+ * The veil is 86% opaque, which is what makes the picture read as texture
+ * rather than as a picture. Both numbers were set by measuring, not by eye —
+ * against the brightest patch of image that lands behind each text block, white
+ * comes out at 6.5:1 and the lime headline at 4.9:1. Lighten the veil much
+ * further and the lime headline drops through 3:1.
+ */
+const POSTER_VEIL =
+  'radial-gradient(120% 90% at 85% 10%, #1A6B1A 0%, #14561A 45%, #0B330B 100%)';
+const POSTER_INK = '#0B330B';
+
+/**
+ * The first event, set as a poster rather than a card.
+ *
+ * Same anatomy as a printed promo: brand lockup top-left, an oversized
+ * two-tone headline with the last word carrying the accent, body copy, the
+ * call to action and its status capsule along the foot of the field, and a
+ * full-bleed accent strip carrying the practical details — date, place, price.
+ *
+ * The accent (#AEF359) is deliberately kept off small text. On the lighter end
+ * of the field gradient it measures 3.1:1, which passes for a 34px headline but
+ * not for an 11px kicker — so the kicker is white (5.4:1) and the lime is spent
+ * on the headline, the disc and the strip, where it is either large or sitting
+ * on the dark end of the gradient at 9:1.
+ */
+function EventPoster({ event, onRegister }) {
+  const date = eventDate(event.date);
+  const words = event.title.trim().split(/\s+/);
+  const lead = words.slice(0, -1).join(' ');
+  const last = words[words.length - 1];
+  const fullDate = date.toLocaleDateString('en-GB', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="relative flex flex-col overflow-hidden rounded-2xl text-white shadow-lg
+                 min-h-[400px] transition-shadow duration-300 hover:shadow-xl"
+      style={{ backgroundColor: POSTER_INK }}
+    >
+      {/* Decorative, so no alt text — the poster says nothing that depends on
+          seeing it. The solid POSTER_INK behind means a failed image load looks
+          deliberate rather than broken. */}
+      <img
+        src="/images/resilienceinchildren.webp"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="absolute inset-0 z-0 h-full w-full object-cover"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[1] opacity-[0.86]"
+        style={{ background: POSTER_VEIL }}
+      />
+
+      <div className="relative z-20 flex flex-1 flex-col px-7 pt-7 pb-6">
+        <div className="flex items-center gap-3 mb-6">
+          {/* No card behind the mark. It survives on the green because its tree
+              and wordmark are the light end of the palette; the shadow is what
+              separates it, the same treatment the institutional marks get. */}
+          <img
+            src="/images/winrise.png"
+            alt="Winrise Counselling & Wellness"
+            width="256"
+            height="173"
+            loading="lazy"
+            className="h-[38px] w-auto object-contain"
+            style={{
+              filter:
+                'drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 4px 12px rgba(0,0,0,0.35))',
+            }}
+          />
+          <span aria-hidden="true" className="h-6 w-px bg-white/35" />
+          <span className="font-urbanist text-[11px] font-bold tracking-[0.16em] text-white">
+            WINRISE EVENT
+          </span>
+        </div>
+
+        <h3 className="font-urbanist text-[34px] font-bold leading-[0.95] tracking-tight mb-3.5">
+          {lead}
+          <span className="block" style={{ color: EST_COLOR }}>
+            {last}
+          </span>
+        </h3>
+
+        <p className="font-urbanist text-sm leading-relaxed text-white/90">
+          {event.description}
+        </p>
+
+        <div className="min-h-[22px] flex-1" />
+
+        <div className="relative z-30">
+          <p className="font-urbanist text-[13px] font-bold mb-2.5" style={{ color: EST_COLOR }}>
+            Secure your seat
+          </p>
+          <div className="flex items-center justify-between gap-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onRegister}
+              className="rounded-full bg-white px-7 py-2.5 font-urbanist text-sm font-bold"
+              style={{ color: POSTER_INK }}
+            >
+              Register
+            </motion.button>
+            <span
+              className="whitespace-nowrap rounded-full px-4 py-2 font-urbanist text-xs
+                         font-bold tracking-wide shadow-lg"
+              style={{ background: EST_COLOR, color: POSTER_INK }}
+            >
+              Rolling Basis
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="relative z-20 flex flex-wrap items-center justify-center gap-x-2 gap-y-1
+                   px-5 py-2.5 font-urbanist text-xs font-semibold text-center"
+        style={{ background: EST_COLOR, color: POSTER_INK }}
+      >
+        {/* The date lives here now that the disc is gone. Losing it entirely
+            would leave the poster with no answer to "when". */}
+        <time dateTime={event.date} aria-label={fullDate}>
+          {date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </time>
+        <span aria-hidden="true" className="opacity-60">&bull;</span>
+        <span>{event.location}</span>
+        <span aria-hidden="true" className="opacity-60">&bull;</span>
+        <span>{event.price}</span>
+      </div>
+    </motion.div>
+  );
+}
+
 const Home = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
@@ -490,57 +647,65 @@ const Home = () => {
             <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
               Our <span className="text-primary">Product Listing</span>
             </h2>
-            <p className="font-urbanist text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore our range of products designed to promote mental health awareness and well-being.
-            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event, index) => (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <div className="flex items-center space-x-2 text-primary mb-4">
-                  <FaCalendarAlt size={16} />
-                  <span className="font-urbanist font-medium text-sm">
-                    {new Date(event.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </span>
-                </div>
-                <h3 className="font-urbanist font-semibold text-xl text-text mb-3">
-                  {event.title}
-                </h3>
-                <p className="font-urbanist text-gray-600 mb-4 leading-relaxed">
-                  {event.description}
-                </p>
-                <div className="flex items-center space-x-2 text-gray-500 mb-2">
-                  <FaMapMarkerAlt size={14} />
-                  <span className="font-urbanist text-sm">{event.location}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-urbanist font-medium text-primary">
-                    {event.price}
-                  </span>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setSelectedEvent(event)}
-                    className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full font-urbanist font-medium text-sm transition-colors duration-300"
-                  >
-                    Register
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
+            {events.map((event, index) =>
+              index === 0 ? (
+                <EventPoster
+                  key={event.id}
+                  event={event}
+                  onRegister={() => setSelectedEvent(event)}
+                />
+              ) : (
+                <motion.div
+                  key={event.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex flex-col bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="flex items-center space-x-2 text-primary mb-4">
+                    <FaCalendarAlt size={16} />
+                    <span className="font-urbanist font-medium text-sm">
+                      {eventDate(event.date).toLocaleDateString('en-GB', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  <h3 className="font-urbanist font-semibold text-xl text-text mb-3">
+                    {event.title}
+                  </h3>
+                  <p className="font-urbanist text-gray-600 mb-4 leading-relaxed">
+                    {event.description}
+                  </p>
+                  <div className="flex items-center space-x-2 text-gray-500 mb-2">
+                    <FaMapMarkerAlt size={14} />
+                    <span className="font-urbanist text-sm">{event.location}</span>
+                  </div>
+                  {/* mt-auto pins the price and button to the foot of the card, so the
+                      two plain cards do not stretch into empty space beside the taller
+                      poster — their CTAs line up with its strip instead. */}
+                  <div className="flex justify-between items-center mt-auto pt-2">
+                    <span className="font-urbanist font-medium text-primary">
+                      {event.price}
+                    </span>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedEvent(event)}
+                      className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full font-urbanist font-medium text-sm transition-colors duration-300"
+                    >
+                      Register
+                    </motion.button>
+                  </div>
+                </motion.div>
+              )
+            )}
           </div>
         </div>
       </section>
