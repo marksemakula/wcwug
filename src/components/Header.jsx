@@ -93,7 +93,7 @@ const Header = () => {
 
   const linkClass = (path) =>
     [
-      'font-urbanist font-medium transition-colors duration-300',
+      'font-urbanist font-bold transition-colors duration-300',
       solid
         ? isActive(path)
           ? 'text-primary border-b-2 border-primary'
@@ -152,7 +152,7 @@ const Header = () => {
               width="256"
               height="173"
               className={`w-auto transition-all duration-300 motion-reduce:transition-none ${
-                solid ? 'h-12' : 'h-[62px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]'
+                solid ? 'h-12' : 'h-[81px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]'
               }`}
             />
             <div className="flex flex-col">
@@ -174,8 +174,13 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
+          {/* lg, not md. Six items plus the lock-up plus the Donate button do
+              not fit in the 704px the bar has at 768px — the wordmark was
+              already being squeezed there before the items went bold. Below
+              1024px this is the hamburger's job. Spacing tightens one step at
+              lg so 1024px itself still has room to spare. */}
           <nav
-            className="hidden md:flex space-x-8"
+            className="hidden lg:flex space-x-6 xl:space-x-8"
             aria-label="Main Navigation"
             role="navigation"
           >
@@ -197,7 +202,7 @@ const Header = () => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="hidden md:block"
+            className="hidden lg:block"
           >
             <a
               href={DONATE_URL}
@@ -215,7 +220,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden transition-colors duration-300 motion-reduce:transition-none ${
+            className={`lg:hidden transition-colors duration-300 motion-reduce:transition-none ${
               solid ? 'text-text hover:text-primary' : 'text-white hover:text-white/80'
             }`}
             aria-expanded={isMenuOpen}
@@ -232,7 +237,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-200 py-4"
+            className="lg:hidden bg-white border-t border-gray-200 py-4"
             id="mobile-navigation"
           >
             <nav
@@ -248,7 +253,7 @@ const Header = () => {
                   title={item.title}
                   aria-label={item.ariaLabel}
                   aria-current={isActive(item.path) ? 'page' : undefined}
-                  className={`font-urbanist font-medium transition-colors duration-300 hover:text-primary ${isActive(item.path) ? 'text-primary' : 'text-text'
+                  className={`font-urbanist font-bold transition-colors duration-300 hover:text-primary ${isActive(item.path) ? 'text-primary' : 'text-text'
                     }`}
                 >
                   {item.label}
