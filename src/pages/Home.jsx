@@ -179,52 +179,112 @@ const Home = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
-              Our <span className="text-primary">Services</span>
-            </h2>
-            <p className="font-urbanist text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive mental health and wellness solutions tailored to individuals, families, and organizations.
-            </p>
-          </motion.div>
+      <section className="relative overflow-hidden py-12 lg:py-14 bg-white">
+        {/*
+          Diagonal green slice, desktop only.
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-              >
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                  <service.icon className="text-primary" size={32} />
-                </div>
-                <h3 className="font-urbanist font-semibold text-xl text-text mb-4">
-                  {service.title}
-                </h3>
-                <p className="font-urbanist text-gray-600 mb-6 leading-relaxed">
-                  {service.description}
-                </p>
-                <Link
-                  to={service.link}
-                  className="text-primary hover:text-primary-dark font-urbanist font-medium inline-flex items-center space-x-2 transition-colors duration-300"
+          The wedge is a real flex container, not a background image, so partner
+          logos can live inside it. `clip-path` cuts the slanted right edge.
+
+          The 190px slant across a section this short is what makes the angle
+          read as steep: the angle is the slant over the height, so halving the
+          height sharpens it as much as widening the slant does.
+
+          Logos are LEFT-aligned deliberately. The wedge is at its narrowest
+          along the bottom edge — width minus the slant — so a left-aligned
+          stack capped at 140px can never cross the diagonal at any height,
+          which centring could not guarantee.
+
+          ── To add the grayscale partner logos ──────────────────────────────
+            <img
+              src="/images/partners/<name>.webp"
+              alt="<Partner name>"
+              width="140" height="44" loading="lazy"
+              className="w-full max-w-[140px] object-contain opacity-75
+                         brightness-0 invert transition-opacity hover:opacity-100"
+            />
+
+          `brightness-0 invert` flattens any logo to white, which is the
+          reliable way to sit mixed-brand marks on a solid green panel —
+          `grayscale` leaves dark logos muddy against it. Drop those two
+          classes if your files are already white with transparency.
+
+          Below lg the wedge is hidden; a diagonal side-by-side has nowhere to
+          go on a phone. The logos will want their own horizontal strip there.
+        */}
+        <div
+          className="hidden lg:flex absolute inset-y-0 left-0 w-[36%] bg-primary
+                     flex-col items-start justify-center gap-6 py-10 pl-8 pr-6"
+          style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)' }}
+        >
+          {/* PARTNER LOGOS GO HERE — max-w-[140px] each */}
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/*
+            Clears the widest point of the wedge (its top edge) at every
+            breakpoint from lg up.
+
+            38%, not 36%, even though the wedge is 36%. Percentage padding
+            resolves against THIS container's width — which is the viewport
+            minus the 32px gutters — while the wedge is 36% of the full
+            viewport. Matching the numbers leaves only ~9px of clearance
+            between 1024px and 1280px. The extra two points buys ~30px.
+          */}
+          <div className="lg:pl-[38%]">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center lg:text-left mb-8"
+            >
+              <h2 className="font-urbanist font-bold text-3xl md:text-4xl text-text mb-3">
+                Our <span className="text-primary">Services</span>
+              </h2>
+              <p className="font-open-sans text-base text-gray-600 max-w-2xl mx-auto lg:mx-0">
+                Comprehensive mental health and wellness solutions tailored to individuals, families, and organizations.
+              </p>
+            </motion.div>
+
+            {/* Minimalist tiles: no card, no shadow, no icon badge. A hairline
+                rule gives each one its edge, which is all the separation flat
+                tiles need. Two across because the wedge takes a third of the row. */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7">
+              {services.map((service, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  viewport={{ once: true }}
+                  className="group border-t border-gray-200 pt-5"
                 >
-                  <span>Learn More</span>
-                  <FaArrowRight size={14} />
-                </Link>
-              </motion.div>
-            ))}
+                  <service.icon
+                    className="text-primary mb-3"
+                    size={20}
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-urbanist font-semibold text-lg text-text mb-1.5">
+                    {service.title}
+                  </h3>
+                  <p className="font-open-sans text-sm text-gray-600 leading-relaxed mb-3">
+                    {service.description}
+                  </p>
+                  <Link
+                    to={service.link}
+                    className="inline-flex items-center gap-1.5 font-open-sans font-medium text-sm text-primary hover:text-primary-dark transition-colors"
+                  >
+                    Learn more
+                    <FaArrowRight
+                      size={11}
+                      aria-hidden="true"
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
