@@ -37,6 +37,7 @@ body {
 .font-josefin {
   font-family: 'Josefin Sans', sans-serif;
 }
+
 /* ───────────────────────────────────────────────────────────────────────────
    Home page — the diagonal slice, built as a page being turned.
 
@@ -66,12 +67,12 @@ body {
    --u is the World Health Organization mark's height; the other two are
    multiples of it (1.375 and 0.875) so all three keep the same optical weight
    despite aspect ratios of 3.27:1, 1.18:1 and 3.95:1. Each formula is the
-   largest --u that still clears the diagonal at that breakpoint's sheet width
-   AND the gap-8/gap-10 spacing between marks, derived from the geometry and
-   then checked by rendering at 1024, 1280, 1440, 1536 and 1920. The 88px
-   ceiling is exactly twice the pre-existing size, reached around 1880px; the
-   44px floor is that pre-existing size, so the marks can never come out
-   smaller than they were.
+   largest --u that still clears the diagonal at that breakpoint's sheet width,
+   given the gap-8/gap-10 spacing between marks AND where the row now sits —
+   moving it down the sheet costs width, because the sheet is narrowing all the
+   way down. Derived from the geometry, then checked by rendering at 1024, 1279,
+   1280, 1440, 1536, 1920 and 2560. The 44px floor is the size these were before
+   any of this, so they can never come out smaller than they started.
    ─────────────────────────────────────────────────────────────────────────── */
 .flip-section {
   --slant: 220px;
@@ -80,26 +81,46 @@ body {
   --lift: 90px;
   --lit-green: #47b947;
   --u: 44px;
+  --est: 112px;
+  --logo: 88px;
+  --lockup-gap: 16px;
 }
 
 @media (min-width: 1024px) {
   .flip-section {
-    --u: clamp(44px, calc(6.955vw - 21.8px), 68px);
+    --u: clamp(44px, calc(6.955vw - 27.5px), 62px);
   }
 }
 
 @media (min-width: 1280px) {
   .flip-section {
     --w: 54%;
-    --u: clamp(44px, calc(6.476vw - 23.8px), 88px);
+    --u: clamp(44px, calc(6.476vw - 28.5px), 84px);
+    --est: 144px;
+    --logo: 96px;
+    --lockup-gap: 20px;
   }
 }
 
 @media (min-width: 1536px) {
   .flip-section {
     --w: 50%;
-    --u: clamp(44px, calc(5.996vw - 24.8px), 88px);
+    --u: clamp(44px, calc(5.996vw - 29px), 84px);
+    --logo: 128px;
+    --lockup-gap: 24px;
   }
+}
+
+/* The logo + founding-date lockup. The positive margin-right is the mirror of
+   the negative one on the marks row: each row centres on the trapezoid at its
+   OWN depth. The marks sit high where the sheet is wide, so they cancel part of
+   the stack's right padding; this row sits lower where it is narrow, so it adds
+   a little. Without it the lockup overhangs the diagonal at 1280px, which is
+   the tightest case — the sheet is 691px there and only ~490px of it survives
+   at this depth. */
+.flip-lockup {
+  gap: var(--lockup-gap);
+  margin-right: 44px;
 }
 
 /* The shadow the lifted sheet casts on the white.

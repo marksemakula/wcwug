@@ -235,7 +235,7 @@ const Home = () => {
 
       {/* Services Preview */}
       <section className="flip-section relative overflow-hidden bg-white py-12 lg:py-14
-                          lg:min-h-[600px] xl:min-h-[700px] 2xl:min-h-[720px]">
+                          lg:min-h-[560px] xl:min-h-[600px] 2xl:min-h-[620px]">
         {/*
           Diagonal green slice, desktop only.
 
@@ -288,7 +288,7 @@ const Home = () => {
               would push everything into the taper. pb larger than pt lifts the
               stack for the same reason, since the sheet is widest at the top. */}
           <div className="flip-sheet flex flex-col items-center justify-center
-                          gap-6 pt-6 pb-24 xl:pb-[104px] pl-8 pr-[142px]">
+                          gap-10 pt-6 pb-24 xl:pb-[104px] pl-8 pr-[142px]">
             {/*
               The marks lead, and that placement is what lets them grow. The
               sheet loses --slant px of width between its top and its bottom, so
@@ -324,30 +324,54 @@ const Home = () => {
               ))}
             </ul>
 
-            <img
-              src="/images/winrise.png"
-              alt="Winrise Counselling & Wellness"
-              width="256"
-              height="173"
-              loading="lazy"
-              className="h-32 xl:h-40 w-auto object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.28)]"
-            />
-
             {/*
-              Set on two lines, and that is load-bearing rather than stylistic.
-              At 120px, ".est 2024" on one line measures 545px, wider than the
-              sheet has to offer at this depth at any laptop width. Stacked, the
-              widest line ("2024") is 296px and clears comfortably. Put it back
-              on one line and it will spill across the diagonal.
+              Logo and founding date as one lockup, side by side.
+
+              Putting them on a line is what forced every other number on this
+              row. The sheet is ~490px wide at this depth once the diagonal has
+              cut in, and "2024" alone is 306px of Ubuntu at 144px — so the logo
+              gets what is left, which is why it is sized from --logo rather
+              than a fixed Tailwind height, and why it steps up only at 2xl
+              where the sheet is genuinely wider.
+
+              margin-right is the mirror of the marks row's negative one. Both
+              rows want to sit centred on the trapezoid AT THEIR OWN DEPTH: the
+              marks are high where the sheet is wide, so they cancel some of the
+              stack's right padding; this row is lower where it is narrow, so it
+              adds a little. Centring both on the same box would push one of
+              them into the taper.
             */}
-            <p
-              className="font-ubuntu font-bold text-[120px] xl:text-[144px] leading-[0.82]
-                         tracking-tight text-center [text-shadow:0_3px_16px_rgba(0,0,0,0.30)]"
-              style={{ color: EST_COLOR }}
-            >
-              <span className="block">.est</span>
-              <span className="block">2024</span>
-            </p>
+            <div className="flip-lockup flex items-center">
+              <img
+                src="/images/winrise.png"
+                alt="Winrise Counselling & Wellness"
+                width="256"
+                height="173"
+                loading="lazy"
+                className="w-auto object-contain"
+                style={{
+                  height: 'var(--logo)',
+                  filter:
+                    'drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 5px 16px rgba(0,0,0,0.35))',
+                }}
+              />
+
+              {/*
+                Two lines, and that is load-bearing rather than stylistic. On one
+                line ".est 2024" is 612px at this size — wider than the sheet has
+                anywhere, before the logo beside it takes its share. Stacked, the
+                widest line is "2024" at 306px and the pair fits at every width
+                from 1024 up.
+              */}
+              <p
+                className="font-ubuntu font-bold leading-[0.82] tracking-tight text-center
+                           [text-shadow:0_3px_16px_rgba(0,0,0,0.30)]"
+                style={{ color: EST_COLOR, fontSize: 'var(--est)' }}
+              >
+                <span className="block">.est</span>
+                <span className="block">2024</span>
+              </p>
+            </div>
           </div>
         </div>
 
