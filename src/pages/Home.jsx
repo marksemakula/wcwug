@@ -166,10 +166,12 @@ const Home = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/contact"
+                title="Contact Us to Book a Session"
+                aria-label="Book a counselling session with Winrise"
                 className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-urbanist font-semibold text-lg transition-colors duration-300 inline-flex items-center space-x-2"
               >
                 <span>Book a Session</span>
-                <FaArrowRight />
+                <FaArrowRight aria-hidden="true" />
               </Link>
             </motion.div>
           </div>

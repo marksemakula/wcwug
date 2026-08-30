@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { motion } from 'framer-motion';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHeart } from 'react-icons/fa';
+import { DONATE_URL } from '../seo/siteConfig';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -106,14 +107,17 @@ const Header = () => {
             whileTap={{ scale: 0.95 }}
             className="hidden md:block"
           >
-            <Link
-              to="/contact"
-              title="Book a Counselling Session with Winrise"
-              aria-label="Book a counselling session - Schedule your appointment"
-              className="bg-primary text-white px-6 py-2 rounded-full font-urbanist font-medium hover:bg-primary-dark transition-colors duration-300"
+            <a
+              href={DONATE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Donate to Winrise Counselling & Wellness"
+              aria-label="Donate to Winrise - opens in a new tab"
+              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-full font-urbanist font-medium hover:bg-primary-dark transition-colors duration-300"
             >
-              Book a Session
-            </Link>
+              <FaHeart size={14} aria-hidden="true" />
+              Donate
+            </a>
           </motion.div>
 
           {/* Mobile Menu Button */}
@@ -156,15 +160,18 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                to="/contact"
+              <a
+                href={DONATE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsMenuOpen(false)}
-                title="Book a Counselling Session with Winrise"
-                aria-label="Book a counselling session - Schedule your appointment"
-                className="bg-primary text-white px-6 py-2 rounded-full font-urbanist font-medium hover:bg-primary-dark transition-colors duration-300 text-center"
+                title="Donate to Winrise Counselling & Wellness"
+                aria-label="Donate to Winrise - opens in a new tab"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-2 rounded-full font-urbanist font-medium hover:bg-primary-dark transition-colors duration-300 text-center"
               >
-                Book a Session
-              </Link>
+                <FaHeart size={14} aria-hidden="true" />
+                Donate
+              </a>
             </nav>
           </motion.div>
         )}

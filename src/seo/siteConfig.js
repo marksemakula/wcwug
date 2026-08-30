@@ -12,6 +12,15 @@ export const SITE_NAME = 'WINRISE';
 export const LEGAL_NAME = 'Winrise Counselling and Wellness Solutions Ltd';
 export const ORG_NAME = 'Winrise Counselling & Wellness';
 
+/**
+ * Where the site-wide Donate call to action points.
+ *
+ * TEMPORARY: this is a personal Eversend handle, not a WINRISE organisation
+ * account. Swap it for the organisation's own donation page when that exists —
+ * changing this one line updates every Donate button on the site.
+ */
+export const DONATE_URL = 'https://eversend.me/marc1705';
+
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/winrise-og.png`;
 export const LOGO_URL = `${SITE_URL}/images/winrise.png`;
 
