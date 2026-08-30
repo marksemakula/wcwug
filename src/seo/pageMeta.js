@@ -19,6 +19,7 @@ import {
   profilePageSchema,
   teamListSchema,
   webPageSchema,
+  organizationDirectorySchema,
 } from './schema.js';
 
 const staticPages = {
@@ -51,6 +52,16 @@ const staticPages = {
     description:
       'Contact WINRISE Counselling & Wellness in Kampala to book a therapy session, ask a question, or request corporate and community mental health support in Uganda.',
     crumbs: [{ name: 'Home', path: '/' }, { name: 'Contact' }],
+  },
+  '/resources/mental-health-organizations-uganda': {
+    title: 'Mental Health Organizations in Uganda — Directory',
+    description:
+      'Mental health organizations in Uganda: Butabika Hospital, Mental Health Uganda, StrongMinds, TPO Uganda and more — with helplines and how to reach each one.',
+    crumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Resources', path: '/resources' },
+      { name: 'Mental Health Organizations in Uganda' },
+    ],
   },
   '/team': {
     title: 'Our Team | WINRISE Counselling & Wellness',
@@ -178,6 +189,9 @@ export function getPageMeta(path = '/') {
   if (clean === '/about') {
     structuredData.push(...team.map(personSchema));
   }
+  if (clean === '/resources/mental-health-organizations-uganda') {
+    structuredData.push(organizationDirectorySchema(clean));
+  }
 
   return {
     title: page.title,
@@ -202,5 +216,6 @@ export const indexableRoutes = [
     priority: '0.7',
   })),
   { path: '/resources', changefreq: 'weekly', priority: '0.9' },
+  { path: '/resources/mental-health-organizations-uganda', changefreq: 'monthly', priority: '0.9' },
   { path: '/contact', changefreq: 'monthly', priority: '0.8' },
 ];

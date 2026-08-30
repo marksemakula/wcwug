@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import PreferredSourceBadge from '../components/PreferredSourceBadge';
+import { Link } from 'react-router';
 
 /* ─────────────────────────────────────────────
    Share Menu (per-tile dropdown)
@@ -462,8 +463,28 @@ const Resources = () => {
 
       {/* Preferred source on Google */}
       <section className="pt-10 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <PreferredSourceBadge />
+
+          {/* Internal link to the directory. Without a link from an indexed
+              page, a new URL relies solely on the sitemap to be discovered. */}
+          <Link
+            to="/resources/mental-health-organizations-uganda"
+            className="flex flex-col sm:flex-row sm:items-center gap-4 rounded-2xl border border-gray-200 px-6 py-5 hover:border-primary transition-colors"
+          >
+            <div className="flex-1">
+              <p className="font-urbanist font-semibold text-text">
+                Mental Health Organizations in Uganda
+              </p>
+              <p className="font-open-sans text-sm text-gray-600 mt-1">
+                Hospitals, NGOs, helplines and private practices offering support across Uganda —
+                what each does and how to reach them.
+              </p>
+            </div>
+            <span className="font-open-sans font-medium text-sm text-primary flex-shrink-0">
+              View the directory →
+            </span>
+          </Link>
         </div>
       </section>
 

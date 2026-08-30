@@ -1,8 +1,23 @@
 [
-  { "path": "/" },
-  { "path": "/services" },
-  { "path": "/about" },
-  { "path": "/team" },
-  { "path": "/resources" },
-  { "path": "/contact" }
+  {
+    "path": "/"
+  },
+  {
+    "path": "/services"
+  },
+  {
+    "path": "/about"
+  },
+  {
+    "path": "/team"
+  },
+  {
+    "path": "/resources"
+  },
+  {
+    "path": "/resources/mental-health-organizations-uganda"
+  },
+  {
+    "path": "/contact"
+  }
 ]

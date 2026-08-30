@@ -10,6 +10,7 @@ import About from './pages/About';
 import Resources from './pages/Resources';
 import Contact from './pages/Contact';
 import Team from './pages/Team';
+import OrganizationsUganda from './pages/OrganizationsUganda';
 import TeamMember from './pages/TeamMember';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
@@ -39,6 +40,7 @@ export function AppShell() {
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/resources/mental-health-organizations-uganda" element={<OrganizationsUganda />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/team" element={<Team />} />
           <Route path="/team/:slug" element={<TeamMember />} />

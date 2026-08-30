@@ -28,6 +28,7 @@ const PRIORITY = {
   '/': { priority: '1.0', changefreq: 'weekly' },
   '/services': { priority: '0.9', changefreq: 'weekly' },
   '/resources': { priority: '0.9', changefreq: 'weekly' },
+  '/resources/mental-health-organizations-uganda': { priority: '0.9', changefreq: 'monthly' },
   '/about': { priority: '0.8', changefreq: 'monthly' },
   '/team': { priority: '0.8', changefreq: 'monthly' },
   '/contact': { priority: '0.8', changefreq: 'monthly' },

@@ -22,6 +22,7 @@ import {
   absoluteUrl,
 } from './siteConfig.js';
 import { team } from '../data/team.js';
+import { organizations } from '../data/organizations.js';
 
 /** Stable @id anchors, so entities can cross-reference instead of duplicating. */
 export const ORG_ID = `${SITE_URL}/#organization`;
@@ -215,5 +216,41 @@ export function webPageSchema({ path, title, description }) {
     isPartOf: { '@id': WEBSITE_ID },
     about: { '@id': ORG_ID },
     inLanguage: 'en',
+  };
+}
+
+/**
+ * The directory page's ItemList. Each entry is a full Organization node rather
+ * than a bare reference — these are third-party organisations that exist
+ * nowhere else in the graph, so a {"@id"} pointer would dangle.
+ */
+export function organizationDirectorySchema(path) {
+  return {
+    '@type': 'ItemList',
+    '@id': `${absoluteUrl(path)}#directory`,
+    name: 'Mental health organizations in Uganda',
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: organizations.length,
+    itemListElement: organizations.map((org, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Organization',
+        name: org.name,
+        description: org.summary,
+        url: org.url,
+        ...(org.tollFree || org.phone ? { telephone: org.tollFree || org.phone } : {}),
+        ...(org.location
+          ? {
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Kampala',
+                addressCountry: 'UG',
+              },
+            }
+          : {}),
+        areaServed: { '@type': 'Country', name: 'Uganda' },
+      },
+    })),
   };
 }

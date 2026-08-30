@@ -19,6 +19,7 @@ const PAGE_NAMES = {
   '/resources': 'Resources',
   '/contact': 'Contact',
   '/team': 'Our Team',
+  '/resources/mental-health-organizations-uganda': 'Mental Health Organizations in Uganda',
 };
 
 const Breadcrumb = () => {
