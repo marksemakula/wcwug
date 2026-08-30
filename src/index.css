@@ -342,12 +342,29 @@ body {
   align-items: center;
 }
 
+/* The mark's height has to follow the TILE, not the viewport, and the tile is
+   not a smooth function of it: the grid goes 1 column, then 2 at 768px, then 3
+   at 1024px, so a tile is 471px wide at 1023px and 299px at 1024px. At 299px
+   the mark and the Register button need 268px of a 243px row — the fixed 56px
+   version overflowed everywhere between 1024 and ~1100px, squeezing the button.
+   Measured across 768 / 1024 / 1100 / 1279 / 1280 / 1440 / 1920.
+
+   Below lg the tile is roomy enough for a flat 60px. From lg up the formula is
+   the largest height that still leaves the button its width, with the ceiling
+   at the size actually wanted; the tile stops growing at 1280 because
+   max-w-7xl caps the container, which is why the clamp does too. */
 .event-poster__mark img {
   display: block;
-  height: 56px;
+  height: 60px;
   width: auto;
   filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95))
     drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+}
+
+@media (min-width: 1024px) {
+  .event-poster__mark img {
+    height: clamp(42px, calc(12.61vw - 86.5px), 67px);
+  }
 }
 
 /* ── night: black vignette over the photograph ──────────────────────────── */
