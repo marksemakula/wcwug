@@ -779,12 +779,9 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
+            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text">
               Our <span className="text-primary">Team Commitment</span>
             </h2>
-            <p className="font-ubuntu text-xl text-gray-600 max-w-3xl mx-auto">
-              Meet our dedicated team and their commitment to transforming lives through mental health and wellness.
-            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
