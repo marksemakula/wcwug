@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaArrowRight, FaCalendarAlt, FaMapMarkerAlt, FaQuoteLeft } from 'react-icons/fa';
 import EventModal from '../components/EventModal';
 import SEO from '../components/SEO';
+import { eventDate, eventTiming } from '../lib/dates';
 import bg1 from '@/images/hero-community.webp';
 import bg2 from '@/images/hero-landscape.webp';
 import bg3 from '@/images/hero-calm.webp';
@@ -66,18 +67,6 @@ const partnerMarks = [
 ];
 
 /**
- * Parse a 'YYYY-MM-DD' event date as a LOCAL date.
- *
- * `new Date('2025-12-10')` is parsed as UTC midnight, so anywhere west of
- * Greenwich it renders as the 9th. Kampala is UTC+3 so this never showed up
- * locally, but it was wrong for every visitor in the Americas.
- */
-function eventDate(iso) {
-  const [year, month, day] = iso.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
-
-/**
  * The featured poster's field: a photograph, veiled by the green gradient.
  *
  * The veil is 86% opaque, which is what makes the picture read as texture
@@ -105,16 +94,10 @@ const POSTER_INK = '#0B330B';
  * on the dark end of the gradient at 9:1.
  */
 function EventPoster({ event, onRegister }) {
-  const date = eventDate(event.date);
+  const timing = eventTiming(event);
   const words = event.title.trim().split(/\s+/);
   const lead = words.slice(0, -1).join(' ');
   const last = words[words.length - 1];
-  const fullDate = date.toLocaleDateString('en-GB', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 
   return (
     <motion.div
@@ -208,11 +191,20 @@ function EventPoster({ event, onRegister }) {
                    px-5 py-2.5 font-urbanist text-xs font-semibold text-center"
         style={{ background: EST_COLOR, color: POSTER_INK }}
       >
-        {/* The date lives here now that the disc is gone. Losing it entirely
-            would leave the poster with no answer to "when". */}
-        <time dateTime={event.date} aria-label={fullDate}>
-          {date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-        </time>
+        {/* The strip answers "when" now that the date disc is gone. For a
+            rolling programme that answer is a cadence, not a date, so there is
+            no <time> to mark up — "Monthly" is not a point in time. */}
+        {timing.rolling ? (
+          <span>{timing.label}</span>
+        ) : (
+          <time dateTime={event.date}>
+            {eventDate(event.date).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </time>
+        )}
         <span aria-hidden="true" className="opacity-60">&bull;</span>
         <span>{event.location}</span>
         <span aria-hidden="true" className="opacity-60">&bull;</span>
@@ -268,9 +260,12 @@ const Home = () => {
     {
       id: 1,
       title: 'Concious Parenting Pathway',
-      date: '2025-12-10',
-      time: '10:00 AM',
-      location: 'Kampala Community Center',
+      // No published date or time: this cohort runs continuously. `schedule`
+      // is what every "when" reads instead, and the absence of `date` is what
+      // tells the registration form to promise a follow-up rather than a room
+      // and an hour. See src/lib/dates.js — eventTiming().
+      schedule: 'Monthly',
+      location: 'Ntinda Complex',
       description: 'Join us for interactive sessions on understanding / harmonizing and managing parenting approaches.',
       audience: 'General Public',
       price: 'Free'

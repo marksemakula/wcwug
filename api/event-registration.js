@@ -35,8 +35,11 @@ export default async function handler(req, res) {
     return;
   }
 
+  // formatLines/formatHtml drop empty values, so a rolling programme simply
+  // has no Date or Time line — it carries a Schedule instead.
   const pairs = [
     ['Event', fields.eventTitle],
+    ['Schedule', fields.eventSchedule],
     ['Date', fields.eventDate],
     ['Time', fields.eventTime],
     ['Location', fields.eventLocation],
@@ -70,7 +73,13 @@ export default async function handler(req, res) {
       html: formatHtml({
         heading: `Registration for ${clean(fields.eventTitle, 120)}`,
         pairs,
-        footer: `Reply directly to this email to reach ${clean(fields.name, 60)}.`,
+        footer:
+          clean(fields.eventRolling) === 'yes'
+            ? `Rolling programme — no date was published, so reply with the next date, time and venue for ${clean(
+                fields.name,
+                60
+              )} to RSVP. Replying to this email reaches them directly.`
+            : `Reply directly to this email to reach ${clean(fields.name, 60)}.`,
       }),
     });
 

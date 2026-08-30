@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaTimes, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUsers, FaTag } from 'react-icons/fa';
+import { FaTimes, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUsers, FaTag, FaEnvelopeOpenText } from 'react-icons/fa';
+import { eventTiming } from '../lib/dates';
 
 const EMPTY_FORM = {
   name: '',
@@ -12,7 +13,18 @@ const EMPTY_FORM = {
   company_website: ''
 };
 
+/**
+ * Registration for an event.
+ *
+ * Two shapes of event come through here. A dated sitting has a `date` and a
+ * `time`, and the form can state both. A rolling programme has neither — it
+ * publishes a cadence ('Monthly') and the next session's time and venue are
+ * settled with the registrant afterwards. In that case the form must not print
+ * a time it cannot honour, so it shows the cadence, drops the clock row, and
+ * says plainly what happens next.
+ */
 const EventModal = ({ event, onClose }) => {
+  const timing = eventTiming(event);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [status, setStatus] = useState('idle'); // idle | submitting | success
   const [errorMsg, setErrorMsg] = useState('');
@@ -31,8 +43,14 @@ const EventModal = ({ event, onClose }) => {
           // Send the event details, not just its id — the notification email
           // has to be actionable without looking anything up.
           eventTitle: event.title,
-          eventDate: event.date,
-          eventTime: event.time,
+          // A rolling programme sends its cadence in place of a date and time,
+          // so the notification email never carries a blank "Date:" line — and
+          // the team can see at a glance that this one needs a date proposed
+          // back to the registrant.
+          eventDate: timing.rolling ? '' : event.date,
+          eventTime: timing.rolling ? '' : event.time,
+          eventSchedule: timing.rolling ? timing.label : '',
+          eventRolling: timing.rolling ? 'yes' : '',
           eventLocation: event.location,
           eventPrice: event.price
         })
@@ -81,7 +99,7 @@ const EventModal = ({ event, onClose }) => {
           {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <h2 className="font-urbanist font-bold text-2xl text-text">
-              Register for Event
+              {timing.rolling ? 'Request a place' : 'Register for Event'}
             </h2>
             <button
               onClick={onClose}
@@ -99,19 +117,14 @@ const EventModal = ({ event, onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div className="flex items-center space-x-2 text-gray-600">
                 <FaCalendarAlt className="text-primary" />
-                <span className="font-urbanist">
-                  {new Date(event.date).toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </span>
+                <span className="font-urbanist">{timing.label}</span>
               </div>
-              <div className="flex items-center space-x-2 text-gray-600">
-                <FaClock className="text-primary" />
-                <span className="font-urbanist">{event.time}</span>
-              </div>
+              {!timing.rolling && (
+                <div className="flex items-center space-x-2 text-gray-600">
+                  <FaClock className="text-primary" />
+                  <span className="font-urbanist">{event.time}</span>
+                </div>
+              )}
               <div className="flex items-center space-x-2 text-gray-600">
                 <FaMapMarkerAlt className="text-primary" />
                 <span className="font-urbanist">{event.location}</span>
@@ -128,6 +141,17 @@ const EventModal = ({ event, onClose }) => {
             <p className="text-gray-600 font-urbanist mt-4 leading-relaxed">
               {event.description}
             </p>
+
+            {timing.rolling && (
+              <div className="mt-5 flex items-start gap-3 rounded-lg border border-primary/25 bg-white px-4 py-3">
+                <FaEnvelopeOpenText className="mt-0.5 flex-none text-primary" aria-hidden="true" />
+                <p className="font-urbanist text-sm leading-relaxed text-gray-700">
+                  This programme runs on a rolling basis, so there is no fixed sitting to book.
+                  Send your request and we&apos;ll email you the next available date, time and
+                  venue details &mdash; you RSVP from that email.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Registration Form */}
@@ -236,10 +260,12 @@ const EventModal = ({ event, onClose }) => {
                 className="rounded-lg border border-primary/30 bg-primary/5 px-5 py-4"
               >
                 <p className="font-urbanist font-semibold text-primary-dark mb-1">
-                  You&apos;re registered
+                  {timing.rolling ? 'Request received' : "You're registered"}
                 </p>
                 <p className="font-open-sans text-sm text-gray-700">
-                  We&apos;ve sent your details to the WINRISE team and will confirm by email.
+                  {timing.rolling
+                    ? "We've sent your details to the WINRISE team. We'll email you the next available date, time and venue so you can RSVP."
+                    : "We've sent your details to the WINRISE team and will confirm by email."}
                 </p>
               </div>
             )}
@@ -263,7 +289,11 @@ const EventModal = ({ event, onClose }) => {
                 disabled={status === 'submitting' || status === 'success'}
                 className="flex-1 bg-primary hover:bg-primary-dark disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-urbanist font-medium transition-colors duration-300"
               >
-                {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Registered' : 'Register Now'}
+                {status === 'submitting'
+                  ? 'Sending…'
+                  : status === 'success'
+                  ? timing.rolling ? 'Request sent' : 'Registered'
+                  : timing.rolling ? 'Send request' : 'Register Now'}
               </button>
             </div>
           </form>
