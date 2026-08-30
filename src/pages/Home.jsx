@@ -246,9 +246,12 @@ const Home = () => {
         */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute inset-y-0 left-0 bg-primary-dark
-                     w-[calc(52%+7px)] xl:w-[calc(46%+7px)] 2xl:w-[calc(42%+7px)]"
-          style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)' }}
+          className="hidden lg:block absolute inset-y-0 left-0 w-[calc(52%+7px)] xl:w-[calc(46%+7px)] 2xl:w-[calc(42%+7px)]"
+          style={{
+            clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)',
+            background: 'linear-gradient(90deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06) 30%, rgba(0,0,0,0))',
+            boxShadow: '8px 0 30px -12px rgba(0,0,0,0.28)'
+          }}
         />
 
         <div
