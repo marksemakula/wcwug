@@ -609,7 +609,8 @@ const Home = () => {
               viewport={{ once: true }}
               className="text-center lg:text-left mb-8"
             >
-              <h2 className="font-urbanist font-bold text-3xl md:text-4xl text-text mb-3">
+              <h2 className="heading-rule heading-rule--center heading-rule--lg-left
+                             font-urbanist font-bold text-3xl md:text-4xl text-text mb-3">
                 Our <span className="text-primary">Services</span>
               </h2>
               <p className="font-josefin text-base text-gray-600 max-w-2xl mx-auto lg:mx-0">
@@ -692,7 +693,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Product Listing Section */}
+      {/* Events Section */}
       <section className="py-20 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -702,8 +703,9 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
-              Our <span className="text-primary">Product Listing</span>
+            <h2 className="heading-rule heading-rule--center
+                           font-urbanist font-bold text-4xl md:text-5xl text-text mb-6">
+              Our <span className="text-primary">Events</span>
             </h2>
           </motion.div>
 
@@ -779,7 +781,8 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-text">
+            <h2 className="heading-rule heading-rule--center
+                           font-urbanist font-bold text-4xl md:text-5xl text-text">
               Our <span className="text-primary">Team Commitment</span>
             </h2>
           </motion.div>
@@ -840,7 +843,8 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-urbanist font-bold text-4xl md:text-5xl text-white mb-6">
+            <h2 className="heading-rule heading-rule--center
+                           font-urbanist font-bold text-4xl md:text-5xl text-white mb-6">
               Ready to Start Your Journey?
             </h2>
             <p className="font-urbanist text-xl text-white/90 mb-8 max-w-3xl mx-auto">

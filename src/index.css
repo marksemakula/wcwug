@@ -410,3 +410,38 @@ body {
   color: #fff;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Section-heading accent rule.
+
+   A short lime bar under the opening letters of a section title. It is
+   decorative — the heading says everything, the bar says nothing — which is
+   what makes the colour choice safe: #AEF359 measures 1.33:1 against white,
+   far under any text threshold, but the hue difference is what carries it and
+   WCAG exempts purely decorative marks. Do not reuse this colour for a rule
+   that has to be understood, only for one that has to be seen.
+
+   Alignment is opt-in per heading rather than inherited, because a block-level
+   pseudo-element ignores the text-align its heading sits in: --center for a
+   centred title, --lg-left as well for the one that centres on small screens
+   and swings left from lg up.
+   ─────────────────────────────────────────────────────────────────────────── */
+.heading-rule::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background: #aef359;
+}
+
+.heading-rule--center::after {
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .heading-rule--lg-left::after {
+    margin-inline: 0 auto;
+  }
+}
