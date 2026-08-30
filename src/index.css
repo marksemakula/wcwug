@@ -1,4 +1,5 @@
 @import '@fontsource/urbanist';
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -30,4 +31,9 @@ body {
 .times-bold {
   font-family: 'Times New Roman', Times, serif;
   font-weight: bold;
+}
+
+/* Josefin Sans utility */
+.font-josefin {
+  font-family: 'Josefin Sans', sans-serif;
 }

@@ -9,6 +9,44 @@ import bg2 from '@/images/hero-landscape.webp';
 import bg3 from '@/images/hero-calm.webp';
 import bg4 from '@/images/hero-support.webp';
 
+/** The founding-date flash in the diagonal slice. */
+const EST_COLOR = '#AEF359';
+
+/**
+ * Institutional marks shown in the green slice.
+ *
+ * These are third-party emblems. Shown without a caption they read as
+ * "partner" or "endorsed by" — see the note handed over with this change. If
+ * the relationship is something narrower (following published guidance, say),
+ * add a caption above the list that says so, rather than leaving it implied.
+ *
+ * Each file was cropped to its mark, resized and converted to WebP; the WHO
+ * original was an opaque JPEG whose white box would have shown as a hard
+ * rectangle. They sit on white cards rather than being flattened to white
+ * silhouettes, because the Uganda coat of arms loses all its detail as a
+ * silhouette and official emblems should not be redrawn.
+ */
+const partnerMarks = [
+  {
+    src: '/images/partners/who.webp',
+    alt: 'World Health Organization logo',
+    // Per-mark heights, not one shared height. These three are 3.27:1, 1.18:1
+    // and 3.95:1 — cap them all at the same height and the near-square coat of
+    // arms renders at roughly a third of the optical weight of the wide marks.
+    h: 'h-8 xl:h-11',
+  },
+  {
+    src: '/images/partners/ministry-of-health-uganda.webp',
+    alt: 'Republic of Uganda Ministry of Health coat of arms',
+    h: 'h-11 xl:h-14',
+  },
+  {
+    src: '/images/partners/africa-cdc.webp',
+    alt: 'Africa CDC logo',
+    h: 'h-7 xl:h-9',
+  },
+];
+
 const Home = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
@@ -179,45 +217,98 @@ const Home = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="relative overflow-hidden py-12 lg:py-14 bg-white">
+      <section className="relative overflow-hidden py-12 lg:py-14 lg:min-h-[540px] xl:min-h-[620px] bg-white">
         {/*
           Diagonal green slice, desktop only.
 
-          The wedge is a real flex container, not a background image, so partner
-          logos can live inside it. `clip-path` cuts the slanted right edge.
+          The wedge is a real flex container, not a background image, so the
+          founding date and the partner marks live inside it. `clip-path` cuts
+          the slanted right edge.
 
           The 190px slant across a section this short is what makes the angle
           read as steep: the angle is the slant over the height, so halving the
           height sharpens it as much as widening the slant does.
 
-          Logos are LEFT-aligned deliberately. The wedge is at its narrowest
-          along the bottom edge — width minus the slant — so a left-aligned
-          stack capped at 140px can never cross the diagonal at any height,
-          which centring could not guarantee.
-
-          ── To add the grayscale partner logos ──────────────────────────────
-            <img
-              src="/images/partners/<name>.webp"
-              alt="<Partner name>"
-              width="140" height="44" loading="lazy"
-              className="w-full max-w-[140px] object-contain opacity-75
-                         brightness-0 invert transition-opacity hover:opacity-100"
-            />
-
-          `brightness-0 invert` flattens any logo to white, which is the
-          reliable way to sit mixed-brand marks on a solid green panel —
-          `grayscale` leaves dark logos muddy against it. Drop those two
-          classes if your files are already white with transparency.
+          Content is LEFT-aligned and capped at 132px wide deliberately. The
+          wedge narrows toward its bottom edge — width minus the slant — so a
+          left-aligned stack of that width stays inside the green at every
+          height and breakpoint. Centring could not guarantee that.
 
           Below lg the wedge is hidden; a diagonal side-by-side has nowhere to
-          go on a phone. The logos will want their own horizontal strip there.
+          go on a phone, so the marks get their own strip underneath instead.
+        */}
+        {/*
+          Border shade on the divider: a second wedge sitting behind the first,
+          7px wider at every height. Because both are anchored left and share
+          the same slant, the extra width is only ever visible along the
+          slanted edge — which is exactly a border, without needing a rotated
+          pseudo-element whose angle would have to be kept in sync by hand.
         */}
         <div
-          className="hidden lg:flex absolute inset-y-0 left-0 w-[36%] bg-primary
-                     flex-col items-start justify-center gap-6 py-10 pl-8 pr-6"
+          aria-hidden="true"
+          className="hidden lg:block absolute inset-y-0 left-0 bg-primary-dark
+                     w-[calc(52%+7px)] xl:w-[calc(46%+7px)] 2xl:w-[calc(42%+7px)]"
+          style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)' }}
+        />
+
+        <div
+          className="hidden lg:flex absolute inset-y-0 left-0 w-[52%] xl:w-[46%] 2xl:w-[42%]
+                     bg-primary flex-col items-center justify-center gap-6 pt-6 pb-32 px-8"
           style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)' }}
         >
-          {/* PARTNER LOGOS GO HERE — max-w-[140px] each */}
+          {/* pb far larger than pt is what lifts the block: with justify-center,
+              the extra bottom padding shifts everything up by half the
+              difference. Lifting it is not only cosmetic — the wedge is at its
+              widest near the top, so raising the block buys it room. At 1024px
+              this is the difference between ~3px of clearance and ~30px. */}
+          <img
+            src="/images/winrise.png"
+            alt="Winrise Counselling & Wellness"
+            width="256"
+            height="173"
+            loading="lazy"
+            className="h-16 xl:h-20 w-auto object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.28)]"
+          />
+
+          {/*
+            Set on two lines, and that is load-bearing rather than stylistic.
+            At 120px, ".est 2024" on one line measures 545px. The wedge offers
+            330px at 1024px and 407px at 1280px — it does not fit at any
+            realistic laptop width. Stacked, the widest line ("2024") is 296px
+            and clears comfortably. Put it back on one line and it will spill
+            across the diagonal.
+          */}
+          <p
+            className="font-ubuntu font-bold text-[120px] xl:text-[144px] leading-[0.82]
+                       tracking-tight text-center [text-shadow:0_3px_16px_rgba(0,0,0,0.30)]"
+            style={{ color: EST_COLOR }}
+          >
+            <span className="block">.est</span>
+            <span className="block">2024</span>
+          </p>
+
+          {/*
+            Full colour, transparent, one centred row. Measured against this
+            green all three marks sit at luminance 101–119 and the green is
+            ~110, so they read softly rather than crisply. The drop-shadow
+            lifts them off the ground a little. If they ever look washed out,
+            the fix is a white card behind each — these are official emblems
+            and should not be recoloured.
+          */}
+          <ul className="flex items-center justify-center gap-4 xl:gap-5 list-none m-0 p-0">
+            {partnerMarks.map((mark) => (
+              <li key={mark.src} className="flex items-center">
+                <img
+                  src={mark.src}
+                  alt={mark.alt}
+                  width="320"
+                  height="98"
+                  loading="lazy"
+                  className={`${mark.h} w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.22)]`}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -231,7 +322,7 @@ const Home = () => {
             viewport. Matching the numbers leaves only ~9px of clearance
             between 1024px and 1280px. The extra two points buys ~30px.
           */}
-          <div className="lg:pl-[38%]">
+          <div className="lg:pl-[55%] xl:pl-[49%] 2xl:pl-[45%]">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -242,7 +333,7 @@ const Home = () => {
               <h2 className="font-urbanist font-bold text-3xl md:text-4xl text-text mb-3">
                 Our <span className="text-primary">Services</span>
               </h2>
-              <p className="font-open-sans text-base text-gray-600 max-w-2xl mx-auto lg:mx-0">
+              <p className="font-josefin text-base text-gray-600 max-w-2xl mx-auto lg:mx-0">
                 Comprehensive mental health and wellness solutions tailored to individuals, families, and organizations.
               </p>
             </motion.div>
@@ -265,15 +356,15 @@ const Home = () => {
                     size={20}
                     aria-hidden="true"
                   />
-                  <h3 className="font-urbanist font-semibold text-lg text-text mb-1.5">
+                  <h3 className="font-josefin font-semibold text-lg text-text mb-1.5">
                     {service.title}
                   </h3>
-                  <p className="font-open-sans text-sm text-gray-600 leading-relaxed mb-3">
+                  <p className="font-josefin text-sm text-gray-600 leading-relaxed mb-3">
                     {service.description}
                   </p>
                   <Link
                     to={service.link}
-                    className="inline-flex items-center gap-1.5 font-open-sans font-medium text-sm text-primary hover:text-primary-dark transition-colors"
+                    className="inline-flex items-center gap-1.5 font-josefin font-medium text-sm text-primary hover:text-primary-dark transition-colors"
                   >
                     Learn more
                     <FaArrowRight
@@ -284,6 +375,39 @@ const Home = () => {
                   </Link>
                 </motion.div>
               ))}
+            </div>
+
+            {/* Below lg the wedge is hidden, so the founding date and the
+                institutional marks get a plain horizontal strip instead. */}
+            <div className="lg:hidden mt-10 pt-8 border-t border-gray-200">
+              {/* Ubuntu and bold to match the wedge, but text-primary rather
+                  than EST_COLOR: #AEF359 on white is 1.33:1 and effectively
+                  invisible. The brand green on white is 4.34:1. */}
+              <img
+                src="/images/winrise.png"
+                alt="Winrise Counselling & Wellness"
+                width="256"
+                height="173"
+                loading="lazy"
+                className="h-14 w-auto object-contain mb-4"
+              />
+              <p className="font-ubuntu font-bold text-6xl leading-none text-primary mb-5">
+                .est 2024
+              </p>
+              <ul className="flex flex-wrap items-center gap-4 list-none m-0 p-0">
+                {partnerMarks.map((mark) => (
+                  <li key={mark.src} className="h-12 flex items-center">
+                    <img
+                      src={mark.src}
+                      alt={mark.alt}
+                      width="320"
+                      height="98"
+                      loading="lazy"
+                      className={`${mark.h} max-w-[120px] w-auto object-contain`}
+                    />
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
