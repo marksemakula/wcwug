@@ -67,6 +67,25 @@ const partnerMarks = [
 ];
 
 /**
+ * Wrap one phrase of a sentence in bold, leaving the rest alone.
+ *
+ * The quote-card layout leans on a single emphasised clause the way a pull
+ * quote does. Which clause is editorial, so it comes from the data
+ * (`poster.highlight`) rather than being guessed here — and if the phrase is
+ * not found, the sentence is returned untouched instead of throwing.
+ */
+function withEmphasis(text, phrase) {
+  if (!phrase) return text;
+  const at = text.indexOf(phrase);
+  if (at === -1) return text;
+  return [
+    text.slice(0, at),
+    <strong key="emphasis" className="font-bold">{phrase}</strong>,
+    text.slice(at + phrase.length),
+  ];
+}
+
+/**
  * The first event, set as a poster rather than a card.
  *
  * Same anatomy as a printed promo: brand lockup top-left, an oversized
@@ -75,13 +94,14 @@ const partnerMarks = [
  * full-bleed accent strip carrying the practical details — date, place, price.
  *
  * The look comes from `event.poster.theme` and lives in index.css under
- * .event-poster--*, so adding a third treatment is a block of CSS and a word in
- * the data rather than a branch in here. What stays fixed either way: the
+ * .event-poster--*; `layout` picks between the two arrangements — a headline
+ * over a photograph, or the quote-card stack of banded date, statement, knocked
+ * out title and venue mark. What stays fixed across all of them: the
  * kicker is white, never the accent — on the lighter end of the green veil the
  * lime measures 3.1:1, which carries a 34px headline but not an 11px label.
  */
 function EventPoster({ event, onRegister, delay = 0 }) {
-  const { image, theme } = event.poster;
+  const { image, theme, layout = 'photo', highlight, mark } = event.poster;
   const timing = eventTiming(event);
   const words = event.title.trim().split(/\s+/);
   const lead = words.slice(0, -1).join(' ');
@@ -99,14 +119,23 @@ function EventPoster({ event, onRegister, delay = 0 }) {
       {/* Decorative, so no alt text — the poster says nothing that depends on
           seeing it. Each theme paints a solid background-color underneath, so a
           failed image load looks deliberate rather than broken. */}
-      <img
-        src={image}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div aria-hidden="true" className="event-poster__veil" />
+      {image ? (
+        <>
+          <img
+            src={image}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="absolute inset-0 z-0 h-full w-full object-cover"
+          />
+          <div aria-hidden="true" className="event-poster__veil" />
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true" className="event-poster__panel event-poster__panel--a" />
+          <span aria-hidden="true" className="event-poster__panel event-poster__panel--b" />
+        </>
+      )}
 
       <div className="relative z-20 flex flex-1 flex-col px-7 pt-7 pb-6">
         <div className="flex items-center gap-3 mb-6">
@@ -131,23 +160,56 @@ function EventPoster({ event, onRegister, delay = 0 }) {
           </span>
         </div>
 
-        <h3 className="event-poster__title font-urbanist text-[34px] font-bold
-                       leading-[0.95] tracking-tight mb-3.5">
-          {lead}
-          <span className="event-poster__hi block">{last}</span>
-        </h3>
+        {layout === 'quote' ? (
+          <>
+            <p className="mb-[18px]">
+              <span className="event-poster__band font-urbanist text-xs font-semibold">
+                {timing.label}
+              </span>
+            </p>
 
-        <p className="event-poster__desc font-urbanist text-sm leading-relaxed">
-          {event.description}
-        </p>
+            <p className="event-poster__statement font-urbanist text-[21px] leading-snug mb-[18px]">
+              {withEmphasis(event.description, highlight)}
+            </p>
+
+            <p className="mb-2">
+              <span className="event-poster__boxed font-urbanist text-[19px] font-bold tracking-tight">
+                {event.title}
+              </span>
+            </p>
+
+            {mark?.caption && (
+              <p className="event-poster__venue font-urbanist text-[12.5px]">{mark.caption}</p>
+            )}
+          </>
+        ) : (
+          <>
+            <h3 className="event-poster__title font-urbanist text-[34px] font-bold
+                           leading-[0.95] tracking-tight mb-3.5">
+              {lead}
+              <span className="event-poster__hi block">{last}</span>
+            </h3>
+
+            <p className="event-poster__desc font-urbanist text-sm leading-relaxed">
+              {event.description}
+            </p>
+          </>
+        )}
 
         <div className="min-h-[22px] flex-1" />
 
         <div className="relative z-30">
-          <p className="event-poster__lead font-urbanist text-[13px] font-bold mb-2.5">
-            Secure your seat
-          </p>
+          {layout !== 'quote' && (
+            <p className="event-poster__lead font-urbanist text-[13px] font-bold mb-2.5">
+              Secure your seat
+            </p>
+          )}
           <div className="flex items-center justify-between gap-3">
+            {mark && (
+              <span className="event-poster__mark">
+                <img src={mark.src} alt={mark.alt} loading="lazy" />
+              </span>
+            )}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -269,10 +331,25 @@ const Home = () => {
     {
       id: 3,
       title: 'The Authentic Living Journey',
-      date: '2025-10-11',
+      date: '2026-12-02',
       time: '9:00 AM',
       location: 'Makerere University',
       description: 'Recovering your original self to live a life of Peace, Purpose, reliability and Consistency.',
+      // No image: this layout uses angled panels, and the only picture is the
+      // host venue's mark, sitting straight on the field with no panel behind
+      // it — see .event-poster__mark in index.css for why that needs a glow.
+      // `caption` is not decoration: an uncaptioned crest reads as a sponsor,
+      // and Makerere is the venue.
+      poster: {
+        theme: 'slate',
+        layout: 'quote',
+        highlight: 'Peace, Purpose, reliability and Consistency.',
+        mark: {
+          src: '/images/mak-100-dark.png',
+          alt: 'Makerere University',
+          caption: 'Hosted at Makerere University',
+        },
+      },
       audience: 'Youth',
       price: 'UGX 50,000'
     }

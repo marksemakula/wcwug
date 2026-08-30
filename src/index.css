@@ -256,6 +256,100 @@ body {
   color: #0b330b;
 }
 
+/* ── slate: no photograph at all ────────────────────────────────────────────
+   Angled panels instead, in the manner of a quote card: a banded kicker, a
+   statement with its key phrase carrying the weight, the title knocked out of
+   white, and the venue's mark on its own panel.
+
+   The bands use box-decoration-break: clone, so a band or a title that wraps
+   gets a box PER LINE rather than one box around a ragged block — which is the
+   whole look. Their line-height is deliberately loose (1.9 / 2.1); tighten it
+   and consecutive line-boxes overlap.
+
+   Contrast here is deterministic — flat colour, no photograph — and the worst
+   case is where both panels overlap: white on that measures 6.1:1, the venue
+   line at 85% white 4.9:1, and slate on the white boxes 9.9:1.
+   ────────────────────────────────────────────────────────────────────────── */
+.event-poster--slate {
+  background-color: #36454f;
+  color: #fff;
+}
+
+.event-poster__panel {
+  position: absolute;
+  z-index: 1;
+}
+
+.event-poster__panel--a {
+  inset: -18% -24% 46% -26%;
+  transform: rotate(-6deg);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.event-poster__panel--b {
+  inset: 22% -32% -16% 4%;
+  transform: rotate(7deg);
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.event-poster__band {
+  display: inline;
+  padding: 4px 9px;
+  line-height: 2.1;
+  background: rgba(255, 255, 255, 0.9);
+  color: #36454f;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.event-poster__boxed {
+  display: inline;
+  padding: 3px 8px;
+  line-height: 1.9;
+  background: #fff;
+  color: #36454f;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.event-poster--slate .event-poster__statement { color: #fff; }
+.event-poster--slate .event-poster__venue { color: rgba(255, 255, 255, 0.85); }
+
+.event-poster--slate .event-poster__btn {
+  background: #fff;
+  color: #36454f;
+}
+
+.event-poster--slate .event-poster__btn:hover { background: #eef1f3; }
+
+.event-poster--slate .event-poster__strip {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* The venue's mark sits directly on the slate — no panel behind it.
+   That needs the glow to work: the crest and the centenary mark are colourful
+   and hold their own, but the "Makerere University" wordmark is near-black
+   (measured at rgb(22,14,6)) and lands at roughly 2:1 against this field, which
+   is invisible. drop-shadow follows the alpha channel, so a white halo traces
+   the lettering itself and gives it something to read against without drawing a
+   rectangle. Two stops, tight then wide: one stop alone either leaves a hard
+   outline or blooms. */
+.event-poster__mark {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.event-poster__mark img {
+  display: block;
+  height: 56px;
+  width: auto;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95))
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+}
+
 /* ── night: black vignette over the photograph ──────────────────────────── */
 .event-poster--night {
   background-color: #0a0a0b;
