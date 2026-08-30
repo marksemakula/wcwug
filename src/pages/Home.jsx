@@ -30,20 +30,38 @@ const partnerMarks = [
   {
     src: '/images/partners/who.webp',
     alt: 'World Health Organization logo',
-    // Per-mark heights, not one shared height. These three are 3.27:1, 1.18:1
-    // and 3.95:1 — cap them all at the same height and the near-square coat of
-    // arms renders at roughly a third of the optical weight of the wide marks.
-    h: 'h-8 xl:h-11',
+    // Intrinsic pixel size of each file, so the browser reserves the right box
+    // before the image loads. All three used to declare the WHO file's 320x98,
+    // which reserved the wrong box for the other two.
+    w: 320,
+    h: 98,
+    // Weight relative to --u (see index.css), applied as a real height so the
+    // flex row knows how wide each mark is. The version before this scaled the
+    // marks with `transform: scale()`, which enlarges the picture but not the
+    // box it occupies — so the marks overlapped each other and could cross the
+    // diagonal with the row none the wiser.
+    //
+    // Not one shared height either: these are 3.27:1, 1.18:1 and 3.95:1, so
+    // capping all three at the same height leaves the near-square coat of arms
+    // at a third of the optical weight of the wide marks.
+    scale: 1,
+    hSm: 'h-8',
   },
   {
     src: '/images/partners/ministry-of-health-uganda.webp',
     alt: 'Republic of Uganda Ministry of Health coat of arms',
-    h: 'h-11 xl:h-14',
+    w: 320,
+    h: 272,
+    scale: 1.375,
+    hSm: 'h-11',
   },
   {
     src: '/images/partners/africa-cdc.webp',
     alt: 'Africa CDC logo',
-    h: 'h-7 xl:h-9',
+    w: 320,
+    h: 81,
+    scale: 0.875,
+    hSm: 'h-7',
   },
 ];
 
@@ -186,7 +204,6 @@ const Home = () => {
           ))}
         </div>
 
-        {/* Hero Content */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -217,101 +234,121 @@ const Home = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="relative overflow-hidden py-12 lg:py-14 lg:min-h-[540px] xl:min-h-[620px] bg-white">
+      <section className="flip-section relative overflow-hidden bg-white py-12 lg:py-14
+                          lg:min-h-[600px] xl:min-h-[700px] 2xl:min-h-[720px]">
         {/*
           Diagonal green slice, desktop only.
 
-          The wedge is a real flex container, not a background image, so the
+          The slice is a real flex container, not a background image, so the
           founding date and the partner marks live inside it. `clip-path` cuts
           the slanted right edge.
 
-          The 190px slant across a section this short is what makes the angle
-          read as steep: the angle is the slant over the height, so halving the
-          height sharpens it as much as widening the slant does.
+          The angle is the slant over the height, so both move together: --slant
+          grew to 220px alongside the taller section, which keeps the diagonal
+          about as steep as it was while giving the enlarged marks room. Both
+          numbers live in index.css under .flip-slice.
 
-          Content is LEFT-aligned and capped at 132px wide deliberately. The
-          wedge narrows toward its bottom edge — width minus the slant — so a
-          left-aligned stack of that width stays inside the green at every
-          height and breakpoint. Centring could not guarantee that.
-
-          Below lg the wedge is hidden; a diagonal side-by-side has nowhere to
+          Below lg the slice is hidden; a diagonal side-by-side has nowhere to
           go on a phone, so the marks get their own strip underneath instead.
         */}
         {/*
-          Border shade on the divider: a second wedge sitting behind the first,
-          7px wider at every height. Because both are anchored left and share
-          the same slant, the extra width is only ever visible along the
-          slanted edge — which is exactly a border, without needing a rotated
-          pseudo-element whose angle would have to be kept in sync by hand.
+          The divider, treated as a page being turned.
+
+          What sells a page turn is not a line down the middle — it is that
+          nothing about the join is uniform. The sheet is hinged at the top and
+          peeling away toward the bottom, so:
+
+            - the shadow it casts on the white starts at almost nothing near the
+              top and widens to --lift px at the bottom, where the sheet has
+              lifted furthest from the surface;
+            - the lit edge on the green does the same, from 0px at the hinge to
+              --rim px at the lifted end. It is the sheet's own edge catching
+              light as it curls up, so it cannot exist where the sheet is still
+              flat.
+
+          Everything before this drew something of CONSTANT width along the
+          diagonal — a 7px dark wedge, a black gradient, a 5px light rim — and a
+          constant-width band down a join reads as an outline drawn around a
+          shape, which is exactly what it looked like. Both tapers are just a
+          second polygon vertex; the geometry is in index.css so the shadow and
+          the sheet cannot drift apart.
+
+          The `filter` sits on .flip-shade while the `clip-path` is on its
+          ::before, and that nesting is load-bearing: CSS applies filters BEFORE
+          clipping, so a blur on the clipped element itself is computed from the
+          unclipped rectangle and then clipped away.
         */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute inset-y-0 left-0 w-[calc(52%+7px)] xl:w-[calc(46%+7px)] 2xl:w-[calc(42%+7px)]"
-          style={{
-            clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)',
-            background: 'linear-gradient(90deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06) 30%, rgba(0,0,0,0))',
-            boxShadow: '8px 0 30px -12px rgba(0,0,0,0.28)'
-          }}
-        />
+        <div aria-hidden="true" className="flip-shade hidden lg:block" />
 
-        <div
-          className="hidden lg:flex absolute inset-y-0 left-0 w-[52%] xl:w-[46%] 2xl:w-[42%]
-                     bg-primary flex-col items-center justify-center gap-6 pt-6 pb-32 px-8"
-          style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 190px) 100%, 0 100%)' }}
-        >
-          {/* pb far larger than pt is what lifts the block: with justify-center,
-              the extra bottom padding shifts everything up by half the
-              difference. Lifting it is not only cosmetic — the wedge is at its
-              widest near the top, so raising the block buys it room. At 1024px
-              this is the difference between ~3px of clearance and ~30px. */}
-          <img
-            src="/images/winrise.png"
-            alt="Winrise Counselling & Wellness"
-            width="256"
-            height="173"
-            loading="lazy"
-            className="h-16 xl:h-20 w-auto object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.28)]"
-          />
+        <div className="flip-slice hidden lg:block absolute inset-y-0 left-0">
+          <div aria-hidden="true" className="flip-lit" />
 
-          {/*
-            Set on two lines, and that is load-bearing rather than stylistic.
-            At 120px, ".est 2024" on one line measures 545px. The wedge offers
-            330px at 1024px and 407px at 1280px — it does not fit at any
-            realistic laptop width. Stacked, the widest line ("2024") is 296px
-            and clears comfortably. Put it back on one line and it will spill
-            across the diagonal.
-          */}
-          <p
-            className="font-ubuntu font-bold text-[120px] xl:text-[144px] leading-[0.82]
-                       tracking-tight text-center [text-shadow:0_3px_16px_rgba(0,0,0,0.30)]"
-            style={{ color: EST_COLOR }}
-          >
-            <span className="block">.est</span>
-            <span className="block">2024</span>
-          </p>
+          {/* The sheet. pr is far larger than pl because the content is centred
+              on the trapezoid, not on the bounding box: centring on the box
+              would push everything into the taper. pb larger than pt lifts the
+              stack for the same reason, since the sheet is widest at the top. */}
+          <div className="flip-sheet flex flex-col items-center justify-center
+                          gap-6 pt-6 pb-24 xl:pb-[104px] pl-8 pr-[142px]">
+            {/*
+              The marks lead, and that placement is what lets them grow. The
+              sheet loses --slant px of width between its top and its bottom, so
+              an enlarged row of three simply does not fit lower down. The
+              negative right margin cancels the stack's pr for this row alone,
+              so it centres on the sheet's full width rather than on the inset
+              box the taller, narrower blocks below it need.
 
-          {/*
-            Full colour, transparent, one centred row. Measured against this
-            green all three marks sit at luminance 101–119 and the green is
-            ~110, so they read softly rather than crisply. The drop-shadow
-            lifts them off the ground a little. If they ever look washed out,
-            the fix is a white card behind each — these are official emblems
-            and should not be recoloured.
-          */}
-          <ul className="flex items-center justify-center gap-4 xl:gap-5 list-none m-0 p-0">
-            {partnerMarks.map((mark) => (
-              <li key={mark.src} className="flex items-center">
-                <img
-                  src={mark.src}
-                  alt={mark.alt}
-                  width="320"
-                  height="98"
-                  loading="lazy"
-                  className={`${mark.h} w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.22)]`}
-                />
-              </li>
-            ))}
-          </ul>
+              Each mark carries its own shadow rather than a box behind it.
+              drop-shadow follows the alpha channel, so on these transparent
+              PNGs it traces the emblem itself — which is what separates them
+              from the green. They needed it: measured against this background
+              all three sit at luminance 101-119 and the green is ~110, so
+              without a shadow they have almost nothing to read against.
+            */}
+            <ul className="flex items-center justify-center gap-8 xl:gap-10 list-none m-0 p-0 -mr-[110px]">
+              {partnerMarks.map((mark) => (
+                <li key={mark.src} className="flex items-center">
+                  <img
+                    src={mark.src}
+                    alt={mark.alt}
+                    width={mark.w}
+                    height={mark.h}
+                    loading="lazy"
+                    className="w-auto object-contain"
+                    style={{
+                      height: `calc(var(--u) * ${mark.scale})`,
+                      filter:
+                        'drop-shadow(0 1px 2px rgba(0,0,0,0.50)) drop-shadow(0 5px 16px rgba(0,0,0,0.38))',
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <img
+              src="/images/winrise.png"
+              alt="Winrise Counselling & Wellness"
+              width="256"
+              height="173"
+              loading="lazy"
+              className="h-32 xl:h-40 w-auto object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.28)]"
+            />
+
+            {/*
+              Set on two lines, and that is load-bearing rather than stylistic.
+              At 120px, ".est 2024" on one line measures 545px, wider than the
+              sheet has to offer at this depth at any laptop width. Stacked, the
+              widest line ("2024") is 296px and clears comfortably. Put it back
+              on one line and it will spill across the diagonal.
+            */}
+            <p
+              className="font-ubuntu font-bold text-[120px] xl:text-[144px] leading-[0.82]
+                         tracking-tight text-center [text-shadow:0_3px_16px_rgba(0,0,0,0.30)]"
+              style={{ color: EST_COLOR }}
+            >
+              <span className="block">.est</span>
+              <span className="block">2024</span>
+            </p>
+          </div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -325,7 +362,7 @@ const Home = () => {
             viewport. Matching the numbers leaves only ~9px of clearance
             between 1024px and 1280px. The extra two points buys ~30px.
           */}
-          <div className="lg:pl-[55%] xl:pl-[49%] 2xl:pl-[45%]">
+          <div className="lg:pl-[62%] xl:pl-[58%] 2xl:pl-[54%]">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -392,7 +429,7 @@ const Home = () => {
                 width="256"
                 height="173"
                 loading="lazy"
-                className="h-14 w-auto object-contain mb-4"
+                className="h-28 w-auto object-contain mb-4"
               />
               <p className="font-ubuntu font-bold text-6xl leading-none text-primary mb-5">
                 .est 2024
@@ -403,10 +440,10 @@ const Home = () => {
                     <img
                       src={mark.src}
                       alt={mark.alt}
-                      width="320"
-                      height="98"
+                      width={mark.w}
+                      height={mark.h}
                       loading="lazy"
-                      className={`${mark.h} max-w-[120px] w-auto object-contain`}
+                      className={`${mark.hSm} max-w-[120px] w-auto object-contain`}
                     />
                   </li>
                 ))}

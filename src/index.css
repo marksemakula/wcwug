@@ -37,3 +37,136 @@ body {
 .font-josefin {
   font-family: 'Josefin Sans', sans-serif;
 }
+/* ───────────────────────────────────────────────────────────────────────────
+   Home page — the diagonal slice, built as a page being turned.
+
+   The whole effect rests on one idea: the sheet is HINGED AT THE TOP and
+   peeling away toward the bottom, so nothing about the join may be uniform.
+
+        0                                --slant
+        |------------- --w ----------------|<-->|
+        +---------------------------------------+
+        |  ###   #   ###   <- marks sit HERE  |  |  hinge: sheet still flat,
+        |                                    ::  |  no shadow, no lit edge
+        |         logo    .est 2024        ::::  |
+        |                                :::::   |  lifted: --rim of lit edge,
+        +-----------------------+   ::::::::     |  --lift px of soft shadow
+                                 \-> the taper
+
+   A constant-width band down the join is what the earlier versions all did —
+   a 7px dark wedge, a black gradient, a 5px light rim — and a constant band
+   reads as an outline drawn around a shape, not as a sheet lifting off one.
+   Both tapers here are a single extra polygon vertex.
+
+   The numbers move together, which is why they live in one place: --w is the
+   sheet's width, --slant how far its edge travels top to bottom, --lift how
+   far the shadow spreads at the lifted end, and --u how large the marks in it
+   may grow. Change one alone and the marks get sliced by the diagonal.
+
+   --u is the World Health Organization mark's height; the other two are
+   multiples of it (1.375 and 0.875) so all three keep the same optical weight
+   despite aspect ratios of 3.27:1, 1.18:1 and 3.95:1. Each formula is the
+   largest --u that still clears the diagonal at that breakpoint's sheet width
+   AND the gap-8/gap-10 spacing between marks, derived from the geometry and
+   then checked by rendering at 1024, 1280, 1440, 1536 and 1920. The 88px
+   ceiling is exactly twice the pre-existing size, reached around 1880px; the
+   44px floor is that pre-existing size, so the marks can never come out
+   smaller than they were.
+   ─────────────────────────────────────────────────────────────────────────── */
+.flip-section {
+  --slant: 220px;
+  --w: 58%;
+  --rim: 11px;
+  --lift: 90px;
+  --lit-green: #47b947;
+  --u: 44px;
+}
+
+@media (min-width: 1024px) {
+  .flip-section {
+    --u: clamp(44px, calc(6.955vw - 21.8px), 68px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .flip-section {
+    --w: 54%;
+    --u: clamp(44px, calc(6.476vw - 23.8px), 88px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .flip-section {
+    --w: 50%;
+    --u: clamp(44px, calc(5.996vw - 24.8px), 88px);
+  }
+}
+
+/* The shadow the lifted sheet casts on the white.
+
+   Two wedges, not one. A single wedge — however hard it is blurred — keeps a
+   straight outer boundary you can see running down the page, because blur
+   softens an edge by a fixed radius while the wedge keeps widening. Two of
+   them, the outer one 2.4x wider and lighter, sum to a falloff with no edge
+   left in it at any height.
+
+   Blur lives on the parent and the clip-paths on the pseudo-elements: CSS
+   applies filters BEFORE clipping, so a blur on the clipped element itself is
+   computed from the unclipped rectangle and then clipped away. Painted before
+   .flip-slice in the DOM, so the half the blur throws leftward is hidden under
+   the sheet, and --lift is kept short enough that even the outer wedge stops
+   before it reaches the text column. */
+.flip-shade {
+  position: absolute;
+  inset: 0;
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.flip-shade::before,
+.flip-shade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.flip-shade::before {
+  background: rgba(0, 0, 0, 0.13);
+  clip-path: polygon(
+    var(--w) 0,
+    calc(var(--w) + 3px) 0,
+    calc(var(--w) - var(--slant) + var(--lift)) 100%,
+    calc(var(--w) - var(--slant)) 100%
+  );
+}
+
+.flip-shade::after {
+  background: rgba(0, 0, 0, 0.08);
+  clip-path: polygon(
+    var(--w) 0,
+    calc(var(--w) + 3px) 0,
+    calc(var(--w) - var(--slant) + var(--lift) * 2.4) 100%,
+    calc(var(--w) - var(--slant)) 100%
+  );
+}
+
+.flip-slice {
+  width: var(--w);
+}
+
+/* The lit curl. Full width and behind the sheet, so the only part of it left
+   showing is the wedge between the two diagonals — nothing at the hinge,
+   --rim px at the lifted end. */
+.flip-lit {
+  position: absolute;
+  inset: 0;
+  background: var(--lit-green);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+}
+
+.flip-sheet {
+  position: absolute;
+  inset: 0;
+  background: #228c22;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant) - var(--rim)) 100%, 0 100%);
+}
