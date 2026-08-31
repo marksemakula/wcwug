@@ -93,6 +93,18 @@ export default function ChatWidget() {
     if (open) panelRef.current?.focus();
   }, [open]);
 
+  // "Chat with our AI" links elsewhere on the site open the panel in place
+  // rather than navigating away. Calling preventDefault tells the link we
+  // handled it, so it does not also follow its href.
+  useEffect(() => {
+    const onOpenRequest = (e) => {
+      e.preventDefault();
+      openChat();
+    };
+    window.addEventListener('winrise:open-chat', onOpenRequest);
+    return () => window.removeEventListener('winrise:open-chat', onOpenRequest);
+  }, [openChat]);
+
   const resetChat = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage({ type: 'winrise-chat:clear' }, CHAT_ORIGIN);
   }, []);

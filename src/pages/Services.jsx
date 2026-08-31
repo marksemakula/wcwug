@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUsers, FaLaptop, FaGraduationCap, FaHandsHelping, FaLeaf, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import ChatLink from '../components/ChatLink';
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState('individuals');
@@ -58,6 +59,9 @@ const Services = () => {
       {
         title: 'Online Counselling',
         description: 'Convenient telehealth sessions accessible from anywhere with internet connection.',
+        // Free AI companion, offered alongside — never instead of — a paid
+        // session with a counsellor. See ChatLink for the wording.
+        aiChat: true,
         features: [
           'Video call sessions',
           'Secure messaging platform',
@@ -279,6 +283,16 @@ const Services = () => {
                       <span className="text-primary font-medium">{service.price}</span>
                     </div>
                   </div>
+
+                  {service.aiChat && (
+                    <div className="mb-6 rounded-xl border border-gray-200 bg-accent px-4 py-3">
+                      <p className="font-open-sans text-sm text-gray-600">
+                        Not ready to book? Our free AI companion is available any time, and
+                        anonymously — it is not a counselling session, but it is a place to start.
+                      </p>
+                      <ChatLink className="mt-2 inline-flex items-center gap-1.5 font-open-sans font-medium text-sm text-secondary hover:text-primary transition-colors" />
+                    </div>
+                  )}
 
                   {expandedService === index && (
                     <motion.div

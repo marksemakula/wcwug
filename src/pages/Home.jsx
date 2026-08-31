@@ -9,6 +9,7 @@ import bg1 from '@/images/hero-community.webp';
 import bg2 from '@/images/hero-landscape.webp';
 import bg3 from '@/images/hero-calm.webp';
 import bg4 from '@/images/hero-support.webp';
+import ChatLink from '../components/ChatLink';
 
 /** The founding-date flash in the diagonal slice. */
 const EST_COLOR = '#AEF359';
@@ -290,7 +291,10 @@ const Home = () => {
       icon: FaLaptop,
       title: 'Online Therapy',
       description: 'Convenient telehealth sessions accessible from anywhere.',
-      link: '/services'
+      link: '/services',
+      // Distinct from the paid telehealth service above: a free, anonymous AI
+      // companion. Surfaced beside "Learn more", never in place of it.
+      aiChat: true
     },
     {
       icon: FaGraduationCap,
@@ -642,17 +646,20 @@ const Home = () => {
                   <p className="font-josefin text-sm text-gray-600 leading-relaxed mb-3">
                     {service.description}
                   </p>
-                  <Link
-                    to={service.link}
-                    className="inline-flex items-center gap-1.5 font-josefin font-medium text-sm text-primary hover:text-primary-dark transition-colors"
-                  >
-                    Learn more
-                    <FaArrowRight
-                      size={11}
-                      aria-hidden="true"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <Link
+                      to={service.link}
+                      className="inline-flex items-center gap-1.5 font-josefin font-medium text-sm text-primary hover:text-primary-dark transition-colors"
+                    >
+                      Learn more
+                      <FaArrowRight
+                        size={11}
+                        aria-hidden="true"
+                        className="transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                    </Link>
+                    {service.aiChat && <ChatLink />}
+                  </div>
                 </motion.div>
               ))}
             </div>
