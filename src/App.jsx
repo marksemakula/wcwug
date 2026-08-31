@@ -15,6 +15,7 @@ import TeamMember from './pages/TeamMember';
 import MarkSemakula from './pages/MarkSemakula';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
+import ChatWidget from './components/ChatWidget';
 import './App.css';
 
 /**
@@ -52,6 +53,7 @@ export function AppShell() {
         </Routes>
       </motion.main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }
