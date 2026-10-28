@@ -107,8 +107,8 @@ const Article = ({ slug }) => {
                 <img
                   src={article.image}
                   alt={article.imageAlt}
-                  width="1200"
-                  height="750"
+                  width="1600"
+                  height="1000"
                   loading="eager"
                   className="w-full rounded-3xl shadow-xl object-cover aspect-[4/3] object-top"
                 />
