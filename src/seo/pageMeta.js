@@ -10,6 +10,7 @@
 
 import { ORG_NAME, DEFAULT_OG_IMAGE, ROBOTS_INDEX, absoluteUrl } from './siteConfig.js';
 import { team, getTeamMember } from '../data/team.js';
+import { articles, getArticle } from '../data/articles.js';
 import {
   organizationSchema,
   websiteSchema,
@@ -21,6 +22,7 @@ import {
   webPageSchema,
   organizationDirectorySchema,
   consultantProfileSchema,
+  articleSchema,
 } from './schema.js';
 
 const staticPages = {
@@ -128,10 +130,48 @@ function withPersonReferences(schemas) {
 /**
  * Resolve the full head payload for a route.
  * @param {string} path e.g. '/about' or '/team/joan-claire-kabikuru'
- * @returns {{title,description,canonical,ogImage,ogType,robots,structuredData}}
+ * @returns {{title,description,canonical,ogImage,ogType,robots,structuredData,extraMeta?}}
+ *
+ * `extraMeta` is an optional list of additional <meta property="…"> tags —
+ * used by articles for og:image dimensions and alt text (which make WhatsApp
+ * and LinkedIn render the large preview on the first share rather than after a
+ * re-scrape) and for the article:* tags.
  */
 export function getPageMeta(path = '/') {
   const clean = path === '' ? '/' : path.replace(/\/+$/, '') || '/';
+
+  // ── Articles (Resources → Articles) ─────────────────────────────────────
+  const articleMatch = clean.match(/^\/resources\/([^/]+)$/);
+  const article = articleMatch ? getArticle(articleMatch[1]) : undefined;
+  if (article) {
+    return {
+      title: article.seoTitle,
+      description: article.seoDescription,
+      canonical: absoluteUrl(clean),
+      ogImage: absoluteUrl(article.ogImage),
+      ogType: 'article',
+      robots: ROBOTS_INDEX,
+      extraMeta: [
+        { property: 'og:image:width', content: String(article.ogImageWidth) },
+        { property: 'og:image:height', content: String(article.ogImageHeight) },
+        { property: 'og:image:type', content: 'image/jpeg' },
+        { property: 'og:image:alt', content: article.ogImageAlt },
+        { property: 'article:published_time', content: article.datePublished },
+        { property: 'article:modified_time', content: article.dateModified },
+        { property: 'article:section', content: article.section },
+        ...article.keywords.map((keyword) => ({ property: 'article:tag', content: keyword })),
+      ],
+      structuredData: withPersonReferences([
+        ...globalSchemas(),
+        articleSchema(article),
+        breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Resources', path: '/resources' },
+          { name: article.shortTitle },
+        ]),
+      ]),
+    };
+  }
 
   // ── Person profile pages ────────────────────────────────────────────────
   const personMatch = clean.match(/^\/team\/([^/]+)$/);
@@ -257,5 +297,10 @@ export const indexableRoutes = [
   { path: '/mark-semakula', changefreq: 'monthly', priority: '0.7' },
   { path: '/resources', changefreq: 'weekly', priority: '0.9' },
   { path: '/resources/mental-health-organizations-uganda', changefreq: 'monthly', priority: '0.9' },
+  ...articles.map((article) => ({
+    path: `/resources/${article.slug}`,
+    changefreq: 'monthly',
+    priority: '0.8',
+  })),
   { path: '/contact', changefreq: 'monthly', priority: '0.8' },
 ];

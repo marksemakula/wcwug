@@ -6,14 +6,17 @@
  * reads, so the sitemap and the prerendered pages cannot drift apart. Person
  * profile routes are expanded from src/data/team.js for the same reason: add a
  * director there and they get a page, a sitemap entry and schema automatically.
+ * Articles are expanded from src/data/articles.js on the same principle.
  */
 
 import staticRoutes from './staticRoutes.json';
 import { team } from '../data/team.js';
+import { articles } from '../data/articles.js';
 
 export const prerenderRoutes = [
   ...staticRoutes.map((route) => ({ path: route.path })),
   ...team.map((member) => ({ path: `/team/${member.slug}` })),
+  ...articles.map((article) => ({ path: `/resources/${article.slug}` })),
 ];
 
 export default prerenderRoutes;

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useParams } from 'react-router';
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaArrowRight, FaLinkedin, FaGlobe } from 'react-icons/fa';
+import { FaCheckCircle, FaArrowRight, FaLinkedin, FaGlobe, FaNewspaper } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
 import { team, getTeamMember } from '../data/team';
 import { ORG_NAME } from '../seo/siteConfig';
+import { articlesAbout, articlePath, formatArticleDate } from '../data/articles';
 
 /**
  * A person's profile page.
@@ -23,6 +24,7 @@ const TeamMember = () => {
   if (!member) return <NotFound />;
 
   const others = team.filter((person) => person.slug !== member.slug);
+  const press = articlesAbout(member.slug);
 
   return (
     <div className="min-h-screen bg-white">
@@ -147,6 +149,46 @@ const TeamMember = () => {
           </div>
         </div>
       </section>
+
+      {/* In the press — articles about this person (src/data/articles.js) */}
+      {press.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="font-urbanist font-bold text-3xl text-text mb-8">In the press</h2>
+            <div className="space-y-5">
+              {press.map((article) => (
+                <Link
+                  key={article.slug}
+                  to={articlePath(article)}
+                  className="flex flex-col sm:flex-row gap-5 rounded-2xl border border-gray-200 overflow-hidden hover:border-primary hover:shadow-md transition-all group"
+                >
+                  <img
+                    src={article.image}
+                    alt={article.imageAlt}
+                    loading="lazy"
+                    className="w-full sm:w-56 h-44 sm:h-auto object-cover object-top flex-shrink-0"
+                  />
+                  <div className="p-5 sm:pl-0 flex-1">
+                    <p className="inline-flex items-center gap-2 font-urbanist text-xs font-bold uppercase tracking-[0.14em] text-primary mb-2">
+                      <FaNewspaper size={11} aria-hidden="true" />
+                      {article.kicker} · {formatArticleDate(article.datePublished)}
+                    </p>
+                    <h3 className="font-urbanist font-bold text-xl text-text group-hover:text-primary transition-colors mb-2">
+                      {article.title}
+                    </h3>
+                    <p className="font-open-sans text-sm text-gray-600 leading-relaxed">
+                      {article.seoDescription}
+                    </p>
+                    <span className="mt-3 inline-flex items-center gap-2 font-urbanist font-semibold text-sm text-primary">
+                      Read the article <FaArrowRight size={12} aria-hidden="true" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Internal links — these are how crawl equity reaches the service pages */}
       <section className="py-16 bg-white">

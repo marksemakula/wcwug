@@ -97,6 +97,29 @@ const SEO = ({ path = '/', title: titleOverride, description: descriptionOverrid
     });
     upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: meta.ogImage });
 
+    // Route-specific extras (og:image dimensions, article:* tags). Swept and
+    // rewritten each time so an article's tags never linger on the next page.
+    document.head
+      .querySelectorAll(`meta[${MANAGED}-extra]`)
+      .forEach((node) => node.remove());
+    (meta.extraMeta ?? []).forEach(({ property, content }) => {
+      const element = document.createElement('meta');
+      element.setAttribute('property', property);
+      element.setAttribute('content', content);
+      element.setAttribute(MANAGED, MANAGED_VALUE);
+      element.setAttribute(`${MANAGED}-extra`, '');
+      document.head.appendChild(element);
+    });
+    const imageAlt = meta.extraMeta?.find((tag) => tag.property === 'og:image:alt');
+    if (imageAlt) {
+      upsertMeta('meta[name="twitter:image:alt"]', {
+        name: 'twitter:image:alt',
+        content: imageAlt.content,
+      });
+    } else {
+      document.head.querySelector('meta[name="twitter:image:alt"]')?.remove();
+    }
+
     upsertLink('canonical', meta.canonical);
     applyStructuredData(meta.structuredData);
   }, [path, titleOverride, descriptionOverride]);

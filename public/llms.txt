@@ -80,6 +80,9 @@ Allow: /
 - /team — Leadership team
 - /team/<name> — Individual director profiles
 - /resources — Mental health articles, guides, videos and podcasts
+- /resources/kyosaba-classroom-to-counselling — Article: Dr. Kyosaba Winfred
+  Biribonwa as featured in the Daily Monitor (28 October 2026), from Grade III
+  teacher to counsellor and doctoral researcher
 - /contact — Booking and enquiries
 
 ## Attribution

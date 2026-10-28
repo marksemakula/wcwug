@@ -305,3 +305,63 @@ export function consultantProfileSchema({ path, person }) {
     },
   ];
 }
+
+/**
+ * An article under Resources → Articles.
+ *
+ * `author` and `publisher` are the Winrise Organization, by @id, because the
+ * page is written by the organisation rather than by a named individual.
+ * `about` points at the team member the article concerns, which is what ties
+ * the article to that Person entity in Google's graph. When the article
+ * responds to press coverage, `isBasedOn` describes the original piece as a
+ * full node — the newspaper exists nowhere else in our graph, so a bare @id
+ * reference would dangle.
+ */
+export function articleSchema(article) {
+  const pageUrl = absoluteUrl(`/resources/${article.slug}`);
+  const { source } = article;
+
+  return {
+    '@type': 'Article',
+    '@id': `${pageUrl}#article`,
+    headline: article.title,
+    alternativeHeadline: article.seoTitle,
+    description: article.seoDescription,
+    articleSection: article.section,
+    keywords: article.keywords,
+    inLanguage: 'en-GB',
+    url: pageUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    isPartOf: { '@id': WEBSITE_ID },
+    image: [
+      {
+        '@type': 'ImageObject',
+        url: absoluteUrl(article.ogImage),
+        width: article.ogImageWidth,
+        height: article.ogImageHeight,
+      },
+      absoluteUrl(article.imageJpg),
+    ],
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+    ...(article.personSlug ? { about: { '@id': personId(article.personSlug) } } : {}),
+    ...(source
+      ? {
+          isBasedOn: {
+            '@type': 'NewsArticle',
+            headline: source.headline,
+            url: source.url,
+            datePublished: source.datePublished,
+            author: { '@type': 'Person', name: source.author },
+            publisher: {
+              '@type': 'NewsMediaOrganization',
+              name: source.publication,
+              url: source.publicationUrl,
+            },
+          },
+        }
+      : {}),
+  };
+}

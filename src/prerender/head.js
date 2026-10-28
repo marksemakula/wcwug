@@ -69,6 +69,18 @@ export function buildHeadHtml(path) {
     `<meta name="twitter:image" content="${escapeHtml(meta.ogImage)}" />`,
   ];
 
+  // Route-specific extras (og:image dimensions, article:* tags). Marked as
+  // managed so the client <SEO> component can sweep them on navigation.
+  for (const { property, content } of meta.extraMeta ?? []) {
+    tags.push(
+      `<meta property="${escapeHtml(property)}" content="${escapeHtml(content)}" data-seo="managed" data-seo-extra />`
+    );
+  }
+  const imageAlt = meta.extraMeta?.find((tag) => tag.property === 'og:image:alt');
+  if (imageAlt) {
+    tags.push(`<meta name="twitter:image:alt" content="${escapeHtml(imageAlt.content)}" />`);
+  }
+
   if (meta.structuredData?.length) {
     const graph = {
       '@context': 'https://schema.org',
@@ -92,6 +104,7 @@ const DEFAULT_HEAD_PATTERNS = [
   /<meta\s+name="robots"[\s\S]*?>/i,
   /<link\s+rel="canonical"[^>]*>/i,
   /<meta\s+property="og:[^"]*"[\s\S]*?>/gi,
+  /<meta\s+property="article:[^"]*"[\s\S]*?>/gi,
   /<meta\s+name="twitter:[^"]*"[\s\S]*?>/gi,
   /<script\s+type="application\/ld\+json"[\s\S]*?<\/script>/gi,
 ];

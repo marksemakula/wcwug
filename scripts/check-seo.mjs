@@ -145,6 +145,22 @@ for (const route of personRoutes) {
   }
 }
 
+// ── 3b. Articles ─────────────────────────────────────────────────────────────
+const articleRoutes = routes.filter(
+  (route) => route.startsWith('/resources/') && getPageMeta(route).ogType === 'article'
+);
+for (const route of articleRoutes) {
+  const meta = getPageMeta(route);
+  const article = meta.structuredData.find((node) => node['@type'] === 'Article');
+  if (!article) fail(`${route}: no Article schema`);
+  if (article && !article.datePublished) fail(`${route}: Article has no datePublished`);
+  if (!/\.(jpe?g|png)$/i.test(meta.ogImage)) {
+    warn(`${route}: og:image is not JPEG/PNG — WhatsApp and LinkedIn may show no preview`);
+  }
+  const width = meta.extraMeta?.find((tag) => tag.property === 'og:image:width');
+  if (!width) warn(`${route}: no og:image:width — first-share previews may be small`);
+}
+
 // ── 4. Sitemap parity ────────────────────────────────────────────────────────
 const sitemapPath = path.join(ROOT, 'public/sitemap.xml');
 if (!fs.existsSync(sitemapPath)) {

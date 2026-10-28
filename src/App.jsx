@@ -13,9 +13,11 @@ import Team from './pages/Team';
 import OrganizationsUganda from './pages/OrganizationsUganda';
 import TeamMember from './pages/TeamMember';
 import MarkSemakula from './pages/MarkSemakula';
+import Article from './pages/Article';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 import ChatWidget from './components/ChatWidget';
+import { articles } from './data/articles';
 import './App.css';
 
 /**
@@ -43,6 +45,15 @@ export function AppShell() {
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/mental-health-organizations-uganda" element={<OrganizationsUganda />} />
+          {/* One explicit route per article (src/data/articles.js), rather than
+              /resources/:slug, so a mistyped URL still reaches the 404 page. */}
+          {articles.map((article) => (
+            <Route
+              key={article.slug}
+              path={`/resources/${article.slug}`}
+              element={<Article slug={article.slug} />}
+            />
+          ))}
           <Route path="/contact" element={<Contact />} />
           <Route path="/team" element={<Team />} />
           <Route path="/team/:slug" element={<TeamMember />} />

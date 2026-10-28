@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router';
 import { FaChevronRight, FaHome } from 'react-icons/fa';
 import { getTeamMember } from '../data/team';
+import { articles } from '../data/articles';
 
 /**
  * Visual breadcrumb trail only.
@@ -21,6 +22,9 @@ const PAGE_NAMES = {
   '/team': 'Our Team',
   '/resources/mental-health-organizations-uganda': 'Mental Health Organizations in Uganda',
   '/mark-semakula': 'Mark Semakula',
+  ...Object.fromEntries(
+    articles.map((article) => [`/resources/${article.slug}`, article.shortTitle])
+  ),
 };
 
 const Breadcrumb = () => {

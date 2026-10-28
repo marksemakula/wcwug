@@ -9,6 +9,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// Articles are plain data with no imports, so the module can be loaded as-is.
+import { articles } from '../src/data/articles.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -35,11 +37,24 @@ const PRIORITY = {
   '/contact': { priority: '0.8', changefreq: 'monthly' },
 };
 
+// Each article carries its own dateModified, which is a truer <lastmod> for an
+// article than the build time.
+const ARTICLE_LASTMOD = Object.fromEntries(
+  articles.map((article) => [
+    `/resources/${article.slug}`,
+    new Date(article.dateModified).toISOString(),
+  ])
+);
+for (const route of Object.keys(ARTICLE_LASTMOD)) {
+  PRIORITY[route] = { priority: '0.8', changefreq: 'monthly' };
+}
+
 const lastmod = new Date().toISOString();
 
 const routes = [
   ...staticRoutes.map((route) => route.path),
   ...teamSlugs.map((slug) => `/team/${slug}`),
+  ...Object.keys(ARTICLE_LASTMOD),
 ];
 
 const urls = routes
@@ -49,7 +64,7 @@ const urls = routes
     return [
       '  <url>',
       `    <loc>${loc}</loc>`,
-      `    <lastmod>${lastmod}</lastmod>`,
+      `    <lastmod>${ARTICLE_LASTMOD[route] ?? lastmod}</lastmod>`,
       `    <changefreq>${changefreq}</changefreq>`,
       `    <priority>${priority}</priority>`,
       '  </url>',

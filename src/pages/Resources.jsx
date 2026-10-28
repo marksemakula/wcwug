@@ -6,7 +6,9 @@ import {
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import PreferredSourceBadge from '../components/PreferredSourceBadge';
-import { Link } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
+import { articles, articlePath, readingMinutes, formatArticleDate } from '../data/articles';
+import { absoluteUrl } from '../seo/siteConfig';
 
 /* ─────────────────────────────────────────────
    Share Menu (per-tile dropdown)
@@ -16,8 +18,16 @@ const ShareMenu = ({ resource }) => {
   const [copied, setCopied] = useState(false);
   const menuRef = useRef(null);
 
-  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
-  const text = `Check out this mental health resource: ${resource.title}`;
+  // An article has its own page, so share that page (with its own preview
+  // card) rather than the Resources listing.
+  const pageUrl = resource.href
+    ? absoluteUrl(resource.href)
+    : typeof window !== 'undefined'
+    ? window.location.href
+    : '';
+  const text = resource.href
+    ? `${resource.title} — WINRISE`
+    : `Check out this mental health resource: ${resource.title}`;
 
   const shareLinks = [
     {
@@ -237,6 +247,10 @@ const PreviewModal = ({ resource, onClose }) => {
 ───────────────────────────────────────────── */
 const ResourceCard = ({ resource, index, featured = false }) => {
   const [preview, setPreview] = useState(false);
+  const navigate = useNavigate();
+
+  // Articles open their own page; everything else opens the preview modal.
+  const open = () => (resource.href ? navigate(resource.href) : setPreview(true));
 
   return (
     <>
@@ -247,20 +261,22 @@ const ResourceCard = ({ resource, index, featured = false }) => {
         transition={{ duration: 0.6, delay: index * 0.1 }}
         viewport={{ once: true }}
         className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
-        onClick={() => setPreview(true)}
+        onClick={open}
       >
         {/* Image */}
         <div className="relative overflow-hidden">
           <img
             src={resource.image}
-            alt={resource.title}
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+            alt={resource.imageAlt || resource.title}
+            className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500 ${
+              resource.imagePosition || ''
+            }`}
           />
           {/* Hover overlay hint */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
             <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1.5 rounded-full text-sm font-open-sans font-medium flex items-center space-x-1.5">
-              <FaExpand size={12} />
-              <span>Preview</span>
+              {resource.href ? <FaBookOpen size={12} /> : <FaExpand size={12} />}
+              <span>{resource.href ? 'Read article' : 'Preview'}</span>
             </span>
           </div>
           {featured && (
@@ -279,8 +295,21 @@ const ResourceCard = ({ resource, index, featured = false }) => {
 
         {/* Body */}
         <div className="p-6">
+          {resource.kicker && (
+            <p className="font-urbanist text-xs font-bold uppercase tracking-[0.14em] text-primary mb-2">
+              {resource.kicker}
+            </p>
+          )}
           <h3 className="font-urbanist font-semibold text-xl text-text mb-2 group-hover:text-primary transition-colors duration-200">
-            {resource.title}
+            {resource.href ? (
+              // A real link as well as the card's click handler, so crawlers
+              // and keyboard users reach the article too.
+              <Link to={resource.href} onClick={(e) => e.stopPropagation()}>
+                {resource.title}
+              </Link>
+            ) : (
+              resource.title
+            )}
           </h3>
           <p className="font-open-sans text-gray-600 mb-4 leading-relaxed text-sm">
             {resource.description}
@@ -291,7 +320,11 @@ const ResourceCard = ({ resource, index, featured = false }) => {
             {/* Meta */}
             <div className="flex items-center space-x-3 text-xs text-gray-400">
               <span className="flex items-center space-x-1"><FaClock size={12} /><span>{resource.readTime}</span></span>
-              <span className="flex items-center space-x-1"><FaEye size={12} /><span>{resource.views}</span></span>
+              {resource.date ? (
+                <span>{resource.date}</span>
+              ) : (
+                <span className="flex items-center space-x-1"><FaEye size={12} /><span>{resource.views}</span></span>
+              )}
             </div>
 
             {/* Actions */}
@@ -307,6 +340,15 @@ const ResourceCard = ({ resource, index, featured = false }) => {
                   <FaDownload size={13} />
                   <span className="font-open-sans font-medium text-sm">Download</span>
                 </a>
+              ) : resource.href ? (
+                <Link
+                  to={resource.href}
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center space-x-1 text-primary hover:text-primary/80 transition-colors duration-200"
+                >
+                  <FaBookOpen size={13} />
+                  <span className="font-open-sans font-medium text-sm">Read More</span>
+                </Link>
               ) : (
                 <button
                   onClick={(e) => { e.stopPropagation(); setPreview(true); }}
@@ -329,9 +371,21 @@ const ResourceCard = ({ resource, index, featured = false }) => {
 /* ─────────────────────────────────────────────
    Main Page
 ───────────────────────────────────────────── */
+const CATEGORY_IDS = ['all', 'articles', 'guides', 'videos', 'podcasts'];
+
 const Resources = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+  // ?category=articles opens the page on that filter — this is what the
+  // "More articles" link on an article page points at.
+  const [searchParams] = useSearchParams();
+  const requestedCategory = searchParams.get('category');
+  const [activeCategory, setActiveCategory] = useState(
+    CATEGORY_IDS.includes(requestedCategory) ? requestedCategory : 'all'
+  );
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    if (CATEGORY_IDS.includes(requestedCategory)) setActiveCategory(requestedCategory);
+  }, [requestedCategory]);
 
   const categories = [
     { id: 'all', label: 'All Resources' },
@@ -341,7 +395,28 @@ const Resources = () => {
     { id: 'podcasts', label: 'Podcasts' }
   ];
 
+  // Full articles with their own page (src/data/articles.js), newest first.
+  const articleResources = articles
+    .slice()
+    .sort((a, b) => b.datePublished.localeCompare(a.datePublished))
+    .map((article) => ({
+      id: `article-${article.slug}`,
+      title: article.title,
+      kicker: article.kicker,
+      category: article.category,
+      type: article.type,
+      description: article.seoDescription,
+      readTime: `${readingMinutes(article)} min read`,
+      date: formatArticleDate(article.datePublished),
+      image: article.image,
+      imageAlt: article.imageAlt,
+      imagePosition: 'object-top',
+      href: articlePath(article),
+      featured: article.featured,
+    }));
+
   const resources = [
+    ...articleResources,
     {
       id: 1,
       title: 'Managing Anxiety in the Workplace',
@@ -546,7 +621,11 @@ const Resources = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${
+                featuredResources.length > 2 ? 'lg:grid-cols-3' : ''
+              }`}
+            >
               {featuredResources.map((resource, index) => (
                 <ResourceCard key={resource.id} resource={resource} index={index} featured />
               ))}
